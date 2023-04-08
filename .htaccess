@@ -1,0 +1,4 @@
+# Do not serve components, and docker files
+RedirectMatch 404 ^/?components/.*$
+RedirectMatch 404 ^/?docker-compose.*.yml$
+RedirectMatch 404 ^/?Dockerfile.*$

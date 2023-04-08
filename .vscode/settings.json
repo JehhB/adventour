@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    "**/.fttemplates/**": true
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

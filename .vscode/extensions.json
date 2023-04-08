@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "bmewburn.vscode-intelephense-client",
+    "esbenp.prettier-vscode",
+    "Huuums.vscode-fast-folder-structure",
+    "sperovita.alpinejs-syntax-highlight",
+    "rifi2k.format-html-in-php"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode-remote.remote-wsl",
+    "ms-azuretools.vscode-docker",
+    "xdebug.php-debug"
+  ]
+}
