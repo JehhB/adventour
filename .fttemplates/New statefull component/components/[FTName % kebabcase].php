@@ -1,14 +1,8 @@
-<div class="[FTName % kebabcase]" x-data="[FTName % kebabcase]">
+<div class="[FTName % kebabcase]" x-data="[FTName % snakecase]">
   <!-- TODO: [FTName] component -->
 </div>
 
 <?php if (!defined("[FTName % constantcase]")) : define("[FTName % constantcase]", 1); ?>
-
-  <style>
-    .[FTName % kebabcase] {
-      /* TODO: [FTName] css */
-    }
-  </style>
 
   <script>
     function [FTName % pascalcase]() {
@@ -18,8 +12,14 @@
     }
 
     document.addEventListener('alpine:init', () => {
-      Alpine.data('[FTName % kebabcase]', [FTName % pascalcase])
+      Alpine.data('[FTName % snakecase]', [FTName % pascalcase])
     })
   </script>
+
+  <style>
+    .[FTName % kebabcase] {
+      /* TODO: [FTName] css */
+    }
+  </style>
 
 <?php endif /*[FTName % constantcase]*/ ?>
