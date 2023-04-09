@@ -2,7 +2,7 @@
   "recommendations": [
     "bmewburn.vscode-intelephense-client",
     "esbenp.prettier-vscode",
-    "Huuums.vscode-fast-folder-structure",
+    "huuums.vscode-fast-folder-structure",
     "sperovita.alpinejs-syntax-highlight",
     "rifi2k.format-html-in-php"
   ],
