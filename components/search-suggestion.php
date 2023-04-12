@@ -9,15 +9,15 @@
     </a>
   </template>
 
-    <template x-for="i in 4">
-      <div class="search-suggestion__loader" x-show="suggestionsLoading">
-        <div class="search-suggestion__loader__preview block-loader"></div>
-        <div class="search-suggestion__loader__details">
-            <div class="search-suggestion__loader__details__heading block-loader"></div>
-            <div class="search-suggestion__loader__details__location block-loader"></div>
-        </div>
+  <template x-for="i in 4">
+    <div class="search-suggestion__loader" x-show="suggestionsLoading">
+      <div class="search-suggestion__loader__preview block-loader"></div>
+      <div class="search-suggestion__loader__details">
+        <div class="search-suggestion__loader__details__heading block-loader"></div>
+        <div class="search-suggestion__loader__details__location block-loader"></div>
       </div>
-    </template>
+    </div>
+  </template>
 </div>
 
 <?php if (!defined('SEARCH_SUGGESTION')) : define('SEARCH_SUGGESTION', 0); ?>

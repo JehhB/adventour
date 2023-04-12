@@ -116,4 +116,4 @@
     }
   </style>
 
-<?php endif /*SEARCH_BOX*/ ?>
+<?php endif; /*SEARCH_BOX*/ ?>

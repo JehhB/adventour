@@ -8,6 +8,7 @@
   <link rel="shortcut icon" href="/assets/logo.png" type="image/x-icon" />
 
   <script src="/scripts/alpine-collapse.js" defer></script>
+  <script src="/scripts/alpine-swipe.js"></script>
   <script src="/scripts/alpine.js" defer></script>
 
   <link rel="stylesheet" href="./style.css">
@@ -15,6 +16,13 @@
 
 <body>
   <?php include 'components/header.php' ?>
+
+  <main>
+    <section class="container">
+      <?php include 'components/carousel.php' ?>
+    </section>
+  </main>
+
 </body>
 
 </html>

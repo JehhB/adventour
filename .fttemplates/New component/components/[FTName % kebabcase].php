@@ -10,4 +10,4 @@
     }
   </style>
 
-<?php endif /*[FTName % constantcase]*/ ?>
+<?php endif; /*[FTName % constantcase]*/ ?>

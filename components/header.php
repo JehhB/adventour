@@ -1,6 +1,6 @@
 <header class="header">
   <nav class="container">
-    <a href="landing-page.html" class="header__brand">
+    <a href="/" class="header__brand">
       <img src="/assets/logo.png" alt="adventour logo" class="header__brand__logo" />
       <span class="header__brand__name">Adventour</span>
     </a>
@@ -18,6 +18,7 @@
   <style>
     .header {
       padding: 0.5rem 0;
+      margin-bottom: 1rem;
     }
 
     nav.container {
@@ -74,6 +75,7 @@
     @media (max-width: 576px) {
       .header {
         padding: 0.5rem;
+        margin-bottom: 0.5rem;
       }
 
       .header__brand__logo {
@@ -82,4 +84,4 @@
     }
   </style>
 
-<?php endif /*HEADER*/ ?>
+<?php endif; /*HEADER*/ ?>
