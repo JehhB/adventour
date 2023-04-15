@@ -2,12 +2,12 @@
   <!-- TODO: [FTName] component -->
 </div>
 
-<?php if (!defined("[FTName % constantcase]")) : define("[FTName % constantcase]", 1); ?>
+<?php section('embed', __FILE__); ?>
 
-  <style>
-    .[FTName % kebabcase] {
-      /* TODO: [FTName] css */
-    }
-  </style>
+<style>
+  .[FTName % kebabcase] {
+    /* TODO: [FTName] css */
+  }
+</style>
 
-<?php endif; /*[FTName % constantcase]*/ ?>
+<?php end_section(); ?>

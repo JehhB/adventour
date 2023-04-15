@@ -15,12 +15,13 @@
 </head>
 
 <body>
-  <?php include 'components/header.php' ?>
+  <?php insert('header'); ?>
 
   <main>
-      <?php include 'components/carousel.php' ?>
+      <?php insert('carousel'); ?>
   </main>
 
+  <?php insert_section('embed'); ?>
 </body>
 
 </html>

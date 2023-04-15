@@ -15,12 +15,13 @@
 </head>
 
 <body>
-  <?php include 'components/header.php' ?>
+  <?php insert('header'); ?>
 
   <main>
-    <?php include 'components/listing-details.php' ?>
+    <?php insert('listing-details'); ?>
   </main>
 
+  <?php insert_section('embed'); ?>
 </body>
 
 </html>

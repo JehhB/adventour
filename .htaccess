@@ -2,3 +2,7 @@
 RedirectMatch 404 ^/?components/.*$
 RedirectMatch 404 ^/?docker-compose.*.yml$
 RedirectMatch 404 ^/?Dockerfile.*$
+
+# For utility function and auto include comps.php
+RedirectMatch 404 ^/?util/.*$
+php_value auto_prepend_file /var/www/html/util/comps.php

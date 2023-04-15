@@ -2,24 +2,24 @@
   <!-- TODO: [FTName] component -->
 </div>
 
-<?php if (!defined("[FTName % constantcase]")) : define("[FTName % constantcase]", 1); ?>
+<?php section('embed', __FILE__); ?>
 
-  <script>
-    function [FTName % pascalcase]() {
-      return {
-        // TODO: [FTName] states
-      }
+<script>
+  function [FTName % pascalcase]() {
+    return {
+      // TODO: [FTName] states
     }
+  }
 
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('[FTName % snakecase]', [FTName % pascalcase])
-    })
-  </script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('[FTName % snakecase]', [FTName % pascalcase])
+  })
+</script>
 
-  <style>
-    .[FTName % kebabcase] {
-      /* TODO: [FTName] css */
-    }
-  </style>
+<style>
+  .[FTName % kebabcase] {
+    /* TODO: [FTName] css */
+  }
+</style>
 
-<?php endif; /*[FTName % constantcase]*/ ?>
+<?php end_section(); ?>

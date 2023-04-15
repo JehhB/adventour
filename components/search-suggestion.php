@@ -20,104 +20,105 @@
   </template>
 </div>
 
-<?php if (!defined('SEARCH_SUGGESTION')) : define('SEARCH_SUGGESTION', 0); ?>
+<?php section('embed', __FILE__); ?>
 
-  <script>
-    function SearchSuggestion() {
-      return {
-        suggestionsLoading: true,
-        suggestions: [],
+<script>
+  function SearchSuggestion() {
+    return {
+      suggestionsLoading: true,
+      suggestions: [],
 
-        init() {
-          this.$watch('{search, filter}',
-            (query, oldQuery) => {
-              if (query.search === oldQuery.search &&
-                query.filter === oldQuery.filter
-              ) {
-                return;
-              }
-
-              this.suggestions = [];
-              this.suggestionsLoading = true;
-              const searchUri = encodeURIComponent(query.search);
-              fetch(`/api/search.php?q=${searchUri}&filter=${query.filter}`)
-                .then((resp) => resp.json())
-                .then((obj) => {
-                  this.suggestionsLoading = false;
-                  this.suggestions = obj.data
-                })
-                .catch((err) => {
-                  console.log(err)
-                });
+      init() {
+        this.$watch('{search, filter}',
+          (query, oldQuery) => {
+            if (query.search === oldQuery.search &&
+              query.filter === oldQuery.filter
+            ) {
+              return;
             }
-          );
-        }
-      };
-    }
 
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('search_suggestion', SearchSuggestion);
-    });
-  </script>
+            this.suggestions = [];
+            this.suggestionsLoading = true;
+            const searchUri = encodeURIComponent(query.search);
+            fetch(`/api/search.php?q=${searchUri}&filter=${query.filter}`)
+              .then((resp) => resp.json())
+              .then((obj) => {
+                this.suggestionsLoading = false;
+                this.suggestions = obj.data
+              })
+              .catch((err) => {
+                this.suggestionsLoading = false;
+                console.log(err)
+              });
+          }
+        );
+      }
+    };
+  }
 
-  <style>
-    .search-suggestion {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('search_suggestion', SearchSuggestion);
+  });
+</script>
 
-    .search-suggestion__loader,
-    .search-suggestion__summary {
-      display: flex;
-      text-decoration: none;
-      color: var(--fg-color);
-      align-items: center;
-    }
+<style>
+  .search-suggestion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-    .search-suggestion__loader__preview,
-    .search-suggestion__summary__preview {
-      border-radius: 0.5rem;
-      height: 72px;
-      width: 72px;
-      object-fit: cover;
-      object-position: center;
-    }
+  .search-suggestion__loader,
+  .search-suggestion__summary {
+    display: flex;
+    text-decoration: none;
+    color: var(--fg-color);
+    align-items: center;
+  }
 
-    .search-suggestion__loader__details,
-    .search-suggestion__summary__details {
-      flex-grow: 1;
-      margin-left: 0.5rem;
-    }
+  .search-suggestion__loader__preview,
+  .search-suggestion__summary__preview {
+    border-radius: 0.5rem;
+    height: 72px;
+    width: 72px;
+    object-fit: cover;
+    object-position: center;
+  }
 
-    .search-suggestion__loader__details__heading,
-    .search-suggestion__summary__details__heading {
-      font-family: "Inter", sans-serif;
-      font-size: 1.5rem;
-      line-height: 1em;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
+  .search-suggestion__loader__details,
+  .search-suggestion__summary__details {
+    flex-grow: 1;
+    margin-left: 0.5rem;
+  }
 
-    .search-suggestion__loader__details__heading {
-      height: 1.5rem;
-      width: 80%;
-      border-radius: 4px;
-    }
+  .search-suggestion__loader__details__heading,
+  .search-suggestion__summary__details__heading {
+    font-family: "Inter", sans-serif;
+    font-size: 1.5rem;
+    line-height: 1em;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
 
-    .search-suggestion__loader__details__location,
-    .search-suggestion__summary__details__location {
-      font-style: normal;
-      font-family: "Inter", sans-serif;
-      font-size: 1rem;
-      font-weight: 400;
-    }
+  .search-suggestion__loader__details__heading {
+    height: 1.5rem;
+    width: 80%;
+    border-radius: 4px;
+  }
 
-    .search-suggestion__loader__details__location {
-      height: 1rem;
-      width: 60%;
-      border-radius: 4px;
-    }
-  </style>
+  .search-suggestion__loader__details__location,
+  .search-suggestion__summary__details__location {
+    font-style: normal;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+  }
 
-<?php endif; /*SEARCH_SUGGESTION*/ ?>
+  .search-suggestion__loader__details__location {
+    height: 1rem;
+    width: 60%;
+    border-radius: 4px;
+  }
+</style>
+
+<?php end_section(); ?>

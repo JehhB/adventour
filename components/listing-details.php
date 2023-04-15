@@ -33,7 +33,7 @@
   </div>
 </section>
 
-<?php if (!defined('LISTING_DETAILS')) : define('LISTING_DETAILS', 0); ?>
+<?php section('embed', __FILE__); ?>
 
   <style>
     .details {
@@ -210,4 +210,4 @@
     }
   </style>
 
-<?php endif; /*LISTING_DETAILS*/ ?>
+<?php end_section(); ?>
