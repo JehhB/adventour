@@ -1,5 +1,5 @@
 <section class="container">
-  <ul class="carousel" x-data="carousel" x-swipe:left="increment" x-swipe:right="decrement" @wheel="scroll">
+  <ul class="carousel" x-data="carousel" x-swipe:left="increment" x-swipe:right="decrement" @wheel.debounce.150ms="scroll">
     <div class="carousel__control">
       <template x-for="(_, index) in items">
         <button class="carousel__control__selector" :class="index === active && 'active'" @click="resetInterval(); active = index"></button>
@@ -37,7 +37,7 @@
         if (!this.$event.shiftKey) return;
 
         this.$event.preventDefault();
-        if (event.wheelDelta < 0) {
+        if (this.$event.wheelDelta < 0) {
           this.increment();
         } else {
           this.decrement();
