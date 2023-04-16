@@ -1,7 +1,10 @@
 <?php
 
-define('COMPONENTS_DIR', 'components/');
-define('COMPONENTS_EXT', 'php');
+if (!defined('COMPONENTS_DIR'))
+  define('COMPONENTS_DIR', 'components/');
+
+if (!defined('COMPONENTS_EXT'))
+  define('COMPONENTS_EXT', 'php');
 
 $__component_stack = array();
 
