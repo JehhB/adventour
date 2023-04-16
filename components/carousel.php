@@ -180,15 +180,15 @@
     transform: translateX(-50%);
     bottom: 0.75rem;
     display: flex;
-    gap: 0.25rem;
+    gap: 0.325rem;
     z-index: 5;
   }
 
   .carousel__control__selector {
     transition: width ease 300ms, background-color ease 300ms;
     height: 0.5rem;
-    width: 0.5rem;
-    border-radius: 0.25rem;
+    width: 0.75rem;
+    border-radius: 0.5rem;
     background-color: transparent;
     border: 2px solid white;
     outline: transparent;
@@ -197,7 +197,7 @@
   }
 
   .carousel__control__selector.active {
-    width: 1rem;
+    width: 1.5rem;
     background-color: white;
   }
 </style>
