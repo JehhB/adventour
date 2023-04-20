@@ -5,7 +5,7 @@ require "comps.php";
 ob_start(
   function ($str) {
     global $__sections;
-    return $str . $__sections['embed'];
+    return $__sections['embed'] . $str;
   }
 );
 ?>
@@ -15,3 +15,5 @@ ob_start(
 <script src="/scripts/alpine-swipe.js" defer></script>
 <script src="/scripts/alpine.js" defer></script>
 <link rel="stylesheet" href="/style.css">
+
+

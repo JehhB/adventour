@@ -1,6 +1,5 @@
 <?php
 
-sleep(5);
 echo json_encode(
   array(
     array('name' => 'Test 1', 'address' => 'Tuguegarao, Cagayan', 'image' => 'https://via.placeholder.com/1140x320/f00', 'link' => '#'),

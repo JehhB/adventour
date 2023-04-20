@@ -4,9 +4,11 @@ RedirectMatch 404 ^/?docker-compose.*.yml$
 RedirectMatch 404 ^/?Dockerfile.*$
 
 # For utility function and auto include comps.php
+php_value allow_url_include 1
 <If "%{REQUEST_URI} =~ m#/?components/.*#">
   php_value auto_prepend_file /var/www/html/util/test.php
 </If>
 <Else>
   php_value auto_prepend_file /var/www/html/util/comps.php
+  php_value auto_append_file "data:text/plain,%3C?php%20echo%20'This%20code%20is%20prepended!';%20?%3E"
 </Else>
