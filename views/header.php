@@ -1,19 +1,19 @@
-<header class="header">
-  <nav class="container">
-    <a href="/" class="header__brand">
-      <img src="/assets/logo.png" alt="adventour logo" class="header__brand__logo" />
-      <span class="header__brand__name">Adventour</span>
-    </a>
+<component>
+  <header class="header">
+    <nav class="container">
+      <a href="/" class="header__brand">
+        <img src="/assets/logo.png" alt="adventour logo" class="header__brand__logo" />
+        <span class="header__brand__name">Adventour</span>
+      </a>
 
-    <?php insert("search-box"); ?>
+      <?php insert("search-box"); ?>
 
-    <div class="user">
-      <div class="user__profile">A</div>
-    </div>
-  </nav>
-</header>
-
-<?php section('embed', __FILE__); ?>
+      <div class="user">
+        <div class="user__profile">A</div>
+      </div>
+    </nav>
+  </header>
+</component>
 
 <style>
   .header {
@@ -86,5 +86,3 @@
     }
   }
 </style>
-
-<?php end_section(); ?>

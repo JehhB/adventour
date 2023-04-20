@@ -1,26 +1,27 @@
-<div x-data="search_suggestion" class="search-suggestion">
-  <template x-for="({name, address, image, link}) in suggestions" :key="name">
-    <a :href="link" class="search-suggestion__summary">
-      <img :src="image" :alt="'Image of ' + name" class="search-suggestion__summary__preview" />
-      <div class="search-suggestion__summary__details">
-        <h3 class="search-suggestion__summary__details__heading" x-text="name"></h3>
-        <address class="search-suggestion__summary__details__location" x-text="address"></address>
-      </div>
-    </a>
-  </template>
+<component>
+  <div x-data="search_suggestion" class="search-suggestion">
+    <template x-for="({name, address, image, link}) in suggestions" :key="name">
+      <a :href="link" class="search-suggestion__summary">
+        <img :src="image" :alt="'Image of ' + name" class="search-suggestion__summary__preview" />
+        <div class="search-suggestion__summary__details">
+          <h3 class="search-suggestion__summary__details__heading" x-text="name"></h3>
+          <address class="search-suggestion__summary__details__location" x-text="address"></address>
+        </div>
+      </a>
+    </template>
 
-  <template x-for="i in 4">
-    <div class="search-suggestion__loader" x-show="suggestionsLoading">
-      <div class="search-suggestion__loader__preview block-loader"></div>
-      <div class="search-suggestion__loader__details">
-        <div class="search-suggestion__loader__details__heading block-loader"></div>
-        <div class="search-suggestion__loader__details__location block-loader"></div>
+    <template x-for="i in 4">
+      <div class="search-suggestion__loader" x-show="suggestionsLoading">
+        <div class="search-suggestion__loader__preview block-loader"></div>
+        <div class="search-suggestion__loader__details">
+          <div class="search-suggestion__loader__details__heading block-loader"></div>
+          <div class="search-suggestion__loader__details__location block-loader"></div>
+        </div>
       </div>
-    </div>
-  </template>
-</div>
+    </template>
+  </div>
+</component>
 
-<?php section('embed', __FILE__); ?>
 
 <script>
   function SearchSuggestion() {
@@ -120,5 +121,3 @@
     border-radius: 4px;
   }
 </style>
-
-<?php end_section(); ?>

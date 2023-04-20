@@ -1,28 +1,27 @@
-<section class="container">
-  <ul class="carousel" x-data="carousel" x-swipe:left="increment" x-swipe:right="decrement" @wheel.debounce.150ms="scroll">
-    <div class="carousel__control">
-      <template x-for="(_, index) in items">
-        <button class="carousel__control__selector" :class="index === active && 'active'" @click="resetInterval(); active = index"></button>
+<component>
+  <section class="container">
+    <ul class="carousel" x-data="carousel" x-swipe:left="increment" x-swipe:right="decrement" @wheel.debounce.150ms="scroll">
+      <div class="carousel__control">
+        <template x-for="(_, index) in items">
+          <button class="carousel__control__selector" :class="index === active && 'active'" @click="resetInterval(); active = index"></button>
+        </template>
+      </div>
+      <template x-for="(item, index) in items">
+        <li class="carousel__item" x-show="index === active" x-transition:leave.opacity.duration.500ms x-transition:enter.opacity.delay.150ms.duration.500ms>
+          <a href="details.html">
+            <img :src="item.image" class="carousel__item__image" />
+            <div class="carousel__overlay"></div>
+            <h3 class="carousel__item__heading" x-text="item.name"></h3>
+            <address class="carousel__item__address" x-text="item.address"></address>
+          </a>
+        </li>
       </template>
-    </div>
-    <template x-for=" (item, index) in items">
-      <li class="carousel__item" x-show="index === active" x-transition:leave.opacity.duration.500ms x-transition:enter.opacity.delay.150ms.duration.500ms>
-        <a href="details.html">
-          <img :src="item.image" class="carousel__item__image" />
-          <div class="carousel__overlay"></div>
-          <h3 class="carousel__item__heading" x-text="item.name"></h3>
-          <address class="carousel__item__address" x-text="item.address"></address>
-        </a>
-      </li>
-    </template>
-    <template x-if="isLoading">
-      <li class="carousel__item block-loader">
-        </div>
-    </template>
-  </ul>
-</section>
-
-<?php section('embed', __FILE__); ?>
+      <template x-if="isLoading">
+        <li class="carousel__item block-loader"></li>
+      </template>
+    </ul>
+  </section>
+</component>
 
 <script>
   function Carousel() {
@@ -201,5 +200,3 @@
     background-color: white;
   }
 </style>
-
-<?php end_section(); ?>
