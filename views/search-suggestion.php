@@ -22,43 +22,40 @@
   </div>
 </component>
 
-
 <script>
-  function SearchSuggestion() {
-    return {
-      suggestionsLoading: true,
-      suggestions: [],
-
-      init() {
-        this.$watch('{search, filter}',
-          (query, oldQuery) => {
-            if (query.search === oldQuery.search &&
-              query.filter === oldQuery.filter
-            ) {
-              return;
-            }
-
-            this.suggestions = [];
-            this.suggestionsLoading = true;
-            const searchUri = encodeURIComponent(query.search);
-            fetch(`/api/search.php?q=${searchUri}&filter=${query.filter}`)
-              .then((resp) => resp.json())
-              .then((obj) => {
-                this.suggestionsLoading = false;
-                this.suggestions = obj.data
-              })
-              .catch((err) => {
-                this.suggestionsLoading = false;
-                console.log(err)
-              });
-          }
-        );
-      }
-    };
-  }
-
   document.addEventListener('alpine:init', () => {
-    Alpine.data('search_suggestion', SearchSuggestion);
+    Alpine.data('search_suggestion', function() {
+      return {
+        suggestionsLoading: true,
+        suggestions: [],
+
+        init() {
+          this.$watch('{search, filter}',
+            (query, oldQuery) => {
+              if (query.search === oldQuery.search &&
+                query.filter === oldQuery.filter
+              ) {
+                return;
+              }
+
+              this.suggestions = [];
+              this.suggestionsLoading = true;
+              const searchUri = encodeURIComponent(query.search);
+              fetch(`/api/search.php?q=${searchUri}&filter=${query.filter}`)
+                .then((resp) => resp.json())
+                .then((obj) => {
+                  this.suggestionsLoading = false;
+                  this.suggestions = obj.data
+                })
+                .catch((err) => {
+                  this.suggestionsLoading = false;
+                  console.log(err)
+                });
+            }
+          );
+        }
+      };
+    });
   });
 </script>
 

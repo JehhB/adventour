@@ -24,70 +24,68 @@
 </component>
 
 <script>
-  function Carousel() {
-    let interval = null;
-
-    return {
-      items: [],
-      active: 0,
-      isLoading: true,
-
-      scroll() {
-        if (!this.$event.shiftKey) return;
-
-        this.$event.preventDefault();
-        if (this.$event.wheelDelta < 0) {
-          this.increment();
-        } else {
-          this.decrement();
-        }
-      },
-
-      increment() {
-        if (this.items.length == 0) return;
-        this.resetInterval();
-        this.active = (this.active + 1) % this.items.length;
-      },
-
-
-      decrement() {
-        if (this.items.length == 0) return;
-        this.resetInterval();
-        this.active = (this.active + this.items.length - 1) % this.items.length;
-      },
-
-      startInterval() {
-        interval = setInterval(() => {
-          if (!this.isLoading && this.items.length > 0) {
-            this.increment()
-          }
-        }, 5000);
-      },
-
-      resetInterval() {
-        clearInterval(interval);
-        this.startInterval();
-      },
-
-      init() {
-        this.isLoading = true;
-        fetch('/api/events.php')
-          .then((resp) => resp.json())
-          .then((obj) => {
-            this.items = obj;
-            this.isLoading = false;
-          })
-          .catch((err) => {
-            this.isLoading = false;
-            console.log(err);
-          });
-        this.startInterval();
-      }
-    };
-  }
-
   document.addEventListener('alpine:init', () => {
-    Alpine.data('carousel', Carousel);
+    Alpine.data('carousel', function() {
+      let interval = null;
+
+      return {
+        items: [],
+        active: 0,
+        isLoading: true,
+
+        scroll() {
+          if (!this.$event.shiftKey) return;
+
+          this.$event.preventDefault();
+          if (this.$event.wheelDelta < 0) {
+            this.increment();
+          } else {
+            this.decrement();
+          }
+        },
+
+        increment() {
+          if (this.items.length == 0) return;
+          this.resetInterval();
+          this.active = (this.active + 1) % this.items.length;
+        },
+
+
+        decrement() {
+          if (this.items.length == 0) return;
+          this.resetInterval();
+          this.active = (this.active + this.items.length - 1) % this.items.length;
+        },
+
+        startInterval() {
+          interval = setInterval(() => {
+            if (!this.isLoading && this.items.length > 0) {
+              this.increment()
+            }
+          }, 5000);
+        },
+
+        resetInterval() {
+          clearInterval(interval);
+          this.startInterval();
+        },
+
+        init() {
+          this.isLoading = true;
+          fetch('/api/events.php')
+            .then((resp) => resp.json())
+            .then((obj) => {
+              this.items = obj;
+              this.isLoading = false;
+            })
+            .catch((err) => {
+              this.isLoading = false;
+              console.log(err);
+            });
+          this.startInterval();
+        }
+      };
+    });
   });
 </script>
 

@@ -16,25 +16,23 @@
 </component>
 
 <script>
-  function SearchBox() {
-    return {
-      search: '',
-      searchActive: false,
-
-      clearSearch: {
-        ['x-show']() {
-          return this.searchActive;
-        },
-        ['@click']() {
-          this.searchActive = false;
-          this.search = '';
-        }
-      },
-    }
-  }
-
   document.addEventListener('alpine:init', () => {
-    Alpine.data('search_box', SearchBox)
+    Alpine.data('search_box', function() {
+      return {
+        search: '',
+        searchActive: false,
+
+        clearSearch: {
+          ['x-show']() {
+            return this.searchActive;
+          },
+          ['@click']() {
+            this.searchActive = false;
+            this.search = '';
+          }
+        },
+      }
+    });
   });
 </script>
 
