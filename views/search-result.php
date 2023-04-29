@@ -1,15 +1,13 @@
-<div class="search-result" x-data="{filter:'all'}" x-show="searchActive" x-collapse.duration.250ms>
-  <div class="search-result__tabs">
-    <template x-for="category in ['all', 'hotels', 'events', 'places']">
-      <button class="search-result__tabs__button" :class="filter == category && 'active'" @click="filter=category" x-text="category"></button>
-    </template>
+<component>
+  <div class="search-result" x-data="{filter:'all'}" x-show="searchActive" x-collapse.duration.250ms="">
+    <div class="search-result__tabs">
+      <template x-for="category in ['all', 'hotels', 'events', 'places']">
+        <button class="search-result__tabs__button" :class="filter == category && 'active'" @click="filter=category" x-text="category"></button>
+      </template>
+    </div>
+    <?php insert('search-suggestion'); ?>
   </div>
-
-  <?php insert('search-suggestion'); ?>
-
-</div>
-
-<?php section('embed', __FILE__); ?>
+</component>
 
 <style>
   .search-result {
@@ -67,5 +65,3 @@
     }
   }
 </style>
-
-<?php end_section(); ?>
