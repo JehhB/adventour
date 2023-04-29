@@ -7,8 +7,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www
-      - ./adventour:/var/www/html
+      - adventour:/var/www
     environment:
       MYSQL_HOST: database
       MYSQL_DATABASE: adventour
