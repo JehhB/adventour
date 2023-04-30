@@ -1,6 +1,6 @@
 services:
   adventour:
-    image: php:8.2.4-apache
+    build: adventour
     restart: always
     depends_on: 
       - database
