@@ -1,4 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/../includes/template.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 header("Content-Type: text/javascript");
 insert_all('script');

@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/../includes/template.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/../include.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
