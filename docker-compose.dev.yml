@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - adventour:/var/www
+      - ./adventour:/var/www
     environment:
       MYSQL_HOST: database
       MYSQL_DATABASE: adventour
@@ -16,17 +16,18 @@ services:
     command: ["apache2-foreground"]
 
   database:
-    image: mysql:8.0.32
+    build: database
     restart: always
     ports:
       - "3306:3306"
     volumes:
       - mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: adventour
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: password1234
-      MYSQL_ROOT_PASSWORD: password1234
+      - "MYSQL_DATABASE=adventour"
+      - "MYSQL_USER=admin"
+      - "MYSQL_PASSWORD=password1234"
+      - "MYSQL_ROOT_PASSWORD=password1234"
+      - "MYSQL_RANDOM_ROOT_PASSWORD="
 
   phpmyadmin:
     image: phpmyadmin:latest
