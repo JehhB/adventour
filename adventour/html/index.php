@@ -10,6 +10,7 @@
   <script defer src="./scripts/script.php"></script>
   <script defer src="./scripts/alpine-collapse.js"></script>
   <script defer src="./scripts/alpine-swipe.js"></script>
+  <script defer src="./scripts/alpine-load.js"></script>
   <script defer src="./scripts/alpine.js"></script>
 
   <link rel="stylesheet" href="./assets/style.php">

@@ -1,12 +1,14 @@
-<?php
+<?php 
+include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-echo json_encode(array(
-  'search' => $_GET['q'],
-  `filter` => $_GET['filter'],
-  'data' => array(
-    array('name' => 'Test 1', 'address' => 'Tuguegarao, Cagayan', 'image' => 'https://via.placeholder.com/72/red', 'link' => '#'),
-    array('name' => 'Test 2', 'address' => 'Tuguegarao, Cagayan', 'image' => 'https://via.placeholder.com/72/blue', 'link' => '#'),
-    array('name' => 'Test 3', 'address' => 'Tuguegarao, Cagayan', 'image' => 'https://via.placeholder.com/72/green', 'link' => '#'),
-    array('name' => 'Test 4', 'address' => 'Tuguegarao, Cagayan', 'image' => 'https://via.placeholder.com/72/blue', 'link' => '#'),
-  )
-));
+sleep(1);
+for ($i = 0; $i < 4; ++$i) {
+  insert('search-summary', [
+    'isLoading' => false,
+    'link' => '#',
+    'image' => 'https://via.placeholder.com/72',
+    'name' => "{$_GET['q']} $i",
+    'address' => $_GET['filter'],
+  ]);
+}
+?>

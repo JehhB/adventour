@@ -100,7 +100,7 @@ function render($path, $data = array())
 {
   extract($data);
   ob_start();
-  include $path;
+  require $path;
   return ob_get_clean();
 }
 
