@@ -1,12 +1,13 @@
 CREATE TABLE Hotels (
   hotel_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
+  metaphone VARCHAR(255) NOT NULL,
   address VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   average_price FLOAT NOT NULL,
   coordinate POINT NOT NULL,
 
-  INDEX (name),
+  INDEX (metaphone),
   SPATIAL INDEX (coordinate)
 );
 

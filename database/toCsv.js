@@ -1,6 +1,7 @@
 import _ from "lodash";
 import axios from "axios";
 import fs from "fs/promises";
+import { metaphone } from "metaphone";
 
 const hotels = JSON.parse(await fs.readFile("output.json"));
 
@@ -16,12 +17,12 @@ let hotel_id = 1,
 // Write Headers
 await fs.writeFile(
   "hotels.csv",
-  "hotel_id,name,description,address,average_price,lat,lng\n"
+  "hotel_id,name,metaphone,description,address,average_price,lat,lng\n"
 );
-await fs.writeFile(
-  "images.csv",
-  "image_id,hotel_id,caption,content_type,base64\n"
-);
+//await fs.writeFile(
+//  "images.csv",
+//  "image_id,hotel_id,caption,content_type,base64\n"
+//);
 await fs.writeFile(
   "hotelFeatures.csv",
   "hotel_feature_id,hotel_id,feature_id\n"
@@ -36,23 +37,24 @@ await fs.writeFile(
 async function handleHotel(hotel, hotel_id) {
   await fs.appendFile(
     "hotels.csv",
-    `${hotel_id},"${hotel.name.replace('"', "'")}","${hotel.description.replace(
-      '"',
-      "'"
-    )}","${hotel.address}",${hotel.averagePrice},${hotel.lat},${hotel.lng}\n`
+    `${hotel_id},"${hotel.name.replace('"', "'")}",${metaphone(
+      hotel.name
+    )},"${hotel.description.replace('"', "'")}","${hotel.address}",${
+      hotel.averagePrice
+    },${hotel.lat},${hotel.lng}\n`
   );
 
   for (const room of hotel.rooms) {
     await handleRoom(room, room_id++, hotel_id);
   }
 
-  for (const image of hotel.allImages) {
-    await handleImage({ src: image, alt: "" }, image_id++, hotel_id);
-  }
+  //for (const image of hotel.allImages) {
+  //  await handleImage({ src: image, alt: "" }, image_id++, hotel_id);
+  //}
 
-  for (const image of hotel.thumbImages) {
-    await handleImage(image, image_id++, hotel_id);
-  }
+  //for (const image of hotel.thumbImages) {
+  //  await handleImage(image, image_id++, hotel_id);
+  //}
 
   for (const feature of hotel.features) {
     await handleHotelFeature(feature, hotel_feature_id++, hotel_id);

@@ -3,7 +3,7 @@ INTO TABLE Hotels
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(@hotel_id, name, description, address, average_price, @lat, @lng)
+(@hotel_id, name, metaphone, description, address, average_price, @lat, @lng)
 SET coordinate=ST_GeomFromText(
       CONCAT(
         'POINT(',
