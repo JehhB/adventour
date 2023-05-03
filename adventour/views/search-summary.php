@@ -32,11 +32,14 @@
   }
 
   .search-summary__preview {
+    overflow: hidden;
+    font-size: 0.5rem;
     border-radius: 0.5rem;
     height: 72px;
     width: 72px;
     object-fit: cover;
     object-position: center;
+    flex-shrink: 0;
   }
 
   .search-summary__details {
@@ -46,7 +49,7 @@
 
   .search-summary__details__heading {
     font-family: "Inter", sans-serif;
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 1em;
     font-weight: 400;
     margin-bottom: 0.5rem;
@@ -61,7 +64,7 @@
   .search-summary__details__location {
     font-style: normal;
     font-family: "Inter", sans-serif;
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-weight: 400;
   }
 

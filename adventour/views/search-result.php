@@ -22,7 +22,7 @@
     border-radius: 0 0 1rem 1rem;
     border: 1px solid var(--fg-color);
     border-top: none;
-    overflow: scroll;
+    overflow: scroll !important;
   }
 
   .search-result__tabs {
