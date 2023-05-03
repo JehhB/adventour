@@ -186,7 +186,7 @@
   }
 
   @media (max-width: 991px) {
-    section {
+    .details {
       padding: 1rem;
     }
 

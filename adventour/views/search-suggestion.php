@@ -1,21 +1,38 @@
 <component>
-  <ul class="search-suggestion">
+  <div class="search-suggestion">
     <template x-load="`/api/search.php?q=${encodeURIComponent(search)}&filter=${filter}`">
+      <ul class="search-suggestion__list">
+
       <?php
       for ($i = 0; $i < 4; ++$i) {
         insert('search-summary', ['isLoading' => true]);
       }
       ?>
+</ul>
     </template>
-  </ul>
+  </div>
 </component>
 
 <style>
   .search-suggestion {
-    padding: 0;
-    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    gap: 0.5rem;
+    overflow-y: auto;
+  }
+
+  .search-suggestion__list {
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    list-style: none;
+  }
+
+  .search-suggestion__message {
+    padding: 0 1rem;
+    font-weight: 700;
+    color: black;
   }
 </style>

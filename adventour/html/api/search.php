@@ -20,7 +20,7 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 $sql .= <<<SQL
 
 GROUP BY Hotels.hotel_id
-LIMIT 4
+LIMIT 8
 SQL;
 
 $stmt = $conn->prepare($sql);
@@ -31,13 +31,33 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 }
 $stmt->execute();
 
-foreach ($stmt->fetchAll() as $result) {
-  insert('search-summary', [
-    'isLoading' => false,
-    'link' => "/hotels.php?hotel_id={$result['hotel_id']}",
-    'image' => "/assets/hotelImage.php?hotel_image_id={$result['image_id']}",
-    'alt' => "Image of {$result['name']}",
-    'name' => $result['name'],
-    'address' => $result['address'],
-  ]);
-}
+$results = $stmt->fetchAll();
+$safeQ = htmlspecialchars($_GET['q']);
+$urlQ = urlencode($_GET['q']);
+?>
+
+
+<ul class="search-suggestion__list">
+  <?php 
+  foreach ($results as $result) {
+      insert('search-summary', [
+        'isLoading' => false,
+        'link' => "/hotels.php?hotel_id={$result['hotel_id']}",
+        'image' => "/assets/hotelImage.php?hotel_image_id={$result['image_id']}",
+        'alt' => "Image of {$result['name']}",
+        'name' => $result['name'],
+        'address' => $result['address'],
+      ]); 
+    } 
+  ?>
+</ul>
+
+<?php if (count($results) === 0): ?>
+  <p class="search-suggestion__message">
+    No match for '<?= $safeQ ?>'
+  </p>
+<?php elseif (count($results) === 8): ?>
+  <a class="search-suggestion__message" href="/search.php?q=<?= $urlQ ?>">
+    Show more...
+  </a>
+<?php endif ?>

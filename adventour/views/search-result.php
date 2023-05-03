@@ -1,9 +1,11 @@
 <component>
   <div class="search-result" x-data="{filter:'all'}" x-show="searchActive" x-collapse.duration.250ms="">
     <div class="search-result__tabs">
-      <template x-for="category in ['all', 'hotels', 'events', 'places']">
-        <button class="search-result__tabs__button" :class="filter == category && 'active'" @click="filter=category" x-text="category"></button>
-      </template>
+      <?php foreach (['all', 'hotels', 'events', 'places'] as $category) : ?>
+        <button class="search-result__tabs__button" :class="filter == '<?= $category ?>' && 'active'" @click="filter='<?= $category ?>'">
+          <?= $category ?>
+        </button>
+      <?php endforeach; ?>
     </div>
     <?php insert('search-suggestion'); ?>
   </div>
@@ -17,18 +19,20 @@
     left: -1px;
     width: calc(100% + 2px);
     top: 100%;
-    padding: 1rem;
     background: white;
     border-radius: 0 0 1rem 1rem;
     border: 1px solid var(--fg-color);
     border-top: none;
-    overflow: scroll !important;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
   }
 
   .search-result__tabs {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    padding: 1rem 1rem 0 1rem;
   }
 
   .search-result__tabs__button {
@@ -54,10 +58,10 @@
   @media (max-width: 576px) {
     .search-result {
       max-height: 100vh;
-      height: 100vh !important;
+      height: calc(100vh - 4rem) !important;
+      border-radius: 0;
       transition-duration: 0s !important;
       transition-delay: 0s !important;
-      padding: 1rem 2rem 2rem 2rem;
     }
 
     .search-result--close {
