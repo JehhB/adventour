@@ -32,8 +32,6 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 $stmt->execute();
 
 $results = $stmt->fetchAll();
-$safeQ = htmlspecialchars($_GET['q']);
-$urlQ = urlencode($_GET['q']);
 ?>
 
 
@@ -54,10 +52,10 @@ $urlQ = urlencode($_GET['q']);
 
 <?php if (count($results) === 0): ?>
   <p class="search-suggestion__message">
-    No match for '<?= $safeQ ?>'
+    No match for '<?= e($_GET['q']) ?>'
   </p>
 <?php elseif (count($results) === 8): ?>
-  <a class="search-suggestion__message" href="/search.php?q=<?= $urlQ ?>">
+  <a class="search-suggestion__message" href="/search.php?q=<?= urlencode($_GET['q']) ?>">
     Show more...
   </a>
 <?php endif ?>

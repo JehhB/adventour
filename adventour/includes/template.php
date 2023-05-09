@@ -4,6 +4,18 @@
 define('COMPONENTS_DIR', __DIR__ . '/../views/');
 /** @var string File extention of components */
 define('COMPONENTS_EXT', '.php');
+/** @var bool Configure automatic sanitization of template data */
+define('COMPONENT_SANITIZE_STRING', true);
+
+/** 
+ * Sanitize string. alias to htmlspecialchars()
+ *
+ * @param string $input Input string to sanitize
+ * @return string Returns sanitize string
+ */
+function e($input) {
+  return htmlspecialchars($input);
+}
 
 /**
  * Resolve fullpath to component file
@@ -98,6 +110,10 @@ function insert_all($section)
 
 function render($path, $data = array())
 {
+  if (COMPONENT_SANITIZE_STRING) {
+    $data = array_map(fn ($e) => is_string($e) ? e($e) : $e, $data);
+  }
+
   extract($data);
   ob_start();
   require $path;

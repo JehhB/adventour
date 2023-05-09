@@ -1,4 +1,4 @@
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/../include.php'; ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/../include.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,12 +14,15 @@
   <script defer src="./scripts/alpine.js"></script>
 
   <link rel="stylesheet" href="./assets/style.php">
+  <link rel="stylesheet" href="./assets/page.css">
 </head>
 
 <body>
   <?php insert('header'); ?>
   <main>
-    <?php insert('carousel'); ?>
+    <section class="container">
+      <?php insert('carousel'); ?>
+    </section>
   </main>
 </body>
 
