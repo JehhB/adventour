@@ -8,13 +8,17 @@ define('COMPONENTS_EXT', '.php');
 define('COMPONENT_SANITIZE_STRING', true);
 
 /** 
- * Sanitize string. alias to htmlspecialchars()
+ * Sanitize string or strings in an array using htmlspecialchars;
  *
- * @param string $input Input string to sanitize
- * @return string Returns sanitize string
+ * @param string|array $input Input to sanitize
+ * @return string|array Returns sanitize string
  */
-function e($input) {
-  return htmlspecialchars($input);
+function e($input)
+{
+  if (is_string($input)) {
+    return htmlspecialchars($input);
+  } 
+  return array_map(fn ($e) => is_string($e) ? e($e) : $e, $input);
 }
 
 /**
@@ -111,7 +115,7 @@ function insert_all($section)
 function render($path, $data = array())
 {
   if (COMPONENT_SANITIZE_STRING) {
-    $data = array_map(fn ($e) => is_string($e) ? e($e) : $e, $data);
+    $data = e($data);
   }
 
   extract($data);
