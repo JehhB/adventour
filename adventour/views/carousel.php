@@ -125,7 +125,6 @@
     border-radius: 0.5rem;
     background-color: transparent;
     border: 2px solid white;
-    outline: transparent;
     padding: 0;
     overflow: hidden;
   }

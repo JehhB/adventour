@@ -1,6 +1,6 @@
 <component>
   <li class="carousel-item" x-show="<?= $index ?> === active" x-transition:leave.opacity.duration.500ms x-transition:enter.opacity.delay.150ms.duration.500ms>
-    <a href="<?= $link ?>">
+    <a href="<?= $link ?>" tabindex="-1">
       <img src="<?= $image ?>" class="carousel-item__image" />
       <div class="carousel-item__overlay"></div>
       <h3 class="carousel-item__heading"><?= $title ?></h3>
