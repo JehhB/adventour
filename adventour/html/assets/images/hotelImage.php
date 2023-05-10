@@ -5,6 +5,7 @@ global $conn;
 if (!isset($_GET['hotel_image_id'])) {
   echo "Malformed request: missing hotel_image_id";
   http_response_code(400);
+  exit();
 }
 
 $sql = <<<SQL
@@ -21,7 +22,9 @@ $result = $stmt->fetch();
 if (!$result) {
   echo "Hotel image corresponding id not found";
   http_response_code(404);
+  exit();
 }
 
 header("Content-Type: {$result['content_type']}");
+header("Cache-Control: public, max-age=604800");
 echo $result['image'];
