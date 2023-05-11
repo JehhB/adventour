@@ -36,6 +36,7 @@ $facilities = $stmt->fetchAll();
       "gallery address"
       "gallery description"
       "gallery facilities";
+    margin-bottom: 2rem;
   }
 
   .hotel-overview__name {
@@ -123,7 +124,8 @@ $facilities = $stmt->fetchAll();
       grid-template-areas:
         "name"
         "gallery"
-        "facilities"
+        "facilities";
+      margin-bottom: 1rem;
     }
 
     .hotel-overview__address,

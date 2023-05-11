@@ -56,6 +56,7 @@ $images = array_map(fn ($e) => [
   }
 
   @media screen and (max-width: 576px) {
+
     .hotel-gallery__main {
       border-radius: 0;
     }

@@ -9,7 +9,13 @@
   }
 
   $sql = <<<SQL
-SELECT hotel_id, name, address, description 
+SELECT 
+  hotel_id, 
+  name, 
+  address, 
+  description, 
+  ST_X(coordinate) AS lat, 
+  ST_Y(coordinate) AS lng
 FROM Hotels 
 WHERE hotel_id = :hotel_id
 SQL;
@@ -32,19 +38,22 @@ SQL;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel | <?= $result['name'] ?></title>
 
+  <script src="/scripts/leaflet.js"></script>
   <script defer src="/scripts/script.php"></script>
   <script defer src="/scripts/alpine-collapse.js"></script>
   <script defer src="/scripts/alpine-load.js"></script>
   <script defer src="/scripts/alpine.js"></script>
 
-  <link rel="stylesheet" href="/assets/style.php">
+  <link rel="stylesheet" href="/assets/leaflet.css">
   <link rel="stylesheet" href="/assets/page.css">
+  <link rel="stylesheet" href="/assets/style.php">
 </head>
 
 <body>
   <?php insert('header'); ?>
   <main>
     <?php insert('hotel-overview', $result); ?>
+    <?php insert('hotel-location', $result); ?>
   </main>
 </body>
 
