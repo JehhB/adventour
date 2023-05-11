@@ -68,13 +68,6 @@
     margin: 0;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: "Bahiana", cursive;
-  }
-
   .container {
     display: flex;
     flex-wrap: wrap;

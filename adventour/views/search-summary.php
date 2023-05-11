@@ -1,6 +1,6 @@
 <component>
   <li>
-    <?php if ($isLoading) : ?>
+    <?php if (isset($isLoading) && $isLoading) : ?>
       <div class="search-summary">
         <div class="search-summary__preview block-loader"></div>
         <div class="search-summary__details">
@@ -8,6 +8,14 @@
           <div class="search-summary__details__location block-loader"></div>
         </div>
       </div>
+    <?php elseif (isset($isAlpine) && $isAlpine) : ?>
+      <a :href="<?= $link ?>" class="search-summary">
+        <img :src="<?= $image ?>" :alt="<?= $alt ?>" class="search-summary__preview" />
+        <div class="search-summary__details">
+          <h3 class="search-summary__details__heading" x-text="<?= $name ?>"></h3>
+          <address class="search-summary__details__location" x-text="<?= $address ?>"></address>
+        </div>
+      </a>
     <?php else : ?>
       <a href="<?= $link ?>" class="search-summary">
         <img src="<?= $image ?>" alt="<?= $alt ?>" class="search-summary__preview" />

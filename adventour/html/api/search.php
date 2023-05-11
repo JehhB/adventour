@@ -43,7 +43,6 @@ $results = $stmt->fetchAll();
   <?php 
   foreach ($results as $result) {
       insert('search-summary', [
-        'isLoading' => false,
         'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
         'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
         'alt' => $result['caption'],

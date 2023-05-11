@@ -127,6 +127,7 @@
     border: 2px solid white;
     padding: 0;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .carousel__control__selector.active {

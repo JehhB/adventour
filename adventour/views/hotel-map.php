@@ -1,9 +1,9 @@
 <component>
-  <div class="hotel-map" x-data="map(<?= $lat ?>, <?= $lng ?>)"></div>
+  <div class="hotel-map" x-data="hotel_map(<?= $lat ?>, <?= $lng ?>)"></div>
 </component>
 <script>
   document.addEventListener('alpine:init', () => {
-    Alpine.data('map', function(lat, lng) {
+    Alpine.data('hotel_map', function(lat, lng) {
       return {
 
         init() {
@@ -24,11 +24,11 @@
           L.control.zoom({
             position: 'bottomright'
           }).addTo(map);
-          L.marker([lat,lng]).addTo(map);
+          L.marker([lat, lng]).addTo(map);
 
-          map.addEventListener('moveend', Alpine.debounce(() => {
-            console.log(map.getBounds());
-          }, 1000));
+          map.addEventListener('moveend', () => {
+            this.$dispatch('bboxchanged', map.getBounds());
+          });
         },
       }
     });
@@ -36,8 +36,8 @@
 </script>
 <style>
   .hotel-map {
-    width: 100%;
-    height: 300px;
+    flex: 1 1 auto;
+    height: 400px;
   }
 
   .leaflet-control-zoom {
@@ -61,4 +61,3 @@
     font-weight: 400;
   }
 </style>
-</script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>></script>>
