@@ -1,13 +1,25 @@
 <component>
   <section class="hotel-location-wrapper container">
-    <div x-data="hotel_location()" @bboxchanged.debounce.1000ms="bboxChangeHandler" class="hotel-location">
+    <div x-data="hotel_location(<?= $hotel_id ?>)" @bboxchanged.debounce.1000ms="bboxChangeHandler" class="hotel-location">
       <div class="hotel-location__recommendation">
         <h3 class="hotel-location__recommendation__title">Recommendation in the area</h3>
-        <ul class="hotel-location__recommendation__list">
-          <template x-for="_ in isLoading ? 4 : 0">
-            <?php insert('search-summary', ['isLoading' => true]) ?>
-          </template>
-        </ul>
+        <div class="hotel-location__recommendation__list-wrapper">
+          <ul class="hotel-location__recommendation__list">
+            <template x-for="_ in isLoading ? 4 : 0">
+              <?php insert('search-summary', ['isLoading' => true]) ?>
+            </template>
+            <template x-for="hotel in isLoading ? [] : recommendations">
+              <?php insert('search-summary', [
+                'isAlpine' => true,
+                'link' => "`/hotel.php?hotel_id=\${hotel.hotel_id}`",
+                'image' => "`/assets/images/hotelImage.php?hotel_image_id=\${hotel.image_id}`",
+                'alt' => "hotel.caption",
+                'name' => "hotel.name",
+                'address' => "hotel.address"
+              ]) ?>
+            </template>
+          </ul>
+        </div>
       </div>
       <?php insert('hotel-map', ['lat' => $lat, 'lng' => $lng]); ?>
     </div>
@@ -15,12 +27,42 @@
 </component>
 <script>
   document.addEventListener('alpine:init', () => {
-    Alpine.data('hotel_location', function() {
+    const xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    Alpine.data('hotel_location', function(hotelId) {
       return {
         isLoading: true,
+        recommendations: [],
+
+        init() {
+          xhr.addEventListener('load', () => {
+            this.isLoading = false;
+            if (xhr.status >= 200 && xhr.status <= 299) {
+              this.recommendations = xhr.response;
+            } else {
+              this.recommendations = [];
+            }
+          })
+        },
 
         bboxChangeHandler() {
-          console.log(this.$event.detail);
+          const {
+            _northEast: ne,
+            _southWest: sw
+          } = this.$event.detail;
+          const {
+            lat: lat0,
+            lng: lng0
+          } = ne;
+          const {
+            lat: lat1,
+            lng: lng1
+          } = sw;
+
+          xhr.open('GET', `/api/hotel-area.php?lat0=${lat0}&lng0=${lng0}&lat1=${lat1}&lng1=${lng1}&exclude=${hotelId}`)
+          this.isLoading = true;
+          xhr.send();
         },
       };
     });
@@ -38,14 +80,23 @@
   }
 
   .hotel-location__recommendation {
-    padding: 1rem;
     width: 25rem;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
   }
 
   .hotel-location__recommendation__title {
+    flex: 0 0 auto;
+    padding: 1rem;
     font-size: 1.25rem;
     text-transform: capitalize;
-    margin-bottom: 1rem;
+  }
+
+  .hotel-location__recommendation__list-wrapper {
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    padding: 0 1rem 1rem 1rem;
   }
 
   .hotel-location__recommendation__list {

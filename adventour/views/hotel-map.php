@@ -29,6 +29,7 @@
           map.addEventListener('moveend', () => {
             this.$dispatch('bboxchanged', map.getBounds());
           });
+          this.$dispatch('bboxchanged', map.getBounds());
         },
       }
     });
