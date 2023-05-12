@@ -1,14 +1,13 @@
 <?php
-  include $_SERVER['DOCUMENT_ROOT'] . '/../include.php'; 
-  global $conn;
+include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-  if (!isset($_GET['hotel_id'])) {
-    header('Location: /');
-    http_response_code(303);
-    exit();
-  }
+if (!isset($_GET['hotel_id'])) {
+  header('Location: /');
+  http_response_code(303);
+  exit();
+}
 
-  $sql = <<<SQL
+$sql = <<<SQL
 SELECT 
   hotel_id, 
   name, 
@@ -17,18 +16,12 @@ SELECT
   ST_X(coordinate) AS lat, 
   ST_Y(coordinate) AS lng
 FROM Hotels 
-WHERE hotel_id = :hotel_id
+WHERE hotel_id = ?
 SQL;
-  $stmt = $conn->prepare($sql);
-  $stmt->bindParam(':hotel_id', $_GET['hotel_id'], PDO::PARAM_INT);
-  $stmt->execute();
-
-  $result = $stmt->fetch();
-  if (!$result) {
-    echo "Hotel corresponding id is not found";
-    http_response_code(404);
-    exit();
-  }
+$stmt = execute($sql, [
+  [$_GET['hotel_id'], PDO::PARAM_INT],
+]);
+$result = fetchOrFail($stmt, "Hotel corresponding id is not found");
 ?>
 <!DOCTYPE html>
 <html lang="en">

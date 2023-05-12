@@ -1,17 +1,11 @@
 <?php
-global $conn;
-
 $sql = <<<SQL
 SELECT feature
 FROM Features
 JOIN HotelFeatures ON HotelFeatures.feature_id = Features.feature_id
-WHERE hotel_id = :hotel_id;
+WHERE hotel_id = ?
 SQL;
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':hotel_id', $hotel_id, PDO::PARAM_INT);
-$stmt->execute();
-
-$facilities = $stmt->fetchAll();
+$stmt = execute($sql, [$hotel_id]);
 ?>
 <component>
   <section class="hotel-overview container">
@@ -20,9 +14,9 @@ $facilities = $stmt->fetchAll();
     <?php insert('hotel-gallery', ['hotel_id' => $hotel_id]); ?>
     <p class="hotel-overview__description"><?= $description ?></p>
     <ul class="hotel-overview__facilities">
-      <?php foreach ($facilities as $facility) : ?>
+      <?php while ($facility = $stmt->fetch()) : ?>
         <li><?= $facility['feature'] ?></li>
-      <?php endforeach; ?>
+      <?php endwhile; ?>
     </ul>
   </section>
 </component>

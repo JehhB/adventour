@@ -1,4 +1,6 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
+
 if (
   !isset($_GET['lat0']) ||
   !isset($_GET['lat1']) ||
@@ -10,8 +12,11 @@ if (
   exit();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
-global $conn;
+$lat0 = floatval($_GET['lat0']);
+$lat1 = floatval($_GET['lat1']);
+$lng0 = floatval($_GET['lng0']);
+$lng1 = floatval($_GET['lng1']);
+$bbox = "Polygon(($lat0 $lng0,$lat0 $lng1,$lat1 $lng1,$lat1 $lng0,$lat0 $lng0))";
 
 $sql = <<<SQL
 SELECT
@@ -30,29 +35,14 @@ WHERE
     SELECT MIN(hotel_image_id)
     FROM HotelImages
     WHERE caption != '' AND HotelImages.hotel_id = Hotels.hotel_id
-  )
+  ) AND
+  Hotels.hotel_id != :exclude
+LIMIT 12
 SQL;
-
-if (isset($_GET['exclude']) && !empty($_GET['exclude'])) {
-  $sql .= " AND Hotels.hotel_id != :exclude";
-}
-$sql .= <<<SQL
-  LIMIT 12
-SQL;
-
-$stmt = $conn->prepare($sql);
-if (isset($_GET['exclude']) && !empty($_GET['exclude'])) {
-  $stmt->bindParam(':exclude', $_GET['exclude'], PDO::PARAM_INT);
-}
-
-$lat0 = floatval($_GET['lat0']);
-$lat1 = floatval($_GET['lat1']);
-$lng0 = floatval($_GET['lng0']);
-$lng1 = floatval($_GET['lng1']);
-$bbox = "Polygon(($lat0 $lng0,$lat0 $lng1,$lat1 $lng1,$lat1 $lng0,$lat0 $lng0))";
-$stmt->bindParam(':bbox', $bbox);
-
-$stmt->execute();
+$stmt = execute($sql, [
+  ':bbox' => $bbox,
+  'exclude' => $_GET['exclude'] ?? 0,
+]);
 
 $results = $stmt->fetchAll();
 header("Content-Type: application/json");

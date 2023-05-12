@@ -1,16 +1,11 @@
 <?php
-global $conn;
-
 $sql = <<<SQL
 SELECT hotel_image_id, caption
 FROM HotelImages
-WHERE hotel_id = :hotel_id
+WHERE hotel_id = ?
 ORDER BY caption = '', hotel_image_id
 SQL;
-
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(':hotel_id', $hotel_id);
-$stmt->execute();
+$stmt = execute($sql, [$hotel_id]);
 
 $images = array_map(fn ($e) => [
   "src" => "/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}",
