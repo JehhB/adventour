@@ -17,7 +17,7 @@ function e($input)
 {
   if (is_string($input)) {
     return htmlspecialchars($input);
-  } 
+  }
   return array_map(fn ($e) => is_string($e) ? e($e) : $e, $input);
 }
 
@@ -31,6 +31,57 @@ function e($input)
 function resolve_path($name)
 {
   return COMPONENTS_DIR . $name . COMPONENTS_EXT;
+}
+
+/**
+ * Extract a section, which is the content of a root
+ * root element in an XML-Like string,
+ *
+ * @param string $section Section to be extracted
+ * @param string $content String to extract section from
+ *
+ * @return string|false false if section doesn't exist
+ * otherwise, returns the extracted section
+ */
+function extract_section($section, $content)
+{
+  preg_match("#<$section>(.*?)</$section>#s", $content, $match);
+  if (count($match) < 2) return false;
+  return $match[1];
+}
+
+/**
+ * Get a section from a file without evaluating it
+ *
+ * @param string $path    Path to file
+ * @param string $section Section to be extracted
+ *
+ * @return string|false false if section or file doesn't exist
+ *                      otherwise, returns the extracted section
+ */
+function get_section($path, $section)
+{
+  $content = file_get_contents($path);
+  if ($content === false) return false;
+
+  return extract_section($section, $content);
+}
+
+/**
+ * Get specified section from all component without evaluating it
+ *
+ * @param string $section Section to be extracted
+ *
+ * @return string Concatenation of all extracted section.
+ */
+function get_all($section)
+{
+  $output = "";
+  foreach (glob(resolve_path('*')) as $path) {
+    $content = get_section($path, $section);
+    if ($content) $output .= $content;
+  }
+  return $output;
 }
 
 $__component_stack = array();
@@ -77,30 +128,7 @@ function stop()
  */
 function insert($name, $data = array())
 {
-  $path = resolve_path($name);
-  $content = render($path, $data);
-  $sections = get_sections($content);
-  if (isset($sections["component"])) {
-    echo $sections["component"];
-  }
-}
-
-/**
- * Insert all sections with the given name from all templates
- * 
- * @param string $section Name of the section to be inserted
- */
-function insert_all($section)
-{
-  $output =  '';
-  foreach (glob(resolve_path('*')) as $file) {
-    $content = render($file);
-    $sections = get_sections($content);
-    if (isset($sections[$section])) {
-      $output .= $sections[$section];
-    }
-  }
-  echo $output;
+  echo render($name, $data);
 }
 
 /**
@@ -112,33 +140,21 @@ function insert_all($section)
  * @return string Return rendered component
  */
 
-function render($path, $data = array())
+function render($name, $data = array())
 {
   if (COMPONENT_SANITIZE_STRING) {
     $data = e($data);
   }
 
-  extract($data);
+  $path = resolve_path($name);
   ob_start();
-  require $path;
-  return ob_get_clean();
-}
 
-/**
- * Extract sections from component
- * 
- * @param string $content The contents of the component
- * 
- * @return array Return an associative array of sections
- *               this sections are: component, style, and script
- */
-function get_sections($content)
-{
-  $sections = array();
-  foreach (array('component', 'style', 'script') as $section) {
-    preg_match("#<$section>(.*?)</$section>#s", $content, $match);
-    if (count($match) < 2) continue;
-    $sections[$section] = $match[1];
-  }
-  return $sections;
+  (function () {
+    extract(func_get_arg(0));
+    require func_get_arg(1);
+  })($data, $path);
+
+  $content = ob_get_clean();
+  $component = extract_section('component', $content);
+  return $component === false ? '' : $component;
 }
