@@ -14,9 +14,24 @@
 </component>
 <script>
   document.addEventListener('alpine:init', () => {
+    const currentMarker = L.icon({
+      iconUrl: '/assets/images/marker-icon.png',
+      iconRetinaUrl: '/assets/images/marker-icon-2x.png',
+      iconSize: [30, 40],
+      iconAnchor: [15, 40],
+      popupAnchor: [0, -32],
+    });
+
+    const hotelMarker = L.icon({
+      iconUrl: '/assets/images/building-icon.png',
+      iconRetinaUrl: '/assets/images/building-icon-2x.png',
+      iconSize: [24, 32],
+      iconAnchor: [12, 32],
+      popupAnchor: [0, -28],
+    });
+
     Alpine.data('hotel_map', function(lat, lng, popup) {
       return {
-
         init() {
           const map = L.map(this.$el, {
             center: [
@@ -35,7 +50,7 @@
           L.control.zoom({
             position: 'bottomright'
           }).addTo(map);
-          L.marker([lat, lng])
+          L.marker([lat, lng], {icon: currentMarker})
             .addTo(map)
             .bindPopup(popup);
 
