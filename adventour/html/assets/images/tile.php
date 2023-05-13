@@ -1,11 +1,18 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-if (!isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['z'])) {
-  echo "Malformed request: missing x, y, and/or z";
-  http_response_code(400);
-  exit();
-}
+validOrFail(
+  [
+   'x' => $_GET['x'], 
+   'y' => $_GET['y'],
+   'z' => $_GET['z'],
+  ], [
+   'x' => [\vld\is_defined()],
+   'y' => [\vld\is_defined()],
+   'z' => [\vld\is_defined()],
+  ]
+);
+
 
 $sql = <<<SQL
 SELECT image

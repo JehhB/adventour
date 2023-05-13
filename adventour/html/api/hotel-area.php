@@ -1,16 +1,19 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-if (
-  !isset($_GET['lat0']) ||
-  !isset($_GET['lat1']) ||
-  !isset($_GET['lng0']) ||
-  !isset($_GET['lng1'])
-) {
-  echo "Malformed request: missing lat0, lat1, lng0, and/or lng1";
-  http_response_code(400);
-  exit();
-}
+validOrFail(
+  [
+   'lat0' => $_GET['lat0'], 
+   'lat1' => $_GET['lat1'],
+   'lng0' => $_GET['lng0'],
+   'lng1' => $_GET['lng1'],
+  ], [
+   'lat0' => [\vld\is_defined()],
+   'lat1' => [\vld\is_defined()],
+   'lng0' => [\vld\is_defined()],
+   'lng1' => [\vld\is_defined()],
+  ]
+);
 
 $lat0 = floatval($_GET['lat0']);
 $lat1 = floatval($_GET['lat1']);

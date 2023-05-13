@@ -1,11 +1,13 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-if (!isset($_GET['hotel_image_id'])) {
-  echo "Malformed request: missing hotel_image_id";
-  http_response_code(400);
-  exit();
-}
+validOrFail(
+  [
+   'hotel_image_id' => $_GET['hotel_image_id'], 
+  ], [
+   'hotel_image_id' => [\vld\is_defined()],
+  ]
+);
 
 $sql = <<<SQL
 SELECT image, content_type
