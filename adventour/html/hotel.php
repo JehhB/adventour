@@ -22,6 +22,19 @@ $stmt = execute($sql, [
   [$_GET['hotel_id'], PDO::PARAM_INT],
 ]);
 $result = fetchOrFail($stmt, "Hotel corresponding id is not found");
+
+$sql = <<<SQL
+SELECT hotel_image_id, caption
+FROM HotelImages
+WHERE hotel_id = ?
+ORDER BY caption = '', hotel_image_id
+SQL;
+$stmt = execute($sql, [$result['hotel_id']]);
+
+$result['images'] = array_map(fn ($e) => [
+  "src" => "/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}",
+  "alt" => $e['caption'] === '' ? 'Gallery image for hotel' : e($e['caption']),
+], $stmt->fetchAll());
 ?>
 <!DOCTYPE html>
 <html lang="en">

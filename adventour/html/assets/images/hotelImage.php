@@ -1,13 +1,9 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-validOrFail(
-  [
-   'hotel_image_id' => $_GET['hotel_image_id'], 
-  ], [
-   'hotel_image_id' => [\vld\is_defined()],
-  ]
-);
+validOrFail($_GET, [
+  'hotel_image_id' => [\vld\is_defined(), \vld\is_numeric()],
+]);
 
 $sql = <<<SQL
 SELECT image, content_type

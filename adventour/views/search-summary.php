@@ -1,41 +1,31 @@
 <component>
-  <li>
-    <?php if (isset($isLoading) && $isLoading) : ?>
-      <div class="search-summary">
-        <div class="search-summary__preview block-loader"></div>
-        <div class="search-summary__details">
-          <div class="search-summary__details__heading block-loader"></div>
-          <div class="search-summary__details__location block-loader"></div>
-        </div>
+  <?php if (isset($isLoading) && $isLoading) : ?>
+    <div class="search-summary">
+      <div class="search-summary__preview block-loader"></div>
+      <div class="search-summary__details">
+        <div class="search-summary__details__heading block-loader"></div>
+        <div class="search-summary__details__location block-loader"></div>
       </div>
-    <?php elseif (isset($isAlpine) && $isAlpine) : ?>
-      <a :href="<?= $link ?>" class="search-summary">
-        <img :src="<?= $image ?>" :alt="<?= $alt ?>" class="search-summary__preview" />
-        <div class="search-summary__details">
-          <h3 class="search-summary__details__heading" x-text="<?= $name ?>"></h3>
-          <address class="search-summary__details__location" x-text="<?= $address ?>"></address>
-        </div>
-      </a>
-    <?php else : ?>
-      <a href="<?= $link ?>" class="search-summary">
-        <img src="<?= $image ?>" alt="<?= $alt ?>" class="search-summary__preview" />
-        <div class="search-summary__details">
-          <h3 class="search-summary__details__heading">
-            <?= $name ?>
-          </h3>
-          <address class="search-summary__details__location">
-            <?= $address ?>
-          </address>
-        </div>
-      </a>
-    <?php endif; ?>
-  </li>
+    </div>
+  <?php else : ?>
+    <a href="<?= $link ?>" class="search-summary">
+      <img src="<?= $image ?>" alt="<?= $alt ?>" class="search-summary__preview" />
+      <div class="search-summary__details">
+        <h3 class="search-summary__details__heading">
+          <?= $name ?>
+        </h3>
+        <address class="search-summary__details__location">
+          <?= $address ?>
+        </address>
+      </div>
+    </a>
+  <?php endif; ?>
 </component>
 <style>
   .search-summary {
     display: flex;
     text-decoration: none;
-    color: var(--fg-color);
+    color: var(--fg-color) !important;
     align-items: center;
   }
 

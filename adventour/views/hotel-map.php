@@ -1,9 +1,20 @@
 <component>
-  <div class="hotel-map" x-data="hotel_map(<?= $lat ?>, <?= $lng ?>)"></div>
+
+  <div class="hotel-map" x-data="hotel_map(<?= $lat ?>, <?= $lng ?>, 
+  `<?= e(render(
+      'search-summary',
+      [
+        'link' => '#',
+        'image' => htmlspecialchars_decode($details['image']['src']),
+        'alt' => htmlspecialchars_decode($details['image']['alt']),
+        'name' => htmlspecialchars_decode($details['name']),
+        'address' => htmlspecialchars_decode($details['address']),
+      ]
+    )) ?>`)"></div>
 </component>
 <script>
   document.addEventListener('alpine:init', () => {
-    Alpine.data('hotel_map', function(lat, lng) {
+    Alpine.data('hotel_map', function(lat, lng, popup) {
       return {
 
         init() {
@@ -24,7 +35,9 @@
           L.control.zoom({
             position: 'bottomright'
           }).addTo(map);
-          L.marker([lat, lng]).addTo(map);
+          L.marker([lat, lng])
+            .addTo(map)
+            .bindPopup(popup);
 
           map.addEventListener('moveend', () => {
             this.$dispatch('bboxchanged', map.getBounds());

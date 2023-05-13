@@ -1,17 +1,11 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-validOrFail(
-  [
-   'x' => $_GET['x'], 
-   'y' => $_GET['y'],
-   'z' => $_GET['z'],
-  ], [
-   'x' => [\vld\is_defined()],
-   'y' => [\vld\is_defined()],
-   'z' => [\vld\is_defined()],
-  ]
-);
+validOrFail($_GET, [
+  'x' => [\vld\is_defined(), \vld\is_numeric()],
+  'y' => [\vld\is_defined(), \vld\is_numeric()],
+  'z' => [\vld\is_defined(), \vld\is_numeric()],
+]);
 
 
 $sql = <<<SQL

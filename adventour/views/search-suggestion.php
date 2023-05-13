@@ -3,12 +3,13 @@
     <template x-load="`/api/search.php?q=${encodeURIComponent(search)}&filter=${filter}`">
       <ul class="search-suggestion__list">
 
-      <?php
-      for ($i = 0; $i < 4; ++$i) {
-        insert('search-summary', ['isLoading' => true]);
-      }
-      ?>
-</ul>
+        <?php for ($i = 0; $i < 4; ++$i) : ?>
+          <li>
+            <?php insert('search-summary', ['isLoading' => true]); ?>
+          </li>
+        <?php endfor; ?>
+
+      </ul>
     </template>
   </div>
 </component>

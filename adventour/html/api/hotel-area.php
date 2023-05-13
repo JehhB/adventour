@@ -1,19 +1,12 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
-validOrFail(
-  [
-   'lat0' => $_GET['lat0'], 
-   'lat1' => $_GET['lat1'],
-   'lng0' => $_GET['lng0'],
-   'lng1' => $_GET['lng1'],
-  ], [
-   'lat0' => [\vld\is_defined()],
-   'lat1' => [\vld\is_defined()],
-   'lng0' => [\vld\is_defined()],
-   'lng1' => [\vld\is_defined()],
-  ]
-);
+validOrFail($_GET, [
+  'lat0' => [\vld\is_defined(), \vld\is_numeric()],
+  'lat1' => [\vld\is_defined(), \vld\is_numeric()],
+  'lng0' => [\vld\is_defined(), \vld\is_numeric()],
+  'lng1' => [\vld\is_defined(), \vld\is_numeric()],
+]);
 
 $lat0 = floatval($_GET['lat0']);
 $lat1 = floatval($_GET['lat1']);
@@ -28,7 +21,8 @@ SELECT
     caption,
     name,
     address,
-    description
+    ST_X(coordinate) AS lat,
+    ST_Y(coordinate) AS lng
 FROM
     Hotels
 LEFT JOIN HotelImages ON HotelImages.hotel_id = Hotels.hotel_id
@@ -47,6 +41,20 @@ $stmt = execute($sql, [
   'exclude' => $_GET['exclude'] ?? 0,
 ]);
 
-$results = $stmt->fetchAll();
 header("Content-Type: application/json");
-echo json_encode($results);
+$output = [];
+while ($result = $stmt->fetch()) {
+  array_push($output, [
+    'hotel_id' => $result['hotel_id'],
+    'lat' => $result['lat'],
+    'lng' => $result['lng'],
+    'summary' => render('search-summary', [
+        'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
+        'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
+        'alt' => $result['caption'],
+        'name' => $result['name'],
+        'address' => $result['address'],
+    ]),
+  ]);
+}
+echo json_encode($output);

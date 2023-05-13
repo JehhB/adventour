@@ -30,8 +30,9 @@ namespace vld {
    *
    * @param string $msg error message
    */
-  function is_numeric($msg = "Is not an integer") {
-    return ensure(fn ($x) => is_numeric($x), $msg);
+  function is_numeric($msg = "Is not numeric")
+  {
+    return ensure('\is_numeric', $msg);
   }
 }
 

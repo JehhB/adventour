@@ -1,17 +1,3 @@
-<?php
-$sql = <<<SQL
-SELECT hotel_image_id, caption
-FROM HotelImages
-WHERE hotel_id = ?
-ORDER BY caption = '', hotel_image_id
-SQL;
-$stmt = execute($sql, [$hotel_id]);
-
-$images = array_map(fn ($e) => [
-  "src" => "/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}",
-  "alt" => $e['caption'] === '' ? 'Gallery image for hotel' : e($e['caption']),
-], $stmt->fetchAll());
-?>
 <component>
   <div class="hotel-gallery" x-data="{currentSrc:'<?= $images[0]['src'] ?>', currentAlt:'<?= $images[0]['alt'] ?>'}">
     <img class="hotel-gallery__main" :src="currentSrc" :alt="currentAlt">
@@ -38,7 +24,7 @@ $images = array_map(fn ($e) => [
 
   .hotel-gallery__thumbnails {
     max-width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     display: flex;
     flex-wrap: nowrap;
     height: 4rem;

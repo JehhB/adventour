@@ -1,27 +1,32 @@
 <component>
   <section class="hotel-location-wrapper container">
-    <div x-data="hotel_location(<?= $hotel_id ?>)" @bboxchanged.debounce.1000ms="bboxChangeHandler" class="hotel-location">
+    <div x-data="hotel_location(<?= $hotel_id ?>)" @bboxchanged.debounce.500ms="bboxChangeHandler" class="hotel-location">
       <div class="hotel-location__recommendation">
         <h3 class="hotel-location__recommendation__title">Recommendation in the area</h3>
         <div class="hotel-location__recommendation__list-wrapper">
           <ul class="hotel-location__recommendation__list">
             <template x-for="_ in isLoading ? 4 : 0">
-              <?php insert('search-summary', ['isLoading' => true]) ?>
+              <?php insert('search-summary', ['isLoading' => true]); ?>
             </template>
-            <template x-for="hotel in isLoading ? [] : recommendations">
-              <?php insert('search-summary', [
-                'isAlpine' => true,
-                'link' => "`/hotel.php?hotel_id=\${hotel.hotel_id}`",
-                'image' => "`/assets/images/hotelImage.php?hotel_image_id=\${hotel.image_id}`",
-                'alt' => "hotel.caption",
-                'name' => "hotel.name",
-                'address' => "hotel.address"
-              ]) ?>
+            <template x-for="{summary} in isLoading ? [] : recommendations">
+              <li x-html="summary"></li>
+            </template>
+            <template x-if="!isLoading && recommendations.length == 0">
+              <em>No hotels in the area</em>
             </template>
           </ul>
         </div>
       </div>
-      <?php insert('hotel-map', ['lat' => $lat, 'lng' => $lng]); ?>
+      <?php insert('hotel-map', [
+        'lat' => $lat,
+        'lng' => $lng,
+        'details' => [
+          'image' => $images[0],
+          'description' => $description,
+          'name' => $name,
+          'address' => $address,
+        ],
+      ]); ?>
     </div>
   </section>
 </component>
@@ -95,7 +100,7 @@
 
   .hotel-location__recommendation__list-wrapper {
     flex: 1 1 auto;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0 1rem 1rem 1rem;
   }
 

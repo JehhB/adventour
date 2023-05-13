@@ -11,7 +11,7 @@ $stmt = execute($sql, [$hotel_id]);
   <section class="hotel-overview container">
     <h1 class="hotel-overview__name"><?= $name ?></h1>
     <address class="hotel-overview__address"><?= $address ?></address>
-    <?php insert('hotel-gallery', ['hotel_id' => $hotel_id]); ?>
+    <?php insert('hotel-gallery', ['images' => $images]); ?>
     <p class="hotel-overview__description"><?= $description ?></p>
     <ul class="hotel-overview__facilities">
       <?php while ($facility = $stmt->fetch()) : ?>
