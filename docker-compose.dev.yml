@@ -9,6 +9,7 @@ services:
     volumes:
       - ./adventour:/var/www
     environment:
+      MODE_DEPLOY: development
       MYSQL_HOST: database
       MYSQL_DATABASE: adventour
       MYSQL_USER: admin

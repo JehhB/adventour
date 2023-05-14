@@ -1,0 +1,3 @@
+  <If "(%{REQUEST_URI} =~ m#^/dist/#) && (osenv('MODE_DEPLOY') == 'development')">
+    Header set Cache-Control "no-store, no-cache, must-revalidate"
+  </If>
