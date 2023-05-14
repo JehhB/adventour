@@ -4,8 +4,6 @@
 define('COMPONENTS_DIR', __DIR__ . '/../views/');
 /** @var string File extention of components */
 define('COMPONENTS_EXT', '.php');
-/** @var bool Configure automatic sanitization of template data */
-define('COMPONENT_SANITIZE_STRING', true);
 
 /** 
  * Sanitize string or strings in an array using htmlspecialchars;
@@ -134,15 +132,16 @@ function insert($name, $data = array())
 /**
  * Render a component with the given data
  * 
- * @param string  $name Name of component to be rendered
- * @param mixed[] $data Data to be passed into component
+ * @param string  $name     Name of component to be rendered
+ * @param mixed[] $data     Data to be passed into component
+ * @param bool    $sanitize Wheter to sanitize data before inserting
  * 
  * @return string Return rendered component
  */
 
-function render($name, $data = array())
+function render($name, $data = array(), $sanitize = false)
 {
-  if (COMPONENT_SANITIZE_STRING) {
+  if ($sanitize) {
     $data = e($data);
   }
 

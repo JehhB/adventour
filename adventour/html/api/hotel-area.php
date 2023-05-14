@@ -34,7 +34,7 @@ WHERE
     WHERE caption != '' AND HotelImages.hotel_id = Hotels.hotel_id
   ) AND
   Hotels.hotel_id != :exclude
-LIMIT 12
+LIMIT 8
 SQL;
 $stmt = execute($sql, [
   ':bbox' => $bbox,

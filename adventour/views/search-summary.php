@@ -8,14 +8,14 @@
       </div>
     </div>
   <?php else : ?>
-    <a href="<?= $link ?>" class="search-summary">
-      <img src="<?= $image ?>" alt="<?= $alt ?>" class="search-summary__preview" />
+    <a href="<?= e($link) ?>" class="search-summary">
+      <img src="<?= e($image) ?>" alt="<?= e($alt) ?>" class="search-summary__preview" />
       <div class="search-summary__details">
         <h3 class="search-summary__details__heading">
-          <?= $name ?>
+          <?= e($name) ?>
         </h3>
         <address class="search-summary__details__location">
-          <?= $address ?>
+          <?= e($address) ?>
         </address>
       </div>
     </a>

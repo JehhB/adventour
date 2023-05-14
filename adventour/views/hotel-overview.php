@@ -9,22 +9,27 @@ $stmt = execute($sql, [$hotel_id]);
 ?>
 <component>
   <section class="hotel-overview container">
-    <h1 class="hotel-overview__name"><?= $name ?></h1>
-    <address class="hotel-overview__address"><?= $address ?></address>
+    <h1 class="hotel-overview__name"><?= e($name) ?></h1>
+    <address class="hotel-overview__address"><?= e($address) ?></address>
+
     <?php insert('hotel-gallery', ['images' => $images]); ?>
-    <p class="hotel-overview__description"><?= $description ?></p>
+
+    <p class="hotel-overview__description"><?= e($description) ?></p>
+
     <ul class="hotel-overview__facilities">
       <?php while ($facility = $stmt->fetch()) : ?>
-        <li><?= $facility['feature'] ?></li>
+        <li><?= e($facility['feature']) ?></li>
       <?php endwhile; ?>
     </ul>
+
   </section>
 </component>
 <style>
   .hotel-overview {
     display: grid;
     grid-template-columns: 5fr 7fr;
-    gap: 0 4rem;
+    grid-template-rows: min-content min-content 1fr min-content;
+    gap: 0.5rem 4rem;
     grid-template-areas:
       "gallery name"
       "gallery address"
@@ -57,6 +62,7 @@ $stmt = execute($sql, [$hotel_id]);
     line-height: 1.25em;
     font-weight: 400;
     color: var(--gray-700);
+    padding: 1rem 0 1rem 0;
   }
 
   .hotel-overview__facilities {
@@ -67,6 +73,8 @@ $stmt = execute($sql, [$hotel_id]);
     flex-wrap: wrap;
     gap: 1rem 2rem;
     list-style: none;
+    padding: 2rem 0 2rem 0;
+    border-top: 1px solid var(--gray-700);
   }
 
   .hotel-overview__facilities li {
@@ -94,13 +102,14 @@ $stmt = execute($sql, [$hotel_id]);
 
   @media screen and (max-width: 1199px) {
     .hotel-overview {
-      gap: 0 3rem;
+      gap: 1 3rem;
     }
   }
 
   @media screen and (max-width: 991px) {
     .hotel-overview {
       grid-template-columns: 1fr;
+      grid-template-rows: none;
       gap: 1rem;
       grid-template-areas:
         "name"
@@ -122,9 +131,18 @@ $stmt = execute($sql, [$hotel_id]);
       margin-bottom: 1rem;
     }
 
+    .hotel-overview__name {
+      padding: 0 0.5rem;
+    }
+
     .hotel-overview__address,
     .hotel-overview__description {
       display: none;
+    }
+
+    .hotel-overview__facilities {
+      padding: 0 0.5rem;
+      border: none;
     }
   }
 </style>

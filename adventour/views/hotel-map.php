@@ -1,14 +1,13 @@
 <component>
-
   <div class="hotel-map" x-data="hotel_map(<?= $lat ?>, <?= $lng ?>, 
   `<?= e(render(
       'search-summary',
       [
         'link' => '#',
-        'image' => htmlspecialchars_decode($details['image']['src']),
-        'alt' => htmlspecialchars_decode($details['image']['alt']),
-        'name' => htmlspecialchars_decode($details['name']),
-        'address' => htmlspecialchars_decode($details['address']),
+        'image' => $details['image']['src'],
+        'alt' => $details['image']['alt'],
+        'name' => $details['name'],
+        'address' => $details['address']
       ]
     )) ?>`)"></div>
 </component>
@@ -31,6 +30,8 @@
     });
 
     Alpine.data('hotel_map', function(lat, lng, popup) {
+      markers = new Map();
+
       return {
         init() {
           const map = L.map(this.$el, {
@@ -50,9 +51,29 @@
           L.control.zoom({
             position: 'bottomright'
           }).addTo(map);
-          L.marker([lat, lng], {icon: currentMarker})
+          L.marker([lat, lng], {
+              icon: currentMarker
+            })
             .addTo(map)
             .bindPopup(popup);
+
+          this.$watch('recommendations', (recommendations) => {
+            for (const key of markers.keys()) {
+              if (recommendations.find(({hotel_id}) => hotel_id === key)) continue;
+              markers.get(key).remove();
+              markers.delete(key);
+            }
+
+            for (const hotel of recommendations) {
+              if (markers.has(hotel.hotel_id)) continue;
+              const marker = L.marker([hotel.lat, hotel.lng], {
+                  icon: hotelMarker
+                })
+                .addTo(map)
+                .bindPopup(hotel.summary);
+              markers.set(hotel.hotel_id, marker);
+            }
+          });
 
           map.addEventListener('moveend', () => {
             this.$dispatch('bboxchanged', map.getBounds());

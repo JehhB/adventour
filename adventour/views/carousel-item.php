@@ -1,10 +1,10 @@
 <component>
   <li class="carousel-item" x-show="<?= $index ?> === active" x-transition:leave.opacity.duration.500ms x-transition:enter.opacity.delay.150ms.duration.500ms>
-    <a href="<?= $link ?>" tabindex="-1">
-      <img src="<?= $image ?>" class="carousel-item__image" />
+    <a href="<?= e($link) ?>" tabindex="-1">
+      <img src="<?= e($image) ?>" class="carousel-item__image" />
       <div class="carousel-item__overlay"></div>
-      <h3 class="carousel-item__heading"><?= $title ?></h3>
-      <p class="carousel-item__address"><?= $subtitle ?></p>
+      <h3 class="carousel-item__heading"><?= e($title) ?></h3>
+      <p class="carousel-item__address"><?= e($subtitle) ?></p>
     </a>
   </li>
 </component>

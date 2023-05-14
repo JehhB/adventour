@@ -1,9 +1,9 @@
 <component>
-  <div class="hotel-gallery" x-data="{currentSrc:'<?= $images[0]['src'] ?>', currentAlt:'<?= $images[0]['alt'] ?>'}">
+  <div class="hotel-gallery" x-data="{currentSrc:`<?= e($images[0]['src']) ?>`, currentAlt:`<?= e($images[0]['alt']) ?>`}">
     <img class="hotel-gallery__main" :src="currentSrc" :alt="currentAlt">
     <div class="hotel-gallery__thumbnails">
       <?php foreach ($images as $image) : ?>
-        <img role="button" class="hotel-gallery__thumbnails__image" src="<?= $image['src'] ?>" alt="<?= $image['alt'] ?>" @click="currentSrc = $el.src; currentAlt = $el.alt">
+        <img role="button" class="hotel-gallery__thumbnails__image" src="<?= e($image['src']) ?>" alt="<?= e($image['alt']) ?>" @click="currentSrc = $el.src; currentAlt = $el.alt">
       <?php endforeach; ?>
     </div>
   </div>
