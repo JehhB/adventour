@@ -24,6 +24,7 @@
       <?php insert('carousel'); ?>
     </section>
   </main>
+  <div id="app"></div>
 </body>
 
 </html>
