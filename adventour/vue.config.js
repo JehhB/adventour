@@ -18,4 +18,7 @@ module.exports = defineConfig({
       chunkFilename: "dist/js/[name].[contenthash:8].js",
     },
   },
+  css: {
+    extract: true,
+  },
 });
