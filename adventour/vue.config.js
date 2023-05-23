@@ -11,6 +11,7 @@ module.exports = defineConfig({
   outputDir: "html",
   assetsDir: "dist",
   transpileDependencies: true,
+  runtimeCompiler: true,
   configureWebpack: {
     output: {
       filename: "dist/js/[name].[contenthash:8].js",
