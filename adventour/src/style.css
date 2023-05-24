@@ -3,3 +3,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply bg-zinc-100 bg-no-repeat bg-right-top;
+  background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
+  background-size: 100%;
+}
+
+@media screen(sm) {
+  body {
+    background-size: 80%;
+  }
+}
+
+@media screen(lg) {
+  body {
+    background-size: 50%;
+  }
+}

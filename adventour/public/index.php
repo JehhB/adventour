@@ -9,8 +9,9 @@
 </head>
 
 <body>
-  <?php insert('header'); ?>
-  <div id="app"></div>
+  <div id="app">
+    <?php insert('header'); ?>
+  </div>
 </body>
 
 </html>
