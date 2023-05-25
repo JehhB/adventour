@@ -3,11 +3,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
 $sql = <<<SQL
 SELECT
-    Hotels.hotel_id hotel_id,
+    'hotel' AS type,
+    Hotels.hotel_id id,
     hotel_image_id AS image_id,
     caption,
-    name,
-    address
+    name AS title,
+    address AS subtitle
 FROM Hotels
 LEFT JOIN HotelImages ON HotelImages.hotel_id = Hotels.hotel_id
 WHERE 
@@ -16,33 +17,11 @@ WHERE
     FROM HotelImages
     WHERE caption != '' AND HotelImages.hotel_id = Hotels.hotel_id
   ) AND 
-  metaphone LIKE :q
+  metaphone LIKE :search
 LIMIT 8
 SQL;
-$metaphone = metaphone($_GET['q'] ?? '');
-$stmt = execute($sql, [':q' => "%$metaphone%"]);
-?>
-<ul class="search-suggestion__list">
-  <?php while ($result = $stmt->fetch()) : ?>
-    <li>
-      <?php insert('search-summary', [
-        'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
-        'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
-        'alt' => $result['caption'],
-        'name' => $result['name'],
-        'address' => $result['address'],
-      ]);
-      ?>
-    </li>
-  <?php endwhile; ?>
-</ul>
+$metaphone = metaphone($_GET['search'] ?? '');
+$stmt = execute($sql, [':search' => "%$metaphone%"]);
 
-<?php if ($stmt->rowCount() === 0) : ?>
-  <p class="search-suggestion__message">
-    No match for '<?= e($_GET['q']) ?>'
-  </p>
-<?php elseif ($stmt->rowCount() === 8) : ?>
-  <a class="search-suggestion__message" href="/search.php?q=<?= urlencode($_GET['q']) ?>">
-    Show more...
-  </a>
-<?php endif ?>
+header('Content-Type: application/json');
+echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));

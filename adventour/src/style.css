@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-zinc-100 bg-no-repeat bg-right-top;
+  @apply bg-zinc-100 bg-right-top bg-no-repeat;
   background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
   background-size: 100%;
 }
@@ -19,5 +19,33 @@ body {
 @media screen(lg) {
   body {
     background-size: 50%;
+  }
+}
+
+@layer components {
+  .block-loader {
+    @apply relative overflow-hidden bg-gray-300 after:absolute after:-left-[45%] after:h-full after:w-[45%];
+  }
+
+  .block-loader::after {
+    background-image: linear-gradient(
+      to left,
+      #fbfbfb0d,
+      #fbfbfb4d,
+      #fbfbfb99,
+      #fbfbfb4d,
+      #fbfbfb0d
+    );
+    animation: loading 1s infinite ease-in-out;
+  }
+
+  @keyframes loading {
+    0% {
+      left: -45%;
+    }
+
+    100% {
+      left: 100%;
+    }
   }
 }
