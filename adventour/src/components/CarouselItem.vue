@@ -2,7 +2,7 @@
   <a
     :href="link"
     tabindex="-1"
-    class="absolute inset-0 flex flex-col justify-end overflow-clip p-8 text-white outline outline-red-500"
+    class="absolute inset-0 flex flex-col justify-end overflow-clip p-8 text-white"
   >
     <img
       :src="image"
