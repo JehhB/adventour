@@ -68,7 +68,7 @@
                 </li>
               </template>
 
-              <li v-for="suggestion in suggestions">
+              <li v-for="suggestion in suggestions" :key="suggestion.title">
                 <Summary v-bind="suggestion" />
               </li>
             </ul>

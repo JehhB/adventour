@@ -11,6 +11,14 @@
 <body>
   <div id="app">
     <?php insert('header'); ?>
+
+    <main class="container mx-auto">
+      <carousel-container>
+        <?php for ($i = 1; $i <= 4; $i++) :  ?>
+          <carousel-item link="#" image="/assets/images/hotelImage.php?hotel_image_id=<?= $i ?>" title="Test <?= $i ?>" subtitle="Address test <?= $i ?>"></carousel-item>
+        <?php endfor; ?>
+      </carousel-container>
+    </main>
   </div>
 </body>
 
