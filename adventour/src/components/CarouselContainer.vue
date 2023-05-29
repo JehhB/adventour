@@ -52,9 +52,9 @@ import type { VNode } from "vue";
 const slots = defineSlots<{
   default?(): VNode[];
 }>();
-//eslint-disable-next-line
 const defaultSlots = computed(() =>
   (slots.default ? slots.default() : []).filter(
+    //eslint-disable-next-line
     (vnode: any) => vnode.type.__name == "CarouselItem"
   )
 );

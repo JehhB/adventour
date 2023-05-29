@@ -1,14 +1,74 @@
 <header>
-  <nav class="relative container mx-auto p-2 flex items-center sm:px-0">
-    <a href="/" class="w-10 sm:w-auto flex items-center justify-center gap-4">
+  <nav class="container relative mx-auto flex items-center p-2 sm:px-0">
+    <a href="/" class="flex w-10 items-center justify-center gap-4 sm:w-auto">
       <img src="/assets/logo.png" alt="adventour logo" class="h-10 sm:h-12" />
-      <span class="hidden font-cursive text-2xl leading-none text-green-900 sm:block">Adventour</span>
+      <span
+        class="hidden font-cursive text-2xl leading-none text-green-900 sm:block"
+      >
+        Adventour
+      </span>
     </a>
 
     <search-box class="sm:ml-auto"></search-box>
 
-    <div class="ml-auto w-10 h-10 rounded-full flex items-center justify-center bg-green-900 sm:ml-4 sm:w-12 sm:h-12">
-      <div class="font-cursive text-2xl leading-none text-white sm:text-3xl">A</div>
+    <div class="ml-auto flex items-center sm:ml-0 lg:ml-3">
+      <toggle-container>
+        <template v-slot:default="props">
+          <button class="w-10 lg:hidden" @click="props.open">
+            <b-icon-list
+              class="mx-auto text-4xl leading-[1rem] text-green-900 sm:text-[2.5rem] sm:leading-none"
+            ></b-icon-list>
+          </button>
+          <div class="hidden items-center justify-around gap-2 lg:flex">
+            <a
+              href="/login.php"
+              class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-white p-2 text-center font-medium leading-none text-green-900"
+              >Log in</a
+            >
+            <a
+              href="/signin.php"
+              class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-green-900 p-2 text-center font-medium leading-none text-white"
+              >Sign up</a
+            >
+          </div>
+        </template>
+
+        <template v-slot:toggled="props">
+          <off-page v-bind="props">
+            <div class="flex h-full flex-col justify-center p-10">
+              <nav class="my-auto space-y-3">
+                <a
+                  href="/"
+                  class="flex items-center justify-center gap-4 sm:w-auto"
+                >
+                  <img
+                    src="/assets/logo.png"
+                    alt="adventour logo"
+                    class="h-10 sm:h-12"
+                  />
+                  <span
+                    class="font-cursive text-2xl leading-none text-green-900"
+                  >
+                    Adventour
+                  </span>
+                </a>
+                <div class="flex items-center justify-around gap-2">
+                  <a
+                    href="/login.php"
+                    class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-white p-2 text-center font-medium leading-none text-green-900"
+                    >Log in</a
+                  >
+                  <a
+                    href="/signin.php"
+                    class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-green-900 p-2 text-center font-medium leading-none text-white"
+                    >Sign up</a
+                  >
+                </div>
+              </nav>
+            </div>
+          </off-page>
+        </template>
+      </toggle-container>
     </div>
   </nav>
 </header>

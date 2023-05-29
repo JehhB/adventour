@@ -1,7 +1,7 @@
 <template>
   <OnClickOutside @trigger="isActive = false">
     <div
-      class="absolute z-40 flex items-center border-gray-400 bg-white px-4 py-1 transition-[left,right,bottum,top,border-radius] duration-[50ms] sm:relative sm:inset-0 sm:w-[40ch] sm:rounded-2xl sm:border sm:transition-[border-radius]"
+      class="absolute z-30 flex items-center border-gray-400 bg-white px-4 py-1 transition-[left,right,bottum,top,border-radius] duration-[50ms] sm:relative sm:inset-0 sm:w-[40ch] sm:rounded-2xl sm:border sm:transition-[border-radius]"
       :class="
         isActive
           ? 'inset-0 sm:rounded-b-none sm:border-b-0'
