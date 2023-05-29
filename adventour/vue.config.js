@@ -13,6 +13,7 @@ module.exports = defineConfig({
   outputDir: "html",
   assetsDir: "dist",
   transpileDependencies: true,
+  productionSourceMap: false,
   runtimeCompiler: true,
   configureWebpack: {
     output: {
