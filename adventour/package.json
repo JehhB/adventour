@@ -12,6 +12,7 @@
     "@vueuse/core": "^10.1.2",
     "bootstrap-icons-vue": "^1.10.3",
     "core-js": "^3.8.3",
+    "html-minifier": "^4.0.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.13"
   },
