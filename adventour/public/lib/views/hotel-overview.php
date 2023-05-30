@@ -7,9 +7,8 @@
     </div>
   </div>
   <gallery-container>
-      <gallery-item src="/assets/images/hotelImage.php?hotel_image_id=1"></gallery-item>
-      <gallery-item src="/assets/images/hotelImage.php?hotel_image_id=2"></gallery-item>
-      <gallery-item src="/assets/images/hotelImage.php?hotel_image_id=3"></gallery-item>
-      <gallery-item src="/assets/images/hotelImage.php?hotel_image_id=4"></gallery-item>
+    <?php foreach ($images as $image) : ?>
+      <gallery-item src="<?= $image['src'] ?>" alt="<?= $image['alt'] ?>"></gallery-item>
+    <?php endforeach; ?>
   </gallery-container>
 </section>

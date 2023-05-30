@@ -49,7 +49,7 @@ $result['images'] = array_map(fn ($e) => [
 <div id="app">
   <?php insert('header'); ?>
   <main class="container mx-auto">
-    <?php insert('hotel-overview', $result) ?>
+    <?php insert('hotel-overview', e($result)) ?>
   </main>
 </div>
 </body>
