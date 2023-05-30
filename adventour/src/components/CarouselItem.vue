@@ -3,6 +3,7 @@
     :href="link"
     tabindex="-1"
     class="absolute inset-0 flex flex-col justify-end overflow-clip p-8 text-white"
+    v-if="active"
   >
     <img
       :src="image"
@@ -28,7 +29,23 @@
 }
 </style>
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps, inject, ref } from "vue";
+import { CarouselProvider } from "../keys";
+
+const active = ref(false);
+
+const container = inject(CarouselProvider);
+
+if (container) {
+  container.register({
+    show() {
+      active.value = true;
+    },
+    hide() {
+      active.value = false;
+    },
+  });
+}
 
 defineProps<{
   link: string;

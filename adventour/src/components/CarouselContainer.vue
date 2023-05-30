@@ -8,14 +8,14 @@
       class="aspect-h-12 aspect-w-16 md:aspect-h-8 xl:aspect-h-7 2xl:aspect-h-6"
     >
       <div>
-        <Transition
+        <TransitionGroup
           enter-from-class="opacity-0"
           enter-to-class="transition-opacity opacity-100 delay-150 duration-500"
           leave-from-class="opacity-100"
           leave-to-class="transition-opacity opacity-0 duration-500"
         >
-          <RenderVnode :vnode="defaultSlots[activeIndex]" :key="activeIndex" />
-        </Transition>
+          <slot></slot>
+        </TransitionGroup>
         <div
           class="absolute inset-auto bottom-3 left-1/2 z-10 h-auto -translate-x-1/2 space-x-[0.325rem]"
         >
@@ -36,25 +36,36 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, defineSlots, onBeforeUnmount, onMounted, ref } from "vue";
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import { usePointerSwipe } from "@vueuse/core";
+import { CarouselProvider } from "../keys";
 import debounce from "lodash/debounce";
-import RenderVnode from "./RenderVnode.vue";
-import type { VNode } from "vue";
 
-const slots = defineSlots<{
-  default?(): VNode[];
-}>();
-const defaultSlots = computed(() =>
-  (slots.default ? slots.default() : []).filter(
-    //eslint-disable-next-line
-    (vnode: any) => vnode.type.__name == "CarouselItem"
-  )
-);
-const length = computed(() => defaultSlots.value.length);
+type CarouselItem = { show(): void; hide(): void };
 
-const activeIndex = ref(0);
+const items = reactive([] as CarouselItem[]);
+const length = computed(() => items.length);
+const activeIndex = ref(-1);
 const carousel = ref<HTMLDivElement>();
+
+function register(item: CarouselItem) {
+  items.push(item);
+  if (activeIndex.value === -1) activeIndex.value = 0;
+
+  return () => {
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+  };
+}
+provide(CarouselProvider, { register });
 
 function increment() {
   activeIndex.value = (activeIndex.value + 1) % length.value;
@@ -68,6 +79,13 @@ function setActive(i: number) {
   resetInterval();
   activeIndex.value = i;
 }
+
+watch(activeIndex, function (active) {
+  items.forEach((item, index) => {
+    if (index !== active) item.hide();
+  });
+  items[active].show();
+});
 
 const interval = ref<number>();
 function startInterval() {
