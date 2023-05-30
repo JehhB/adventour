@@ -6,7 +6,7 @@
       leave-from-class="translate-x-0"
       leave-to-class="translate-x-full transition-transform duration-150 ease-out"
     >
-      <div class="absolute inset-y-0 right-0 z-50 bg-zinc-100" v-show="active">
+      <div class="absolute inset-y-0 right-0 z-50 bg-white" v-show="active">
         <slot v-bind="props"></slot>
       </div>
     </Transition>

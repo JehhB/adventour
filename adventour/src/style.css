@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-zinc-100 bg-right-top bg-no-repeat;
+  @apply bg-right-top bg-no-repeat;
   background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
   background-size: 100%;
 }

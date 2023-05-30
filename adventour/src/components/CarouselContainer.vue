@@ -14,7 +14,7 @@
           leave-from-class="opacity-100"
           leave-to-class="transition-opacity opacity-0 duration-500"
         >
-          <Render :vnode="defaultSlots[activeIndex]" :key="activeIndex" />
+          <RenderVnode :vnode="defaultSlots[activeIndex]" :key="activeIndex" />
         </Transition>
         <div
           class="absolute inset-auto bottom-3 left-1/2 z-10 h-auto -translate-x-1/2 space-x-[0.325rem]"
@@ -36,17 +36,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  PropType,
-  computed,
-  defineComponent,
-  defineSlots,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-} from "vue";
+import { computed, defineSlots, onBeforeUnmount, onMounted, ref } from "vue";
 import { usePointerSwipe } from "@vueuse/core";
 import debounce from "lodash/debounce";
+import RenderVnode from "./RenderVnode.vue";
 import type { VNode } from "vue";
 
 const slots = defineSlots<{
@@ -91,16 +84,6 @@ onMounted(() => {
 });
 onBeforeUnmount(() => {
   clearInterval(interval.value);
-});
-
-const Render = defineComponent({
-  props: {
-    vnode: {
-      required: true,
-      type: Object as PropType<VNode>,
-    },
-  },
-  render: (props: { vnode: VNode }) => props.vnode,
 });
 
 const { distanceX } = usePointerSwipe(carousel, {

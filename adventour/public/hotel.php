@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 
 if (!isset($_GET['hotel_id'])) {
   header('Location: /');
@@ -43,24 +43,15 @@ $result['images'] = array_map(fn ($e) => [
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel | <?= $result['name'] ?></title>
-
-  <script src="/scripts/leaflet.js"></script>
-  <script defer src="/scripts/script.php"></script>
-  <script defer src="/scripts/alpine-collapse.js"></script>
-  <script defer src="/scripts/alpine-load.js"></script>
-  <script defer src="/scripts/alpine.js"></script>
-
-  <link rel="stylesheet" href="/assets/leaflet.css">
-  <link rel="stylesheet" href="/assets/page.css">
-  <link rel="stylesheet" href="/assets/style.php">
 </head>
 
 <body>
+<div id="app">
   <?php insert('header'); ?>
-  <main>
-    <?php insert('hotel-overview', $result); ?>
-    <?php insert('hotel-location', $result); ?>
+  <main class="container mx-auto">
+    <?php insert('hotel-overview', $result) ?>
   </main>
+</div>
 </body>
 
 </html>
