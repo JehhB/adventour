@@ -80,7 +80,7 @@
 </template>
 <script setup lang="ts">
 import { BIconSearch, BIconXLg } from "bootstrap-icons-vue";
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watchEffect } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useFetch, watchDebounced } from "@vueuse/core";
 import Summary from "./Summary.vue";
@@ -143,4 +143,9 @@ watchDebounced(
   },
   { debounce: 250, immediate: true }
 );
+
+watchEffect(() => {
+  const body = document.querySelector("body");
+  if (body) body.style.overflow = isActive.value ? "hidden" : "auto";
+});
 </script>

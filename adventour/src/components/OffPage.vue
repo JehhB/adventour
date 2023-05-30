@@ -38,6 +38,9 @@ watchEffect(function (onCleanup) {
   const app = document.querySelector("#app") as any;
   app.inert = props.active;
 
+  const body = document.querySelector("body");
+  if (body) body.style.overflow = props.active ? "hidden" : "auto";
+
   onCleanup(() => {
     app.inert = false;
   });
