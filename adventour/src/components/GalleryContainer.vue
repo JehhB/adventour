@@ -28,7 +28,7 @@
         <span class="sr-only">slide left</span>
       </button>
       <div
-        class="w-full overflow-x-auto scroll-smooth rounded-lg bg-gray-200 p-2"
+        class="w-full overflow-x-auto scroll-smooth bg-gray-200 p-2 sm:rounded-lg"
         ref="slider"
       >
         <div class="flex gap-2">
