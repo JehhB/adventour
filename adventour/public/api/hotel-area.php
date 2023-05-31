@@ -1,5 +1,4 @@
 <?php
-sleep(5);
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
 validOrFail($_GET, [

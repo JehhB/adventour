@@ -22,6 +22,25 @@
               <slot></slot>
             </LPopup>
           </LMarker>
+
+          <LLayerGroup>
+            <LMarker
+              v-for="hotel in data"
+              :lat-lng="[hotel.lat, hotel.lng]"
+              :icon="hotelMarker"
+              :key="hotel.hotel_id"
+            >
+              <LPopup>
+                <Summary
+                  :link="hotel.link"
+                  :image="hotel.image"
+                  :caption="hotel.alt"
+                  :title="hotel.name"
+                  :subtitle="hotel.address"
+                />
+              </LPopup>
+            </LMarker>
+          </LLayerGroup>
         </LMap>
       </div>
     </div>
@@ -61,11 +80,17 @@
 </template>
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LMarker,
+  LPopup,
+  LLayerGroup,
+} from "@vue-leaflet/vue-leaflet";
 import * as L from "leaflet/dist/leaflet-src.esm";
 import Summary from "./Summary.vue";
 import { defineProps, ref } from "vue";
-import { createTemplatePromise, useFetch } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 
 const props = defineProps<{
   lat: number;

@@ -1,5 +1,5 @@
 <section class="mt-3">
-  <div class="flex items-center px-2 sm:px-0">
+  <div class="flex gap-2 items-center px-2 sm:px-0">
     <h1 class="font-semibold text-neutral-800"><?= $name ?></h1>
     <div class="ml-auto flex gap-2">
       <b-icon-heart-fill class="stroke-2 text-zinc-600"></b-icon-heart-fill>

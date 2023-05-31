@@ -4,21 +4,30 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-right-top bg-no-repeat;
-  background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
-  background-size: 100%;
-}
-
-@media screen(sm) {
+@layer base {
   body {
-    background-size: 80%;
+    @apply bg-right-top bg-no-repeat;
+    background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
+    background-size: 100%;
   }
-}
 
-@media screen(lg) {
-  body {
-    background-size: 50%;
+  @media screen(sm) {
+    body {
+      background-size: 80%;
+    }
+  }
+
+  @media screen(lg) {
+    body {
+      background-size: 50%;
+    }
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
   }
 }
 
