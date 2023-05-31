@@ -3,7 +3,7 @@ lockfileVersion: '6.0'
 dependencies:
   '@vue-leaflet/vue-leaflet':
     specifier: ^0.9.0
-    version: 0.9.0(leaflet@1.9.4)
+    version: 0.9.0(@types/leaflet@1.9.3)(leaflet@1.9.4)
   '@vueuse/components':
     specifier: ^10.1.2
     version: 10.1.2(vue@3.3.2)
@@ -33,6 +33,9 @@ devDependencies:
   '@tailwindcss/aspect-ratio':
     specifier: ^0.4.2
     version: 0.4.2(tailwindcss@3.3.2)
+  '@types/leaflet':
+    specifier: ^1.9.3
+    version: 1.9.3
   '@types/lodash':
     specifier: ^4.14.195
     version: 4.14.195
@@ -1549,6 +1552,9 @@ packages:
       '@types/serve-static': 1.15.1
     dev: true
 
+  /@types/geojson@7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
+
   /@types/html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
     dev: true
@@ -1562,6 +1568,11 @@ packages:
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
+
+  /@types/leaflet@1.9.3:
+    resolution: {integrity: sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==}
+    dependencies:
+      '@types/geojson': 7946.0.10
 
   /@types/lodash@4.14.195:
     resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
@@ -1749,7 +1760,7 @@ packages:
       eslint-visitor-keys: 3.4.1
     dev: true
 
-  /@vue-leaflet/vue-leaflet@0.9.0(leaflet@1.9.4):
+  /@vue-leaflet/vue-leaflet@0.9.0(@types/leaflet@1.9.3)(leaflet@1.9.4):
     resolution: {integrity: sha512-B5sxleSIFP0RK+7418BQirZ7oXa0t2dZrwfGI/0ABgaFLCWmHWP26w4soqrF5MlpThvhieAIUVIVuTdgXUenmA==}
     peerDependencies:
       '@types/leaflet': ^1.5.7
@@ -1758,6 +1769,7 @@ packages:
       '@types/leaflet':
         optional: true
     dependencies:
+      '@types/leaflet': 1.9.3
       leaflet: 1.9.4
       vue: 3.3.2
     dev: false

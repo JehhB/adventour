@@ -1,4 +1,5 @@
 <?php
+sleep(5);
 include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
 
 validOrFail($_GET, [
@@ -48,13 +49,11 @@ while ($result = $stmt->fetch()) {
     'hotel_id' => $result['hotel_id'],
     'lat' => $result['lat'],
     'lng' => $result['lng'],
-    'summary' => render('search-summary', [
-        'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
-        'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
-        'alt' => $result['caption'],
-        'name' => $result['name'],
-        'address' => $result['address'],
-    ]),
+    'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
+    'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
+    'alt' => $result['caption'],
+    'name' => $result['name'],
+    'address' => $result['address'],
   ]);
 }
 echo json_encode($output);

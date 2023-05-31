@@ -54,7 +54,7 @@
           </div>
           <div class="flex-1 overflow-y-scroll px-4 pb-4">
             <ul class="list-none space-y-2">
-              <template v-if="isFetching">
+              <template v-if="statusCode === null">
                 <li v-for="i in 4" :key="i">
                   <div class="flex gap-2">
                     <div
@@ -103,14 +103,13 @@ const query = reactive<{ search: string; filter: Filter }>({
   filter: filters[0],
 });
 const url = ref("");
-const { data, isFetching, statusCode, isFinished } = useFetch(url, {
+const { data, statusCode } = useFetch(url, {
   refetch: true,
 })
   .get()
   .json<Suggestion[]>();
 const suggestions = computed(() => {
   if (
-    !isFinished.value ||
     statusCode.value === null ||
     statusCode.value < 200 ||
     statusCode.value > 299
