@@ -1,7 +1,7 @@
 <header>
   <nav class="container relative mx-auto flex items-center p-2 sm:px-0">
     <a href="/" class="flex w-10 items-center justify-center gap-4 sm:w-auto">
-      <img src="/assets/logo.png" alt="adventour logo" class="h-10 sm:h-12" />
+      <img src="/assets/images/logo.webp" alt="adventour logo" class="h-10 sm:h-12" />
       <span
         class="hidden font-cursive text-2xl leading-none text-green-900 sm:block"
       >
@@ -42,7 +42,7 @@
                   class="flex items-center justify-center gap-4 sm:w-auto"
                 >
                   <img
-                    src="/assets/logo.png"
+                    src="/assets/images/logo.webp"
                     alt="adventour logo"
                     class="h-10 sm:h-12"
                   />

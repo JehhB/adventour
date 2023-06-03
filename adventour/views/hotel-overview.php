@@ -9,7 +9,7 @@ $stmt = execute($sql, [$hotel_id]);
 ?>
 <component>
   <section class="hotel-overview container">
-    <h1 class="hotel-overview__name"><?= e($name) ?></h1>
+    <h1 class="text-lg leading-none hotel-overview__name"><?= e($name) ?></h1>
     <address class="hotel-overview__address"><?= e($address) ?></address>
 
     <?php insert('hotel-gallery', ['images' => $images]); ?>

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <?php insert('header'); ?>
 
     <main class="container mx-auto">

@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  [v-cloak] {
+    display: none;
+  }
+
   body {
     @apply bg-right-top bg-no-repeat;
     background-image: /* webpackIgnore: true */ url("/assets/images/blob-bg.svg");
@@ -56,5 +60,13 @@
     100% {
       left: 100%;
     }
+  }
+
+  .list-check {
+    @apply relative pl-6 before:absolute before:left-0 before:top-1/2 before:inline-block before:h-4 before:w-4 before:-translate-y-1/2 before:bg-contain before:bg-center before:bg-no-repeat;
+  }
+
+  .list-check::before {
+    background-image: url("./assets/images/check-mark.svg");
   }
 }

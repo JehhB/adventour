@@ -48,12 +48,12 @@ extract($result);
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <?php insert('header'); ?>
     <main class="container mx-auto space-y-4">
       <?php insert('hotel-overview', $result) ?>
       <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
-        <hotel-summary link="/hotel.php?hotel_id=<?= $hotel_id ?>" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
+        <hotel-summary link="#" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
       </hotel-map>
     </main>
   </div>
