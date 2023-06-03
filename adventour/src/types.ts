@@ -1,6 +1,10 @@
+import type { Ref } from "vue";
+
 export type ToggleableProps = {
-  active: boolean;
-  toggle?(): void;
-  open?(): void;
-  close?(): void;
+  active: Readonly<Ref<boolean>>;
+  toggle(): void;
+  open(): void;
+  close(): void;
 };
+
+export type CarouselItem = { show(): void; hide(): void };

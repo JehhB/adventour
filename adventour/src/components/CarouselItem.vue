@@ -30,11 +30,11 @@
 </style>
 <script setup lang="ts">
 import { defineProps, inject, ref } from "vue";
-import { CarouselProvider } from "../keys";
+import { carouselProvider } from "../keys";
 
 const active = ref(false);
 
-const container = inject(CarouselProvider);
+const container = inject(carouselProvider);
 
 if (container) {
   container.register({

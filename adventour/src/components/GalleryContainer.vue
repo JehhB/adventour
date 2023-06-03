@@ -48,7 +48,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, provide, ref } from "vue";
-import { GalleryProvider } from "../keys";
+import { galleryProvider } from "../keys";
 import { BIconChevronLeft, BIconChevronRight } from "bootstrap-icons-vue";
 import { useEventListener } from "@vueuse/core";
 
@@ -57,7 +57,7 @@ const src = ref("");
 const alt = ref("placeholder");
 const hasItem = ref(false);
 
-provide(GalleryProvider, {
+provide(galleryProvider, {
   register(newSrc, newAlt) {
     if (!hasItem.value) {
       this.spotlight(newSrc, newAlt);

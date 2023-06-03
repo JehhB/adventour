@@ -7,7 +7,7 @@
   </button>
 </template>
 <script setup lang="ts">
-import { GalleryProvider } from "../keys";
+import { galleryProvider } from "../keys";
 import { withDefaults, defineProps, inject } from "vue";
 
 const props = withDefaults(
@@ -20,6 +20,6 @@ const props = withDefaults(
   }
 );
 
-const gallery = inject(GalleryProvider);
+const gallery = inject(galleryProvider);
 gallery?.register(props.src, props.alt);
 </script>

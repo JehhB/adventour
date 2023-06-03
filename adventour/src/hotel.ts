@@ -3,6 +3,7 @@ import SearchBox from "./components/SearchBox.vue";
 import ToggleContainer from "./components/ToggleContainer.vue";
 import OffPage from "./components/OffPage.vue";
 import GalleryContainer from "./components/GalleryContainer.vue";
+import OpenButton from "./components/OpenButton.vue";
 import GalleryItem from "./components/GalleryItem.vue";
 import HotelMap from "./components/HotelMap.vue";
 import Summary from "./components/Summary.vue";
@@ -11,16 +12,17 @@ import "./style.css";
 
 const app = createApp({});
 
+app.component("BIconList", BIconList);
+app.component("OffPage", OffPage);
+app.component("OpenButton", OpenButton);
 app.component("SearchBox", SearchBox);
 app.component("ToggleContainer", ToggleContainer);
-app.component("OffPage", OffPage);
 
 app.component("GalleryContainer", GalleryContainer);
 app.component("GalleryItem", GalleryItem);
 app.component("HotelMap", HotelMap);
 app.component("HotelSummary", Summary);
 
-app.component("BIconList", BIconList);
 app.component("BIconHeartFill", BIconHeartFill);
 app.component("BIconShareFill", BIconShareFill);
 

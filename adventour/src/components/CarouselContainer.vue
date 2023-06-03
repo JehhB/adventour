@@ -46,10 +46,9 @@ import {
   watch,
 } from "vue";
 import { usePointerSwipe } from "@vueuse/core";
-import { CarouselProvider } from "../keys";
+import type { CarouselItem } from "../types";
+import { carouselProvider } from "../keys";
 import debounce from "lodash/debounce";
-
-type CarouselItem = { show(): void; hide(): void };
 
 const items = reactive([] as CarouselItem[]);
 const length = computed(() => items.length);
@@ -65,7 +64,7 @@ function register(item: CarouselItem) {
     items.splice(index, 1);
   };
 }
-provide(CarouselProvider, { register });
+provide(carouselProvider, { register });
 
 function increment() {
   activeIndex.value = (activeIndex.value + 1) % length.value;
