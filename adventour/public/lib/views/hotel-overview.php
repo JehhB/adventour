@@ -23,8 +23,11 @@ $stmt = execute($sql, [$hotel_id]);
     ></gallery-item>
     <?php endforeach; ?>
   </gallery-container>
+
   <div class="px-2">
-    <h3 class="text-base leading-none font-semibold text-gray-800">Facilities</h3>
+    <h3 class="text-base font-semibold leading-none text-gray-800">
+      Facilities
+    </h3>
     <ul class="mt-4 flex list-none flex-wrap gap-x-8 gap-y-3 text-gray-700">
       <?php while ($facility = $stmt->fetch()) : ?>
       <li class="list-check text-base leading-none">
@@ -32,5 +35,14 @@ $stmt = execute($sql, [$hotel_id]);
       </li>
       <?php endwhile; ?>
     </ul>
+  </div>
+
+  <div class="px-2">
+    <toggle-container>
+      <open-button class="font-bold text-green-900">Learn more</open-button>
+      <template v-slot:toggled>
+        <modal-container> test </modal-container>
+      </template>
+    </toggle-container>
   </div>
 </section>
