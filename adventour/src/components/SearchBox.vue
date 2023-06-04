@@ -53,7 +53,7 @@
               {{ filter }}
             </button>
           </div>
-          <div class="flex-1 overflow-y-scroll px-4 pb-4">
+          <div class="flex-1 overflow-y-auto px-4 pb-4">
             <ul class="list-none space-y-2">
               <template v-if="statusCode === null">
                 <li v-for="i in 4" :key="i">

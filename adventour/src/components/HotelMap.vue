@@ -44,11 +44,11 @@
         </LMap>
       </div>
     </div>
-    <div class="flex h-[300px] flex-col gap-3 bg-gray-200 p-4">
-      <h3 class="text-base font-semibold leading-none text-gray-800">
+    <div class="flex h-[300px] flex-col gap-3 bg-gray-200 py-4">
+      <h3 class="px-4 text-base font-semibold leading-none text-gray-800">
         Recommendation in the area
       </h3>
-      <ul class="flex-1 list-none space-y-2 overflow-y-scroll">
+      <ul class="flex-1 list-none space-y-2 overflow-y-auto px-4">
         <template v-if="statusCode === null">
           <li v-for="i in 3" :key="i">
             <div class="flex gap-2">
