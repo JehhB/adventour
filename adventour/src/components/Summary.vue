@@ -9,7 +9,7 @@
       <span class="mt-2 text-base leading-none">
         {{ title }}
       </span>
-      <span class="text-sm leading-none">
+      <span class="text-sm leading-none text-gray-800">
         {{ subtitle }}
       </span>
     </div>
