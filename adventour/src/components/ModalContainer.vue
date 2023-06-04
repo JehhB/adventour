@@ -7,10 +7,14 @@
       leave-to-class="opacity-0 transition-opacity duration-150 ease-out"
     >
       <div
-        class="fixed inset-x-4 top-1/2 z-50 h-64 -translate-y-1/2 rounded-xl bg-white p-4"
+        v-bind="$attrs"
+        class="fixed inset-x-4 top-1/2 z-50 max-h-[calc(100%_-_2rem)] min-h-[3rem] -translate-y-1/2 rounded-xl bg-white"
         v-show="container?.active.value"
         role="dialog"
       >
+        <button @click="close()" class="absolute right-2 top-4 text-green-900">
+          <BIconX />
+        </button>
         <slot></slot>
       </div>
     </Transition>
@@ -32,6 +36,7 @@
 import { inject } from "vue";
 import { toggleableProvider } from "../keys";
 import { useInert } from "../util";
+import { BIconX } from "bootstrap-icons-vue";
 
 const container = inject(toggleableProvider);
 

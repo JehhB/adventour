@@ -15,6 +15,7 @@ $stmt = execute($sql, [$hotel_id]);
       <b-icon-share-fill class="stroke-2 text-zinc-600"></b-icon-share-fill>
     </div>
   </div>
+  <h2 class="sr-only">Hotel overview</h2>
   <gallery-container>
     <?php foreach ($images as $image) : ?>
     <gallery-item
@@ -41,7 +42,13 @@ $stmt = execute($sql, [$hotel_id]);
     <toggle-container>
       <open-button class="font-bold text-green-900">Learn more</open-button>
       <template v-slot:toggled>
-        <modal-container> test </modal-container>
+        <modal-container class="overflow-y-auto p-4">
+          <h1 class="mr-8 font-semibold text-neutral-800">
+            <?= $name ?>
+          </h1>
+          <address class="mr-8 text-sm leading-none"><?= $address ?></address>
+          <p class="mt-4 text-sm text-gray-800"><?= $description ?></p>
+        </modal-container>
       </template>
     </toggle-container>
   </div>
