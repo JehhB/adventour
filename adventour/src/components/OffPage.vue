@@ -28,8 +28,9 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { watchEffect, inject } from "vue";
+import { inject } from "vue";
 import { toggleableProvider } from "../keys";
+import { useInert } from "../util";
 
 const container = inject(toggleableProvider);
 function close() {
@@ -37,18 +38,7 @@ function close() {
   container.close();
 }
 
-watchEffect(function (onCleanup) {
-  if (!container) return;
-
-  //eslint-disable-next-line
-  const app = document.querySelector("#app") as any;
-  app.inert = container.active.value;
-
-  const body = document.querySelector("body");
-  if (body) body.style.overflow = container.active.value ? "hidden" : "auto";
-
-  onCleanup(() => {
-    app.inert = false;
-  });
-});
+if (container) {
+  useInert(container.active);
+}
 </script>

@@ -48,6 +48,7 @@
                   ? 'bg-green-900 text-white'
                   : 'bg-white text-green-900'
               "
+              role="radio"
             >
               {{ filter }}
             </button>
