@@ -54,25 +54,38 @@
             </button>
           </div>
           <div class="flex-1 overflow-y-auto px-4 pb-4">
-            <ul class="list-none space-y-2">
-              <template v-if="statusCode === null">
-                <li v-for="i in 4" :key="i">
-                  <div class="flex gap-2">
-                    <div
-                      class="block-loader h-[76px] w-[76px] shrink-0 rounded"
-                    ></div>
-                    <div class="flex flex-1 flex-col gap-2">
-                      <div class="block-loader mt-2 h-6 w-4/5 rounded"></div>
-                      <div class="block-loader h-4 w-2/3 rounded"></div>
+            <template v-if="statusCode === null || suggestions?.length !== 0">
+              <ul class="list-none space-y-2">
+                <template v-if="statusCode === null">
+                  <li v-for="i in 4" :key="i">
+                    <div class="flex gap-2">
+                      <div
+                        class="block-loader h-[76px] w-[76px] shrink-0 rounded"
+                      ></div>
+                      <div class="flex flex-1 flex-col gap-2">
+                        <div class="block-loader mt-2 h-6 w-4/5 rounded"></div>
+                        <div class="block-loader h-4 w-2/3 rounded"></div>
+                      </div>
                     </div>
-                  </div>
-                </li>
-              </template>
+                  </li>
+                </template>
 
-              <li v-for="suggestion in suggestions" :key="suggestion.title">
-                <Summary v-bind="suggestion" />
-              </li>
-            </ul>
+                <li v-for="suggestion in suggestions" :key="suggestion.title">
+                  <Summary v-bind="suggestion" />
+                </li>
+              </ul>
+              <div class="mt-3">
+                <a
+                  :href="'/search.php?' + searchParam"
+                  class="font-bold text-green-900"
+                >
+                  Find more
+                </a>
+              </div>
+            </template>
+            <template v-else>
+              <em>No result found for "{{ query.search }}"</em>
+            </template>
           </div>
         </div>
       </Transition>
@@ -103,6 +116,7 @@ const query = reactive<{ search: string; filter: Filter }>({
   search: "",
   filter: filters[0],
 });
+const searchParam = computed(() => new URLSearchParams(query).toString());
 const url = ref("");
 const { data, statusCode } = useFetch(url, {
   refetch: true,
@@ -136,10 +150,10 @@ function clear() {
 }
 
 watchDebounced(
-  query,
-  (query) => {
-    const params = new URLSearchParams(query);
-    url.value = "/api/search.php?" + params.toString();
+  searchParam,
+  (param, oldParam) => {
+    if (param == oldParam) return;
+    url.value = "/api/search.php?" + param;
   },
   { debounce: 250, immediate: true }
 );

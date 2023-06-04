@@ -75,7 +75,7 @@
                 :image="hotel.image"
                 :caption="hotel.alt"
                 :title="hotel.name"
-                :subtitle="hotel.address"
+                :subtitle="hotel.address.replace(/,\s*\d{4}.*?$/, '')"
               />
             </li>
           </template>
