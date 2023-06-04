@@ -52,33 +52,38 @@
       <h3 class="px-4 text-base font-semibold leading-none text-gray-800">
         Recommendation in the area
       </h3>
-      <ul class="flex-1 list-none space-y-2 overflow-y-auto px-4">
-        <template v-if="statusCode === null">
-          <li v-for="i in 3" :key="i">
-            <div class="flex gap-2">
-              <div
-                class="block-loader h-[76px] w-[76px] shrink-0 rounded"
-              ></div>
-              <div class="flex flex-1 flex-col gap-2">
-                <div class="block-loader mt-2 h-6 w-4/5 rounded"></div>
-                <div class="block-loader h-4 w-2/3 rounded"></div>
+      <template v-if="statusCode === null || data?.length !== 0">
+        <ul class="flex-1 list-none space-y-2 overflow-y-auto px-4">
+          <template v-if="statusCode === null">
+            <li v-for="i in 3" :key="i">
+              <div class="flex gap-2">
+                <div
+                  class="block-loader h-[76px] w-[76px] shrink-0 rounded"
+                ></div>
+                <div class="flex flex-1 flex-col gap-2">
+                  <div class="block-loader mt-2 h-6 w-4/5 rounded"></div>
+                  <div class="block-loader h-4 w-2/3 rounded"></div>
+                </div>
               </div>
-            </div>
-          </li>
-        </template>
+            </li>
+          </template>
 
-        <template v-else>
-          <li v-for="hotel in data" :key="hotel.hotel_id">
-            <Summary
-              :link="hotel.link"
-              :image="hotel.image"
-              :caption="hotel.alt"
-              :title="hotel.name"
-              :subtitle="hotel.address"
-            />
-          </li>
-        </template>
-      </ul>
+          <template v-else>
+            <li v-for="hotel in data" :key="hotel.hotel_id">
+              <Summary
+                :link="hotel.link"
+                :image="hotel.image"
+                :caption="hotel.alt"
+                :title="hotel.name"
+                :subtitle="hotel.address"
+              />
+            </li>
+          </template>
+        </ul>
+      </template>
+      <template v-else>
+        <em class="px-4 text-gray-800">No recommendation in the area</em>
+      </template>
     </div>
   </div>
 </template>
