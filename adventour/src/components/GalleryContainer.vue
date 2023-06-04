@@ -47,7 +47,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, provide, ref } from "vue";
+import { nextTick, onMounted, provide, ref } from "vue";
 import { galleryProvider } from "../keys";
 import { BIconChevronLeft, BIconChevronRight } from "bootstrap-icons-vue";
 import { useEventListener } from "@vueuse/core";
@@ -70,7 +70,7 @@ provide(galleryProvider, {
   },
 });
 
-const sliderIncrement = 64;
+const sliderIncrement = 128;
 function slideRight() {
   if (slider.value) slider.value.scrollLeft += sliderIncrement;
 }
@@ -80,10 +80,13 @@ function slideLeft() {
 }
 
 const showSliderControl = ref(true);
+
 function checkSize() {
-  if (slider.value === undefined) return;
-  showSliderControl.value =
-    slider.value.clientWidth !== slider.value.scrollWidth;
+  nextTick(() => {
+    if (slider.value === undefined) return;
+    showSliderControl.value =
+      slider.value.clientWidth !== slider.value.scrollWidth;
+  });
 }
 useEventListener(window, "resize", checkSize);
 onMounted(checkSize);
