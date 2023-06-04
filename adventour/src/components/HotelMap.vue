@@ -1,7 +1,9 @@
 <template>
-  <div class="w-full overflow-hidden rounded-3xl px-2 sm:px-0">
-    <div class="aspect-h-12 aspect-w-16 z-0">
-      <div>
+  <div
+    class="lg:h-400px flex w-full flex-col overflow-hidden rounded-3xl px-2 sm:px-0 lg:flex-row-reverse"
+  >
+    <div class="aspect-h-12 aspect-w-16 z-0 lg:aspect-none lg:flex-1">
+      <div class="lg:h-full">
         <LMap
           ref="map"
           :zoom="15"
@@ -44,7 +46,7 @@
         </LMap>
       </div>
     </div>
-    <div class="flex h-[300px] flex-col gap-3 bg-gray-200 py-4">
+    <div class="flex h-[300px] flex-col gap-3 bg-gray-200 py-4 lg:w-[25rem]">
       <h3 class="px-4 text-base font-semibold leading-none text-gray-800">
         Recommendation in the area
       </h3>
