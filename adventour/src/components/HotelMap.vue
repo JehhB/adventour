@@ -18,6 +18,7 @@
           @ready="onMove"
         >
           <LTileLayer url="/assets/images/tile.php?x={x}&y={y}&z={z}" />
+          <LControlZoom position="bottomright"></LControlZoom>
 
           <LMarker :lat-lng="[lat, lng]" :icon="currentMarker">
             <LPopup>
@@ -90,11 +91,12 @@
 <script setup lang="ts">
 import "leaflet/dist/leaflet.css";
 import {
+  LControlZoom,
+  LLayerGroup,
   LMap,
-  LTileLayer,
   LMarker,
   LPopup,
-  LLayerGroup,
+  LTileLayer,
 } from "@vue-leaflet/vue-leaflet";
 import * as L from "leaflet/dist/leaflet-src.esm";
 import Summary from "./Summary.vue";
@@ -157,3 +159,25 @@ function onMove() {
   url.value = `/api/hotel-area.php?lat0=${lat0}&lng0=${lng0}&lat1=${lat1}&lng1=${lng1}&exclude=${props.hotelId}`;
 }
 </script>
+<style scoped>
+>>> .leaflet-control-zoom {
+  border: 1px solid var(--gray-400) !important;
+  margin: 0 1rem 1rem 0 !important;
+  border-radius: 8px;
+}
+
+>>> .leaflet-control-zoom a:first-child {
+  border-radius: 8px 8px 0 0 !important;
+}
+
+>>> .leaflet-control-zoom a:last-child {
+  border-radius: 0 0 8px 8px !important;
+  border-bottom: none;
+}
+
+>>> .leaflet-control-zoom a {
+  color: var(--accent-color);
+  border-bottom: 1px solid var(--gray-400);
+  font-weight: 400;
+}
+</style>

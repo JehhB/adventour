@@ -1,11 +1,11 @@
 <template>
   <div
-    class="relative w-full overflow-hidden sm:rounded-3xl lg:w-8/12 xl:w-7/12"
+    class="relative overflow-hidden sm:rounded-xl"
     ref="carousel"
     @wheel.shift.prevent="onScroll"
   >
     <div
-      class="aspect-h-12 aspect-w-16 md:aspect-h-8 xl:aspect-h-7 2xl:aspect-h-6"
+      class="aspect-h-12 aspect-w-16 sm:aspect-h-9 md:aspect-h-8 xl:aspect-h-7 2xl:aspect-h-6"
     >
       <div>
         <TransitionGroup
