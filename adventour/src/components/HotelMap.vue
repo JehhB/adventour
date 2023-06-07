@@ -11,15 +11,11 @@
           :center="[lat, lng]"
           :options="{
             zoomControl: false,
-            zoomDelta: 0.5,
             attributionControl: false,
           }"
           @update:bounds="onMove"
           @ready="onMove"
         >
-          <LTileLayer url="/assets/images/tile.php?x={x}&y={y}&z={z}" />
-          <LControlZoom position="bottomright"></LControlZoom>
-
           <LMarker :lat-lng="[lat, lng]" :icon="currentMarker">
             <LPopup>
               <slot></slot>
@@ -44,6 +40,9 @@
               </LPopup>
             </LMarker>
           </LLayerGroup>
+
+          <LTileLayer url="/assets/images/tile.php?x={x}&y={y}&z={z}" />
+          <LControlZoom position="bottomright"></LControlZoom>
         </LMap>
       </div>
     </div>
