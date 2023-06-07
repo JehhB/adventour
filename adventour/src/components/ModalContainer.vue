@@ -8,7 +8,12 @@
     >
       <div
         v-bind="$attrs"
-        class="fixed left-1/2 top-1/2 z-50 max-h-[calc(100%_-_2rem)] min-h-[3rem] w-[calc(100%_-_2rem)] max-w-[50ch] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white"
+        class="fixed left-1/2 z-50 max-h-[calc(100%_-_2rem)] min-h-[3rem] w-[calc(100%_-_2rem)] max-w-[50ch] -translate-x-1/2 rounded-xl bg-white"
+        :class="[
+          props.position === 'center' && 'top-1/2 -translate-y-1/2',
+          props.position === 'top' && 'top-4',
+          props.position === 'bottom' && 'bottom-4',
+        ]"
         v-show="container?.active.value"
         role="dialog"
       >
@@ -33,12 +38,20 @@
   </Teleport>
 </template>
 <script setup lang="ts">
-import { inject } from "vue";
+import { inject, defineProps, withDefaults } from "vue";
 import { toggleableProvider } from "../keys";
 import { useInert } from "../util";
 import { BIconX } from "bootstrap-icons-vue";
 
 const container = inject(toggleableProvider);
+const props = withDefaults(
+  defineProps<{
+    position?: "center" | "top" | "bottom";
+  }>(),
+  {
+    position: "center",
+  }
+);
 
 function close() {
   if (!container) return;
