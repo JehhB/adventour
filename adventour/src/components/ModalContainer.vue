@@ -8,7 +8,7 @@
     >
       <div
         v-bind="$attrs"
-        class="fixed inset-x-4 top-1/2 z-50 max-h-[calc(100%_-_2rem)] min-h-[3rem] -translate-y-1/2 rounded-xl bg-white"
+        class="fixed left-1/2 top-1/2 z-50 max-h-[calc(100%_-_2rem)] min-h-[3rem] w-[calc(100%_-_2rem)] max-w-[50ch] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white"
         v-show="container?.active.value"
         role="dialog"
       >
