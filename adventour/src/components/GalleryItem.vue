@@ -1,7 +1,7 @@
 <template>
   <button
     @click="gallery?.spotlight(src, alt)"
-    class="shrink-0 overflow-hidden rounded-lg"
+    class="shrink-0 overflow-hidden rounded-lg transition hover:scale-110 active:scale-90"
   >
     <img v-bind="props" class="h-16" />
   </button>
