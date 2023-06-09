@@ -50,7 +50,9 @@
         </OpenButton>
 
         <template v-slot:toggled>
-          <ModalContainer position="bottom">Date range picker</ModalContainer>
+          <ModalContainer position="bottom">
+            <Calendar @date="(day) => console.log(day)" />
+          </ModalContainer>
         </template>
       </ToggleContainer>
     </div>
@@ -117,10 +119,11 @@
 </template>
 <script setup lang="ts">
 import { BIconCalendar2Week, BIconPeopleFill } from "bootstrap-icons-vue";
-import ModalContainer from "./ModalContainer.vue";
-import ToggleContainer from "./ToggleContainer.vue";
-import OpenButton from "./OpenButton.vue";
 import ArrangementInput from "./ArrangementInput.vue";
+import Calendar from "./Calendar.vue";
+import ModalContainer from "./ModalContainer.vue";
+import OpenButton from "./OpenButton.vue";
+import ToggleContainer from "./ToggleContainer.vue";
 import { ref } from "vue";
 
 const currentSearchParam = new URLSearchParams(document.location.search);
