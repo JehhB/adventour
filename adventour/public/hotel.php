@@ -31,32 +31,46 @@ ORDER BY caption = '', hotel_image_id
 SQL;
 $stmt = execute($sql, [$result['hotel_id']]);
 
-$result['images'] = array_map(fn ($e) => [
-  "src" => "/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}",
-  "alt" => $e['caption'] === '' ? 'Gallery image for hotel' : e($e['caption']),
-], $stmt->fetchAll());
-
-extract($result);
-?>
+$result['images'] = array_map(fn ($e) =>
+[ "src" =>
+"/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}", "alt" =>
+$e['caption'] === '' ? 'Gallery image for hotel' : e($e['caption']), ],
+$stmt->fetchAll()); extract($result); ?>
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel | <?= $result['name'] ?></title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel | <?= $result['name'] ?></title>
-</head>
+  <body>
+    <div id="app" v-cloak>
+      <?php insert('header'); ?>
+      <main class="container mx-auto space-y-4">
+        <?php insert('hotel-overview', $result) ?>
 
-<body>
-  <div id="app" v-cloak>
-    <?php insert('header'); ?>
-    <main class="container mx-auto space-y-4">
-      <?php insert('hotel-overview', $result) ?>
-      <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
-        <hotel-summary link="#" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
-      </hotel-map>
-    </main>
-  </div>
-</body>
+        <section class="px-2 sm:px-0">
+          <h2>Rooms</h2>
+          <stay-setting></stay-setting>
+        </section>
 
+        <section>
+          <hotel-map
+            lat="<?= $lat ?>"
+            lng="<?= $lng ?>"
+            hotel-id="<?= $hotel_id ?>"
+          >
+            <hotel-summary
+              link="#"
+              image="<?= $images[0]['src'] ?>"
+              caption="<?= $images[0]['alt'] ?>"
+              title="<?= e($name) ?>"
+              subtitle="<?= e($address) ?>"
+            ></hotel-summary>
+          </hotel-map>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

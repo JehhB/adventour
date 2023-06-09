@@ -6,6 +6,7 @@ import ModalContainer from "./components/ModalContainer.vue";
 import OffPage from "./components/OffPage.vue";
 import OpenButton from "./components/OpenButton.vue";
 import SearchBox from "./components/SearchBox.vue";
+import StaySetting from "./components/StaySetting.vue";
 import Summary from "./components/Summary.vue";
 import ToggleContainer from "./components/ToggleContainer.vue";
 import { BIconList, BIconHeartFill, BIconShareFill } from "bootstrap-icons-vue";
@@ -24,6 +25,7 @@ app.component("GalleryItem", GalleryItem);
 app.component("HotelMap", HotelMap);
 app.component("HotelSummary", Summary);
 app.component("ModalContainer", ModalContainer);
+app.component("StaySetting", StaySetting);
 
 app.component("BIconHeartFill", BIconHeartFill);
 app.component("BIconShareFill", BIconShareFill);
