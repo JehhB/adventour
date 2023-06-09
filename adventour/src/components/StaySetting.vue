@@ -17,17 +17,19 @@
       <ToggleContainer>
         <OpenButton
           type="button"
-          class="flex h-10 w-full items-center rounded-lg bg-white px-2"
+          class="flex h-10 w-full items-center rounded-lg bg-white px-2 lg:h-12"
         >
           <div class="flex flex-1 items-center gap-2">
-            <BIconCalendar2Week class="h-6 w-6 text-gray-800" />
+            <BIconCalendar2Week class="h-6 w-6 text-gray-800 lg:h-8 lg:w-8" />
             <div class="space-y-1">
               <div
-                class="text-left text-xs font-medium leading-none text-gray-950"
+                class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
               >
                 Check in
               </div>
-              <div class="text-left text-xs leading-none text-gray-800">
+              <div
+                class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+              >
                 --/--/--
               </div>
             </div>
@@ -35,11 +37,13 @@
 
           <div class="flex-1 space-y-1 border-l border-gray-600 pl-2">
             <div
-              class="text-left text-xs font-medium leading-none text-gray-950"
+              class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
             >
               Check out
             </div>
-            <div class="text-left text-xs leading-none text-gray-800">
+            <div
+              class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+            >
               --/--/--
             </div>
           </div>
@@ -55,24 +59,30 @@
       <ToggleContainer>
         <OpenButton
           type="button"
-          class="flex h-10 w-full items-center rounded-lg bg-white px-2"
+          class="flex h-10 w-full items-center rounded-lg bg-white px-2 lg:h-12"
         >
           <div class="flex flex-1 items-center gap-2">
-            <BIconPeopleFill class="h-6 w-6 text-gray-800" />
+            <BIconPeopleFill class="h-6 w-6 text-gray-800 lg:h-8 lg:w-8" />
             <div class="space-y-1">
               <div
-                class="text-left text-xs font-medium leading-none text-gray-950"
+                class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
               >
                 Arrangement
               </div>
               <div class="flex gap-6">
-                <div class="text-left text-xs leading-none text-gray-800">
+                <div
+                  class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                >
                   {{ nAdult }} Adult
                 </div>
-                <div class="text-left text-xs leading-none text-gray-800">
+                <div
+                  class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                >
                   {{ nChild }} Child
                 </div>
-                <div class="text-left text-xs leading-none text-gray-800">
+                <div
+                  class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                >
                   {{ nRoom }} Room
                 </div>
               </div>
@@ -90,7 +100,7 @@
 
     <button
       type="submit"
-      class="h-10 rounded-lg bg-green-900 text-sm font-bold leading-none text-white"
+      class="h-10 rounded-lg bg-green-900 text-sm font-bold leading-none text-white lg:h-12 lg:text-base lg:leading-none"
     >
       Update
     </button>
