@@ -91,9 +91,18 @@
         </OpenButton>
 
         <template v-slot:toggled>
-          <ModalContainer position="bottom"
-            >Stay configuration picker</ModalContainer
-          >
+          <ModalContainer position="bottom">
+            <div class="p-4 pt-9">
+              <div class="grid grid-cols-2 gap-y-2">
+                <span class="self-center text-sm leading-none">Adult</span>
+                <ArrangementInput v-model="nAdult" :min="1" />
+                <span class="self-center text-sm leading-none">Child</span>
+                <ArrangementInput v-model="nChild" :min="0" />
+                <span class="self-center text-sm leading-none">Room</span>
+                <ArrangementInput v-model="nRoom" :min="1" />
+              </div>
+            </div>
+          </ModalContainer>
         </template>
       </ToggleContainer>
     </div>
@@ -111,6 +120,7 @@ import { BIconCalendar2Week, BIconPeopleFill } from "bootstrap-icons-vue";
 import ModalContainer from "./ModalContainer.vue";
 import ToggleContainer from "./ToggleContainer.vue";
 import OpenButton from "./OpenButton.vue";
+import ArrangementInput from "./ArrangementInput.vue";
 import { ref } from "vue";
 
 const currentSearchParam = new URLSearchParams(document.location.search);
