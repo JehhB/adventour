@@ -4,7 +4,7 @@
       v-for="(day, index) in days"
       :key="day.getDate()"
       class="border-b border-t border-white disabled:text-gray-500"
-      :class="[index === 0 && 'col-start-' + (1 + startDay), buttonClass(day)]"
+      :class="[index === 0 && offset[startDay], buttonClass(day)]"
       @click="emit('date', day)"
       :disabled="day < today"
     >
@@ -14,6 +14,16 @@
 </template>
 <script setup lang="ts">
 import { defineProps, defineEmits, withDefaults } from "vue";
+
+const offset = [
+  "col-start-1",
+  "col-start-2",
+  "col-start-3",
+  "col-start-4",
+  "col-start-5",
+  "col-start-6",
+  "col-start-7",
+];
 
 const emit = defineEmits<{
   (e: "date", date: Date): void;
