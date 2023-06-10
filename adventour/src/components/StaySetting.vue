@@ -12,6 +12,18 @@
     <input type="hidden" name="n_adult" :value="nAdult" />
     <input type="hidden" name="n_child" :value="nChild" />
     <input type="hidden" name="n_room" :value="nRoom" />
+    <input
+      v-if="checkin !== null"
+      type="hidden"
+      name="checkin"
+      :value="checkin.toISOString()"
+    />
+    <input
+      v-if="checkout !== null"
+      type="hidden"
+      name="checkout"
+      :value="checkout.toISOString()"
+    />
 
     <div class="relative">
       <ToggleContainer>
@@ -30,7 +42,7 @@
               <div
                 class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
               >
-                --/--/--
+                {{ formatDate(checkin) }}
               </div>
             </div>
           </div>
@@ -44,14 +56,19 @@
             <div
               class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
             >
-              --/--/--
+              {{ formatDate(checkout) }}
             </div>
           </div>
         </OpenButton>
 
         <template v-slot:toggled>
           <ModalContainer position="bottom">
-            <Calendar @date="(day) => console.log(day)" />
+            <div class="pb-4 pt-9">
+              <DateRangePicker
+                v-model:checkin="checkin"
+                v-model:checkout="checkout"
+              />
+            </div>
           </ModalContainer>
         </template>
       </ToggleContainer>
@@ -120,7 +137,7 @@
 <script setup lang="ts">
 import { BIconCalendar2Week, BIconPeopleFill } from "bootstrap-icons-vue";
 import ArrangementInput from "./ArrangementInput.vue";
-import Calendar from "./Calendar.vue";
+import DateRangePicker from "./DateRangePicker.vue";
 import ModalContainer from "./ModalContainer.vue";
 import OpenButton from "./OpenButton.vue";
 import ToggleContainer from "./ToggleContainer.vue";
@@ -137,4 +154,20 @@ const nChild = ref(initNChild ? parseInt(initNChild) : 0);
 
 const initNRoom = currentSearchParam.get("n_room");
 const nRoom = ref(initNRoom ? parseInt(initNRoom) : 1);
+
+const initCheckin = currentSearchParam.get("checkin");
+const checkin = ref(initCheckin ? new Date(initCheckin) : null);
+
+const initCheckout = currentSearchParam.get("checkout");
+const checkout = ref(initCheckout ? new Date(initCheckout) : null);
+
+function formatDate(date: Date | null) {
+  if (date === null) return "--/--/--";
+
+  const year = String(date.getFullYear() % 100).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${month}/${day}/${year}`;
+}
 </script>
