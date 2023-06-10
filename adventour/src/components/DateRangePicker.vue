@@ -21,6 +21,7 @@
       <Calendar
         :month="month + offset"
         :year="year"
+        :button-class="buttonClass"
         class="shrink-0"
         @date="handleDate"
       />
@@ -98,5 +99,19 @@ function handleDate(date: Date) {
   } else {
     emit("update:checkout", date);
   }
+}
+
+function buttonClass(d: Date): string | false {
+  const checkin = props.checkin === null ? null : props.checkin.valueOf();
+  const checkout = props.checkout === null ? null : props.checkout.valueOf();
+  const date = d.valueOf();
+
+  if (checkin === null) return false;
+  else if (checkout === null)
+    return date === checkin && "bg-lime-800 rounded text-white";
+  else if (date < checkin || date > checkout) return false;
+  else if (date > checkin && date < checkout) return "bg-lime-100";
+  else if (date === checkin) return "bg-lime-800 text-white rounded-l";
+  else return "bg-lime-800 text-white rounded-r";
 }
 </script>

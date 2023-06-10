@@ -3,8 +3,8 @@
     <button
       v-for="(day, index) in days"
       :key="day.getDate()"
-      class="disabled:text-gray-500"
-      :class="index === 0 && 'col-start-' + (1 + startDay)"
+      class="border-b border-t border-white disabled:text-gray-500"
+      :class="[index === 0 && 'col-start-' + (1 + startDay), buttonClass(day)]"
       @click="emit('date', day)"
       :disabled="day < today"
     >
@@ -23,10 +23,14 @@ const props = withDefaults(
   defineProps<{
     month: number;
     year: number;
+    buttonClass?(d: Date): string | false;
   }>(),
   {
     month: new Date().getMonth(),
     year: new Date().getFullYear(),
+    buttonClass() {
+      return false as const;
+    },
   }
 );
 
