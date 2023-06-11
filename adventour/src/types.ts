@@ -1,7 +1,7 @@
 import type { Ref } from "vue";
 
 export type ToggleableProps = {
-  active: Readonly<Ref<boolean>>;
+  active: Ref<boolean>;
   toggle(): void;
   open(): void;
   close(): void;

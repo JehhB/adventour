@@ -1,7 +1,5 @@
 import type { InjectionKey } from "vue";
-import type { ToggleableProps, CarouselItem } from "./types";
-
-export const toggleableProvider = Symbol() as InjectionKey<ToggleableProps>;
+import type { CarouselItem } from "./types";
 
 export const galleryProvider = Symbol() as InjectionKey<{
   register(src: string, alt: string): void;

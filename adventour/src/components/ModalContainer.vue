@@ -14,10 +14,13 @@
           props.position === 'top' && 'top-2',
           props.position === 'bottom' && 'bottom-2',
         ]"
-        v-show="container?.active.value"
+        v-show="toggleable.active.value"
         role="dialog"
       >
-        <button @click="close()" class="absolute right-2 top-4 text-green-900">
+        <button
+          @click="toggleable.close()"
+          class="absolute right-2 top-4 text-green-900"
+        >
           <BIconX />
         </button>
         <slot></slot>
@@ -31,21 +34,21 @@
     >
       <div
         class="fixed inset-0 z-40 bg-gray-600 opacity-20"
-        @click="close()"
-        v-show="container?.active.value"
+        @click="toggleable.close()"
+        v-show="toggleable.active.value"
       ></div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { inject, defineProps, withDefaults } from "vue";
-import { toggleableProvider } from "../keys";
-import { useInert } from "../util";
+import { defineProps, withDefaults } from "vue";
+import { useInert, useToggleable } from "../util";
 import { BIconX } from "bootstrap-icons-vue";
+import { toggleables } from "../stores";
 
-const container = inject(toggleableProvider);
 const props = withDefaults(
   defineProps<{
+    name: string | symbol;
     position?: "center" | "top" | "bottom";
   }>(),
   {
@@ -53,12 +56,8 @@ const props = withDefaults(
   }
 );
 
-function close() {
-  if (!container) return;
-  container.close();
-}
+const toggleable = useToggleable();
+toggleables.set(props.name, toggleable);
 
-if (container) {
-  useInert(container.active);
-}
+useInert(toggleable.active);
 </script>

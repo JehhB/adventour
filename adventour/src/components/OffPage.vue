@@ -8,7 +8,7 @@
     >
       <aside
         class="fixed inset-y-0 right-0 z-50 bg-white"
-        v-show="container?.active.value"
+        v-show="toggleable.active.value"
       >
         <slot></slot>
       </aside>
@@ -21,24 +21,20 @@
     >
       <div
         class="fixed inset-0 z-40 bg-gray-600 opacity-20"
-        @click="close()"
-        v-show="container?.active.value"
+        @click="toggleable.close()"
+        v-show="toggleable.active.value"
       ></div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { inject } from "vue";
-import { toggleableProvider } from "../keys";
-import { useInert } from "../util";
+import { defineProps } from "vue";
+import { toggleables } from "../stores";
+import { useInert, useToggleable } from "../util";
 
-const container = inject(toggleableProvider);
-function close() {
-  if (!container) return;
-  container.close();
-}
+const props = defineProps<{ name: string | symbol }>();
+const toggleable = useToggleable();
+toggleables.set(props.name, toggleable);
 
-if (container) {
-  useInert(container.active);
-}
+useInert(toggleable.active);
 </script>
