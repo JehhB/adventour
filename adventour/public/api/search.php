@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 
 $sql = <<<SQL
 SELECT

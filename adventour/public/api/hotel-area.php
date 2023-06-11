@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/../include.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 
 validOrFail($_GET, [
   'lat0' => [\vld\is_defined(), \vld\is_numeric()],
