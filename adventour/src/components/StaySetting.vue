@@ -16,13 +16,13 @@
       v-if="checkin !== null"
       type="hidden"
       name="checkin"
-      :value="checkin.toISOString()"
+      :value="checkin.getTime()"
     />
     <input
       v-if="checkout !== null"
       type="hidden"
       name="checkout"
-      :value="checkout.toISOString()"
+      :value="checkout.getTime()"
     />
 
     <div class="relative">
@@ -152,10 +152,10 @@ const initNRoom = currentSearchParam.get("n_room");
 const nRoom = ref(initNRoom ? parseInt(initNRoom) : 1);
 
 const initCheckin = currentSearchParam.get("checkin");
-const checkin = ref(initCheckin ? new Date(initCheckin) : null);
+const checkin = ref(initCheckin ? new Date(parseInt(initCheckin)) : null);
 
 const initCheckout = currentSearchParam.get("checkout");
-const checkout = ref(initCheckout ? new Date(initCheckout) : null);
+const checkout = ref(initCheckout ? new Date(parseInt(initCheckout)) : null);
 
 function formatDate(date: Date | null) {
   if (date === null) return "--/--/--";
