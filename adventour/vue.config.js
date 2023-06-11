@@ -4,7 +4,7 @@ const { minify } = require("html-minifier");
 module.exports = defineConfig({
   pages: {
     index: {
-      entry: "src/main.ts",
+      entry: "src/index.ts",
       template: "public/index.php",
       filename: "index.php",
     },
