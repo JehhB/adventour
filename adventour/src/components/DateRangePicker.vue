@@ -92,9 +92,9 @@ function handleDate(date: Date) {
   } else if (props.checkout !== null) {
     emit("update:checkin", date);
     emit("update:checkout", null);
-  } else if (date < props.checkin) {
+  } else if (date.valueOf() < props.checkin.valueOf()) {
     emit("update:checkin", date);
-  } else if (date === props.checkin) {
+  } else if (date.valueOf() === props.checkin.valueOf()) {
     emit("update:checkin", null);
   } else {
     emit("update:checkout", date);
