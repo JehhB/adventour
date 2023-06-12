@@ -9,11 +9,20 @@
 
   <body>
     <main class="flex h-screen w-screen items-center justify-center">
-      <div class="h-full w-full">
+      <div class="relative h-full w-full sm:h-auto sm:w-auto md:flex">
+        <div
+          class="hidden sm:absolute sm:left-1/2 sm:top-0 sm:flex sm:w-32 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:items-center sm:justify-center md:static md:w-96 md:translate-x-0 md:translate-y-0 md:rounded-l-3xl md:bg-white"
+        >
+          <img
+            src="/assets/images/signin.svg"
+            alt="Graphics showing signing up is free"
+            class="w-4/5 md:w-9/12"
+          />
+        </div>
         <form
           method="POST"
           novalidate
-          class="flex h-full w-full flex-col justify-center bg-lime-100 p-12"
+          class="flex h-full w-full flex-col justify-center bg-lime-100 p-12 sm:w-96 sm:rounded-3xl sm:pt-20 md:rounded-l-none md:pt-12"
         >
           <h1
             class="mb-6 self-center text-3xl font-semibold uppercase leading-none text-gray-800"
