@@ -11,7 +11,9 @@ $stmt = execute($sql, [$hotel_id]);
   <div class="flex h-6 items-center gap-2 px-2 sm:px-0 md:col-start-2">
     <h1 class="font-semibold leading-none text-neutral-800"><?= $name ?></h1>
     <div class="ml-auto flex gap-2">
-      <b-icon-heart-fill class="stroke-2 text-zinc-600"></b-icon-heart-fill>
+      <open-button target="not authenticated toast">
+        <b-icon-heart-fill class="stroke-2 text-zinc-600"></b-icon-heart-fill>
+      </open-button>
       <b-icon-share-fill class="stroke-2 text-zinc-600"></b-icon-share-fill>
     </div>
   </div>
@@ -58,3 +60,6 @@ $stmt = execute($sql, [$hotel_id]);
     </modal-container>
   </div>
 </section>
+<toast-container name="not authenticated toast">
+test
+</toast-container>

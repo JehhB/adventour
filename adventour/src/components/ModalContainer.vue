@@ -1,10 +1,10 @@
 <template>
   <Teleport to="body">
     <Transition
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100 transition-opacity duration-200 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0 transition-opacity duration-150 ease-out"
+      enter-from-class="scale-90 opacity-0"
+      enter-to-class="scale-100 opacity-100 transition duration-200 ease-in"
+      leave-from-class="scale-100 opacity-100"
+      leave-to-class="scale-75 opacity-0 transition duration-150 ease-out"
     >
       <div
         v-bind="$attrs"
