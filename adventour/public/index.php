@@ -36,7 +36,7 @@
           >
             <a href="#" class="relative h-full w-full">
               <img
-                src="/assets/images/hotelImage.php?hotel_image_id=<?= $i?>"
+                src="/assets/images/hotelImage.php?hotel_image_id=<?= $i ?>"
                 class="absolute inset-0 h-full w-full object-cover"
               />
             </a>
