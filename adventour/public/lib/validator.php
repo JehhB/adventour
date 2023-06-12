@@ -25,6 +25,16 @@ namespace vld {
     return ensure(fn ($x) => isset($x), $msg);
   }
 
+  /** 
+   * Validate if data is not empty 
+   *
+   * @param string $msg error message
+   */
+  function is_not_empty($msg = "Required field")
+  {
+    return ensure(fn ($x) => isset($x) && strcmp($x, '') !== 0, $msg);
+  }
+
   /**
    * Validate if data is a number
    *
@@ -33,6 +43,54 @@ namespace vld {
   function is_numeric($msg = "Is not numeric")
   {
     return ensure('\is_numeric', $msg);
+  }
+
+  /**
+   * Validate if data is a valid email address
+   *
+   * @param string $msg error message
+   */
+  function is_email($msg = "Must be a valid email")
+  {
+    return ensure(fn ($x) => filter_var($x, FILTER_VALIDATE_EMAIL), $msg);
+  }
+
+  /**
+   * Validate if data is long enough
+   *
+   * @param int    $len minimum length
+   * @param string $msg error message
+   */
+  function is_long_enough($len = 8, $msg = "Must be be atleast 8 character")
+  {
+    return ensure(fn ($x) => strlen($x) >= $len, $msg);
+  }
+
+  /**
+   * Validate if string match a value
+   *
+   * @param string  $val value to compare with
+   * @param string $msg error message
+   */
+  function is_equal($val, $msg = "Values doesn't match")
+  {
+    return ensure(fn ($x) => strcmp($x, $val) === 0, $msg);
+  }
+
+  /**
+   * Validate if data is unique in the database
+   *
+   * @param string $table Table to find data
+   * @param string $field Field to match data
+   * @param string $msg   error message
+   */
+  function is_unique($table, $field, $msg = "Value is not unique in database")
+  {
+    return ensure(function ($x) use ($table, $field) {
+      $sql = "SELECT 1 FROM $table WHERE $field = :data";
+      $stmt = execute($sql, array(':data' => $x));
+      return $stmt->rowCount() === 0;
+    }, $msg);
   }
 }
 
