@@ -13,6 +13,11 @@ module.exports = defineConfig({
       template: "public/hotel.php",
       filename: "hotel.php",
     },
+    login: {
+      entry: "src/login.ts",
+      template: "public/login.php",
+      filename: "login.php",
+    },
     signin: {
       entry: "src/signin.ts",
       template: "public/signin.php",

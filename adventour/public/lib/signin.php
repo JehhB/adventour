@@ -17,15 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
   }
 
-  $error = register($_POST['email'], $_POST['password']);
-
-  if ($error) {
-    $_SESSION['error'] = $error;
-
-    header('Location: /signin.php');
-    exit();
-  }
-
+  register($_POST['email'], $_POST['password']);
   header('Location: /');
   exit();
 }
