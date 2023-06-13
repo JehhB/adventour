@@ -59,3 +59,4 @@ function isAuth() {
   safe_start_session();
   return isset($_SESSION['user']) ? $_SESSION['user'] : false;
 }
+

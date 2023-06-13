@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
+safe_start_session();
 
 if (!isset($_GET['hotel_id'])) {
   header('Location: /');

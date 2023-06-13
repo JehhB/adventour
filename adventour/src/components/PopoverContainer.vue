@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute right-0 top-full drop-shadow-lg filter">
+  <div class="absolute right-0 top-full z-20 drop-shadow-lg filter">
     <Transition leave-to-class="transition delay-50">
       <svg
         v-show="toggleable.active.value"

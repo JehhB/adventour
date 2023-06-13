@@ -6,11 +6,13 @@ import SearchBox from "./components/SearchBox.vue";
 import ToastContainer from "./components/ToastContainer.vue";
 import PopoverContainer from "./components/PopoverContainer.vue";
 
-import { BIconList } from "bootstrap-icons-vue";
+import { BIconList, BIconGear, BIconBoxArrowRight } from "bootstrap-icons-vue";
 import type { App } from "vue";
 
 export default {
   install(app: App<Element>) {
+    app.component("BIconBoxArrowRight", BIconBoxArrowRight);
+    app.component("BIconGear", BIconGear);
     app.component("BIconList", BIconList);
     app.component("OffPage", OffPage);
     app.component("OpenButton", OpenButton);

@@ -1,4 +1,7 @@
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php'; ?>
+<?php 
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
+safe_start_session();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
