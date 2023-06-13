@@ -43,7 +43,7 @@ function auth($email, $password)
   if (!password_verify($password, $user['password_hash'])) {
     return ['password' => "Incorrect password"];
   }
-  
+
   safe_start_session();
   $_SESSION['user'] = $user['user_id'];
 
@@ -55,8 +55,25 @@ function auth($email, $password)
  *
  * @param int|false return id of authenticated, otherwise return false
  */
-function isAuth() {
+function is_auth()
+{
   safe_start_session();
   return isset($_SESSION['user']) ? $_SESSION['user'] : false;
 }
 
+/**
+ * Ensure user is authenticated to access route
+ *
+ * @param int return id of authenticated user
+ */
+function protect_route()
+{
+  $user = is_auth();
+  if ($user) return $user;
+
+  http_response_code(403);
+
+  echo "<strong>Error 403: Unauthorized access</strong>";
+
+  exit();
+}

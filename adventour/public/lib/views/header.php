@@ -15,7 +15,7 @@
 
     <search-box class="sm:ml-auto"></search-box>
 
-    <?php if (!isAuth()) : ?>
+    <?php if (!is_auth()) : ?>
     <div class="ml-auto flex items-center sm:ml-0 lg:ml-3">
       <div class="hidden items-center justify-around gap-2 lg:flex">
         <a
@@ -71,7 +71,7 @@
       SELECT email FROM Users WHERE user_id = :user_id
       SQL;
       $stmt = execute($sql, [':user_id' =>
-    isAuth()]); $user = $stmt->fetch(); ?>
+    is_auth()]); $user = $stmt->fetch(); ?>
     <div class="relative ml-auto sm:ml-3">
       <open-button
         class="h-10 w-10 overflow-hidden rounded-full border-2 border-gray-300 sm:h-12 sm:w-12"
