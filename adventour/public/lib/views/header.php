@@ -19,12 +19,12 @@
     <div class="ml-auto flex items-center sm:ml-0 lg:ml-3">
       <div class="hidden items-center justify-around gap-2 lg:flex">
         <a
-          href="/login.php"
+          href="/login.php?referer=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
           class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-white p-2 text-center font-medium leading-none text-green-900"
           >Log in</a
         >
         <a
-          href="/signin.php"
+          href="/signin.php?referer=<?= urldecode($_SERVER['REQUEST_URI']) ?>"
           class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-green-900 p-2 text-center font-medium leading-none text-white"
           >Sign up</a
         >
@@ -51,13 +51,13 @@
           </a>
           <div class="flex items-center justify-around gap-2">
             <a
-              href="/login.php"
+              href="/login.php?referer=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
               class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-white p-2 text-center font-medium leading-none text-green-900"
             >
               Log in
             </a>
             <a
-              href="/signin.php"
+              href="/signin.php?referer=<?= urldecode($_SERVER['REQUEST_URI']) ?>"
               class="w-[5.5rem] rounded-xl border-2 border-green-900 bg-green-900 p-2 text-center font-medium leading-none text-white"
             >
               Sign up

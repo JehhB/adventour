@@ -15,6 +15,9 @@
           novalidate
           class="flex h-full w-full flex-col justify-center bg-lime-100 p-12 sm:w-96 sm:rounded-3xl sm:pt-20 md:rounded-r-none md:pt-12"
         >
+          <?php if (isset($_GET['referer'])) : ?>
+          <input type="hidden" name="referer" value="<?= $_GET['referer'] ?>">
+          <?php endif; ?>
           <h1
             class="mb-6 self-center text-3xl font-semibold uppercase leading-none text-gray-800"
           >
@@ -52,9 +55,15 @@
           </strong>
           <?php endif; ?>
 
+          <?php if(isset($_GET['referer'])) : ?>
+          <a href="/signin.php?referer=<?= urlencode($_GET['referer']) ?>" class="mt-2 text-sm text-green-900 underline">
+            Create new account
+          </a>
+          <?php else : ?>
           <a href="/signin.php" class="mt-2 text-sm text-green-900 underline">
             Create new account
           </a>
+          <?php endif; ?>
 
           <?php clearError(); ?>
           <input

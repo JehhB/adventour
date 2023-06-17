@@ -18,6 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   register($_POST['email'], $_POST['password']);
-  header('Location: /');
+
+  if (isset($_POST['referer'])) {
+    header("Location: {$_POST['referer']}");
+  } else {
+    header('Location: /');
+  }
   exit();
 }

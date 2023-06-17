@@ -1,5 +1,7 @@
 <template>
-  <ModalContainer :name="modalId"><slot /></ModalContainer>
+  <ModalContainer @close="toggleable.close" :name="modalId" class="!max-w-xs"
+    ><slot
+  /></ModalContainer>
 </template>
 <script setup lang="ts">
 import ModalContainer from "./ModalContainer.vue";
@@ -21,7 +23,7 @@ const { start } = useTimeoutFn(
     toggleable.close();
     modal.value.close();
   },
-  1500,
+  5000,
   { immediate: false }
 );
 

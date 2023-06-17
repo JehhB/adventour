@@ -7,7 +7,9 @@ WHERE hotel_id = ?
 SQL;
 $stmt = execute($sql, [$hotel_id]);
 ?>
-<section class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20">
+<section
+  class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
+>
   <div class="flex h-6 items-center gap-2 px-2 sm:px-0 md:col-start-2">
     <h1 class="font-semibold leading-none text-neutral-800"><?= $name ?></h1>
     <div class="ml-auto flex gap-2">
@@ -20,9 +22,14 @@ $stmt = execute($sql, [$hotel_id]);
 
   <h2 class="sr-only">Hotel overview</h2>
 
-  <gallery-container class="md:col-start-1 md:row-span-4 md:row-start-1 md:self-center">
+  <gallery-container
+    class="md:col-start-1 md:row-span-4 md:row-start-1 md:self-center"
+  >
     <?php foreach ($images as $image) : ?>
-      <gallery-item src="<?= $image['src'] ?>" alt="<?= $image['alt'] ?>"></gallery-item>
+    <gallery-item
+      src="<?= $image['src'] ?>"
+      alt="<?= $image['alt'] ?>"
+    ></gallery-item>
     <?php endforeach; ?>
   </gallery-container>
 
@@ -36,21 +43,27 @@ $stmt = execute($sql, [$hotel_id]);
     </p>
   </div>
 
-  <div class="px-2 md:flex md:items-center md:border-t md:border-green-900 md:px-0 md:py-4">
+  <div
+    class="px-2 md:flex md:items-center md:border-t md:border-green-900 md:px-0 md:py-4"
+  >
     <h3 class="text-base font-semibold leading-none text-gray-800 md:hidden">
       Facilities
     </h3>
-    <ul class="mt-4 flex list-none flex-wrap gap-x-8 gap-y-3 text-gray-700 md:mt-0">
+    <ul
+      class="mt-4 flex list-none flex-wrap gap-x-8 gap-y-3 text-gray-700 md:mt-0"
+    >
       <?php while ($facility = $stmt->fetch()) : ?>
-        <li class="list-check text-sm leading-none">
-          <?= e($facility['feature']) ?>
-        </li>
+      <li class="list-check text-sm leading-none">
+        <?= e($facility['feature']) ?>
+      </li>
       <?php endwhile; ?>
     </ul>
   </div>
 
   <div class="px-2 md:hidden">
-    <open-button target="hotel description" class="font-bold text-green-900">Learn more</open-button>
+    <open-button target="hotel description" class="font-bold text-green-900">
+      Learn more
+    </open-button>
     <modal-container name="hotel description" class="overflow-y-auto p-4">
       <h1 class="mr-8 font-semibold text-neutral-800">
         <?= $name ?>
@@ -60,6 +73,27 @@ $stmt = execute($sql, [$hotel_id]);
     </modal-container>
   </div>
 </section>
+<?php if (!is_auth()) : ?>
 <toast-container name="not authenticated toast">
-test
+  <div class="flex items-center gap-3 p-4">
+    <img
+      src="/assets/images/authenticate.svg"
+      alt="Authenticate to continue"
+      class="w-20"
+    />
+    <div class="w-0 flex-1">
+      <div class="font-heading font-semibold text-neutral-800">
+        Authentication Required
+      </div>
+      <div>
+        <a
+          href="/login.php?referer=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
+          class="text-sm text-green-900"
+          >Login</a
+        >
+        first to continue
+      </div>
+    </div>
+  </div>
 </toast-container>
+<?php endif; ?>

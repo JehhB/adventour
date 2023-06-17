@@ -18,7 +18,11 @@
         role="dialog"
       >
         <button
-          @click="toggleable.close()"
+          v-if="closeButton"
+          @click="
+            toggleable.close();
+            emit('close');
+          "
           class="absolute right-2 top-4 text-green-900"
         >
           <BIconX />
@@ -34,14 +38,17 @@
     >
       <div
         class="fixed inset-0 z-40 bg-gray-600 opacity-20"
-        @click="toggleable.close()"
+        @click="
+          toggleable.close();
+          emit('close');
+        "
         v-show="toggleable.active.value"
       ></div>
     </Transition>
   </Teleport>
 </template>
 <script setup lang="ts">
-import { defineProps, withDefaults } from "vue";
+import { defineEmits, defineProps, withDefaults } from "vue";
 import { useInert, useToggleable } from "../util";
 import { BIconX } from "bootstrap-icons-vue";
 import { toggleables } from "../stores";
@@ -50,11 +57,15 @@ const props = withDefaults(
   defineProps<{
     name: string | symbol;
     position?: "center" | "top" | "bottom";
+    closeButton?: boolean;
   }>(),
   {
     position: "center",
+    closeButton: true,
   }
 );
+
+const emit = defineEmits(["close"]);
 
 const toggleable = useToggleable();
 toggleables.set(props.name, toggleable);
