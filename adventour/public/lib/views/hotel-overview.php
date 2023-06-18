@@ -11,7 +11,11 @@ $stmt = execute($sql, [$hotel_id]);
   class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
 >
   <div class="flex h-6 items-center gap-2 px-2 sm:px-0 md:col-start-2">
-    <h1 class="font-semibold leading-none text-neutral-800"><?= $name ?></h1>
+    <h1
+      class="font-semibold leading-none text-neutral-800 lg:text-lg lg:leading-none"
+    >
+      <?= $name ?>
+    </h1>
     <div class="ml-auto flex gap-2">
       <open-button target="not authenticated toast">
         <b-icon-heart-fill class="stroke-2 text-zinc-600"></b-icon-heart-fill>
@@ -38,7 +42,7 @@ $stmt = execute($sql, [$hotel_id]);
   </address>
 
   <div class="hidden items-center py-2 md:flex">
-    <p class="text-sm leading-none text-gray-800">
+    <p class="text-sm leading-none text-gray-800 lg:text-sm">
       <?= $description ?>
     </p>
   </div>
@@ -64,15 +68,15 @@ $stmt = execute($sql, [$hotel_id]);
     <open-button target="hotel description" class="font-bold text-green-900">
       Learn more
     </open-button>
-    <modal-container name="hotel description" class="overflow-y-auto p-4">
-      <h1 class="mr-8 font-semibold text-neutral-800">
-        <?= $name ?>
-      </h1>
-      <address class="mr-8 text-sm leading-none"><?= $address ?></address>
-      <p class="mt-4 text-sm text-gray-800"><?= $description ?></p>
-    </modal-container>
   </div>
 </section>
+<modal-container name="hotel description" class="overflow-y-auto p-4">
+  <h1 class="mr-8 font-semibold text-neutral-800">
+    <?= $name ?>
+  </h1>
+  <address class="mr-8 text-sm leading-none"><?= $address ?></address>
+  <p class="mt-4 text-sm text-gray-800"><?= $description ?></p>
+</modal-container>
 <?php if (!is_auth()) : ?>
 <toast-container name="not authenticated toast">
   <div class="flex items-center gap-3 p-4">
