@@ -1,37 +1,43 @@
 import _ from "lodash";
-import axios from "axios";
 import fs from "fs/promises";
 import { metaphone } from "metaphone";
+import sha1 from "sha1";
 
 const hotels = JSON.parse(await fs.readFile("output.json"));
 
 // For many to many relationship
 const features = [];
+const highlights = [];
 
 let hotel_id = 1,
-  image_id = 1,
+  hotel_image_id = 1,
   hotel_feature_id = 1,
   room_id = 1,
+  room_image_id = 1,
+  room_highlight_id = 1,
   offering_id = 1;
 
 // Write Headers
 await fs.writeFile(
   "hotels.csv",
-  "hotel_id,name,metaphone,description,address,average_price,lat,lng\n"
+  "hotel_id,name,metaphone,description,address,lat,lng\n"
 );
-//await fs.writeFile(
-//  "images.csv",
-//  "image_id,hotel_id,caption,content_type,base64\n"
-//);
+await fs.writeFile("hotelImages.csv", "hotel_image_id,hotel_id,ulid,url\n");
 await fs.writeFile(
   "hotelFeatures.csv",
   "hotel_feature_id,hotel_id,feature_id\n"
 );
 await fs.writeFile("features.csv", "feature_id,feature\n");
-await fs.writeFile("rooms.csv", "room_id,hotel_id,room_type\n");
+await fs.writeFile("rooms.csv", "room_id,hotel_id,room_type,room_size\n");
+await fs.writeFile(
+  "roomHighlights.csv",
+  "room_highlight_id,room_id,highlight_id\n"
+);
+await fs.writeFile("highlight.csv", "highlight_id,highlight\n");
+await fs.writeFile("roomImages.csv", "room_image_id,room_id,ulid,url\n");
 await fs.writeFile(
   "offerings.csv",
-  "offering_id,room_id,max_person,stays,price,orig_price,meal_plan\n"
+  "offering_id,room_id,max_person,stays,price,discounted_price,meal_plan\n"
 );
 
 async function handleHotel(hotel, hotel_id) {
@@ -40,21 +46,17 @@ async function handleHotel(hotel, hotel_id) {
     `${hotel_id},"${hotel.name.replace('"', "'")}",${metaphone(
       hotel.name
     )},"${hotel.description.replace('"', "'")}","${hotel.address}",${
-      hotel.averagePrice
-    },${hotel.lat},${hotel.lng}\n`
+      hotel.lat
+    },${hotel.lng}\n`
   );
 
   for (const room of hotel.rooms) {
     await handleRoom(room, room_id++, hotel_id);
   }
 
-  //for (const image of hotel.allImages) {
-  //  await handleImage({ src: image, alt: "" }, image_id++, hotel_id);
-  //}
-
-  //for (const image of hotel.thumbImages) {
-  //  await handleImage(image, image_id++, hotel_id);
-  //}
+  for (const image of hotel.allImages) {
+    await handleHotelImage(image, hotel_image_id++, hotel_id);
+  }
 
   for (const feature of hotel.features) {
     await handleHotelFeature(feature, hotel_feature_id++, hotel_id);
@@ -71,45 +73,56 @@ async function handleHotelFeature(feature, hotel_feature_id, hotel_id) {
   );
 }
 
-async function handleImage(image, image_id, hotel_id) {
-  console.log("getting image " + image_id);
-  const resp = await axios.get(image.src, {
-    responseType: "text",
-    responseEncoding: "base64",
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36",
-      "Accept-Encoding": "gzip, deflate, br",
-      Accept: "*/*",
-      Connection: "keep-alive",
-      "Accept-Language": "en-US,en;q=0j.9,lt;q=0.8,et;q=0.7,de;q=0.6",
-    },
-  });
-
+async function handleHotelImage(image, hotel_image_id, hotel_id) {
   await fs.appendFile(
-    "images.csv",
-    `${image_id},${hotel_id},"${image.alt.replace(
-      '"',
-      "'"
-    )}",${resp.headers.getContentType()},${resp.data}\n`
+    "hotelImages.csv",
+    `${hotel_image_id},${hotel_id},${sha1(image).toUpperCase()},${image}\n`
   );
 }
 
 async function handleRoom(room, room_id, hotel_id) {
   await fs.appendFile(
     "rooms.csv",
-    `${room_id},${hotel_id},"${room.name.replace('"', "'")}"\n`
+    `${room_id},${hotel_id},"${room.name.replace('"', "'")}",${
+      room.room_size ?? 0
+    }\n`
   );
+
+  for (const image of room.photos) {
+    await handleRoomImage(image, room_image_id++, room_id);
+  }
 
   for (const offering of room.offerings) {
     await handleOffering(offering, offering_id++, room_id);
   }
+
+  for (const highlight of room.highlights) {
+    if (highlight === null) continue;
+    await handleRoomHighlight(highlight, room_highlight_id++, room_id);
+  }
+}
+
+async function handleRoomImage(image, room_image_id, room_id) {
+  await fs.appendFile(
+    "roomImages.csv",
+    `${room_image_id},${room_id},${sha1(image).toUpperCase()},${image}\n`
+  );
+}
+
+async function handleRoomHighlight(highlight, room_highlight_id, room_id) {
+  const highlightIndex = highlights.indexOf(highlight);
+  const highlightId =
+    highlightIndex === -1 ? highlights.push(highlight) : highlightIndex + 1;
+  await fs.appendFile(
+    "roomHighlights.csv",
+    `${room_highlight_id},${room_id},${highlightId}\n`
+  );
 }
 
 async function handleOffering(offering, offering_id, room_id) {
   await fs.appendFile(
     "offerings.csv",
-    `${offering_id},${room_id},${offering.maxPerson},${offering.maxStay},${offering.price},${offering.origPrice},${offering.mealPlan}\n`
+    `${offering_id},${room_id},${offering.maxPerson},${offering.maxStay},${offering.price},${offering.discountedPrice},${offering.mealPlan}\n`
   );
 }
 
@@ -121,5 +134,12 @@ for (let i = 0; i < features.length; ++i) {
   await fs.appendFile(
     "features.csv",
     `${i + 1},"${features[i].replace('"', "'")}"\n`
+  );
+}
+
+for (let i = 0; i < highlights.length; ++i) {
+  await fs.appendFile(
+    "highlight.csv",
+    `${i + 1},"${highlights[i].replace('"', "'")}"\n`
   );
 }

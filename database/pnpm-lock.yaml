@@ -22,6 +22,9 @@ dependencies:
   puppeteer:
     specifier: ^20.7.3
     version: 20.7.3
+  sha1:
+    specifier: ^1.1.1
+    version: 1.1.1
   sharp:
     specifier: ^0.32.1
     version: 0.32.1
@@ -196,6 +199,10 @@ packages:
       supports-color: 5.5.0
     dev: false
 
+  /charenc@0.0.2:
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    dev: false
+
   /cheerio-select@2.1.0:
     resolution: {integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g==}
     dependencies:
@@ -301,6 +308,10 @@ packages:
       node-fetch: 2.6.11
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /crypt@0.0.2:
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
     dev: false
 
   /css-select@5.1.0:
@@ -1011,6 +1022,13 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
+
+  /sha1@1.1.1:
+    resolution: {integrity: sha512-dZBS6OrMjtgVkopB1Gmo4RQCDKiZsqcpAQpkV/aaj+FCrCg8r4I4qMkDPQjBgLIxlmu9k4nUbWq6ohXahOneYA==}
+    dependencies:
+      charenc: 0.0.2
+      crypt: 0.0.2
     dev: false
 
   /sharp@0.32.1:

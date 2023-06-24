@@ -85,4 +85,3 @@ for (let z = 0; z <= 15; ++z) {
     }
   }
 }
-db.close();
