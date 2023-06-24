@@ -1,6 +1,5 @@
 import cheerio from "cheerio";
 import axios from "axios";
-import querystring from "querystring";
 import fs from "fs";
 import _ from "lodash";
 
@@ -13,6 +12,43 @@ const headers = {
   Connection: "keep-alive",
   "Accept-Language": "en-US,en;q=0j.9,lt;q=0.8,et;q=0.7,de;q=0.6",
 };
+
+/**
+ * @param {string} str
+ * @param {number} start
+ * @return {string}
+ */
+function getEnclosed(str, start = 0) {
+  const length = str.length;
+
+  const openSymbol = str.charAt(start);
+  if ("[({".indexOf(openSymbol) === -1) return "";
+
+  const chars = [openSymbol];
+  const closeSymbol = {
+    "[": "]",
+    "(": ")",
+    "{": "}",
+  }[openSymbol];
+  let tracker = 0;
+
+  for (let i = start + 1; i < length; ++i) {
+    const char = str.charAt(i);
+    chars.push(char);
+
+    if (char != openSymbol && char != closeSymbol) continue;
+
+    if (char === openSymbol) {
+      tracker++;
+    } else if (tracker === 0) {
+      break;
+    } else {
+      tracker--;
+    }
+  }
+
+  return "".concat(...chars);
+}
 
 async function scrapeSearch(
   query = "Cagayan Valley, Philippines",
@@ -47,7 +83,7 @@ async function scrapeSearch(
     );
     if (totalResults === 0) return [];
 
-    const hotelData = $('[data-testid="property-card"]').each(function () {
+    $('[data-testid="property-card"]').each(function () {
       const $ = cheerio.load(this);
       const name = $('[data-testid="title"]').text();
       const url = $('[data-testid="title-link"]').attr("href");
@@ -64,31 +100,21 @@ async function scrapeHotel(url) {
   const resp = await axios.get(url, { headers });
   const html = resp.data;
   const $ = cheerio.load(html);
-  const csrfToken = html.match(/b_csrf_token:\s*'(.+?)'/)[1];
-  const id = html.match(/b_hotel_id:\s*'(.+?)'/)[1];
-  const cookie = resp.headers["set-cookie"]
-    .map((c) => c.split(";")[0])
-    .join(";");
 
-  const description = $(".hotel_description_review_display").text().trim();
+  const description = $(".hotel_description_review_display")
+    .text()
+    .replace(/You're eligible.*sign in\./gm, "")
+    .replace(/The nearest airport.*\./, "")
+    .trim();
   const address = $(".hp_address_subtitle").text().trim();
   const [lat, lng] = $("#hotel_address").attr("data-atlas-latlng").split(",");
   const [minLat, minLng, maxLat, maxLng] = $("#hotel_address")
     .attr("data-atlas-bbox")
     .split(",");
 
-  const allImages = [];
-  for (const match of html.matchAll(/large_url:\s*'(.*?)'/g)) {
-    allImages.push(match[1]);
-  }
-
-  const thumbImages = [];
-  $(".bh-photo-grid-item > img").each(function () {
-    thumbImages.push({
-      src: $(this).attr("src"),
-      alt: $(this).attr("alt"),
-    });
-  });
+  const hotelPhotosIndex = html.indexOf("hotelPhotos");
+  const hotelPhotos = eval(getEnclosed(html, hotelPhotosIndex + 13));
+  const allImages = hotelPhotos.map((a) => a.large_url);
 
   const features = $('[data-testid="facility-list-most-popular-facilities"]')
     .first()
@@ -98,25 +124,7 @@ async function scrapeHotel(url) {
     })
     .toArray();
 
-  const price = await scrapePrices(id, csrfToken, cookie);
-  const averagePrice = _.mean(price);
-
-  const rooms = JSON.parse(
-    html.match(/b_rooms_available_and_soldout:\s*(.*),/)[1]
-  ).map((room) => ({
-    name: room.b_name,
-    offerings: _.uniqBy(
-      room.b_blocks?.map((block) => ({
-        maxPerson: block.b_max_persons,
-        maxStay: block.b_nr_stays,
-        mealPlan: block.b_mealplan_included_name ?? "none",
-        price: block.b_price_breakdown_simplified.b_headline_price_amount,
-        origPrice:
-          block.b_price_breakdown_simplified.b_strikethrough_price_amount,
-      })) ?? [],
-      (offer) => `${offer.maxPerson}-${offer.maxStay}-${offer.mealPlan}`
-    ),
-  }));
+  const rooms = await scrapeRooms(html, url);
 
   return {
     description,
@@ -128,64 +136,107 @@ async function scrapeHotel(url) {
     maxLat,
     maxLng,
     allImages,
-    thumbImages,
     features,
-    price,
-    averagePrice,
     rooms,
   };
 }
 
-async function scrapePrices(id, csrfToken, cookie) {
-  const data = {
-    name: "hotel.availability_calendar",
-    result_format: "price_histogram",
-    hotel_id: id,
-    search_config: JSON.stringify({
-      b_adults_total: 1,
-      b_nr_rooms_needed: 1,
-      b_children_total: 0,
-      b_children_ages_total: [],
-      b_is_group_search: 0,
-      b_pets_total: 0,
-      b_rooms: [{ b_adults: 1, b_room_order: 1 }],
-    }),
-    checkin: new Date().toISOString().slice(0, 10),
-    n_days: 30,
-    respect_min_los_restriction: 1,
-    los: 1,
-  };
-  const resp = await axios.post(
-    "https://www.booking.com/fragment.json?cur_currency=php",
-    querystring.stringify(data),
-    {
-      withCredentials: true,
-      headers: {
-        ...headers,
-        "X-Booking-CSRF": csrfToken,
-        Cookie: cookie,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
+async function scrapeRooms(html, url) {
+  const roomsMap = new Map();
+
+  const rooms = JSON.parse(
+    html.match(/b_rooms_available_and_soldout:\s*(.*),/)[1]
+  ).map((room) => {
+    const roomObj = {
+      name: room.b_name,
+      photos: [],
+      highlights: [],
+      offerings: _.uniqBy(
+        room.b_blocks?.map((block) => ({
+          maxPerson: block.b_max_persons,
+          maxStay: block.b_nr_stays,
+          mealPlan: block.b_mealplan_included_name ?? "none",
+          price:
+            block.b_price_breakdown_simplified.b_strikethrough_price_amount ===
+            0
+              ? block.b_price_breakdown_simplified.b_headline_price_amount
+              : block.b_price_breakdown_simplified.b_strikethrough_price_amount,
+          discountedPrice:
+            block.b_price_breakdown_simplified.b_strikethrough_price_amount ===
+            0
+              ? 0
+              : block.b_price_breakdown_simplified.b_headline_price_amount,
+        })) ?? [],
+        (offer) => `${offer.maxPerson}-${offer.maxStay}-${offer.mealPlan}`
+      ),
+    };
+    roomsMap.set(room.b_id, roomObj);
+    return roomObj;
+  });
+
+  const roomPhotosIndex = html.indexOf("allRoomPhotos");
+  const roomPhotos = eval(getEnclosed(html, roomPhotosIndex + 15));
+  roomPhotos?.forEach((photo) => {
+    photo.associated_rooms?.forEach((room) => {
+      const key = parseInt(room);
+      if (roomsMap.has(key)) {
+        roomsMap.get(key).photos.push(photo.large_url);
+      }
+    });
+  });
+
+  const resp = await axios.get(url, {
+    headers: {
+      ...headers,
+      "User-Agent":
+        "Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Mobile Safari/537.36",
+    },
+  });
+  const mobileHtml = resp.data;
+  const highlightIndex = mobileHtml.indexOf("b_room_highlight");
+  const highlights = JSON.parse(
+    getEnclosed(mobileHtml, highlightIndex + 31).replace(/\\(.)/g, "$1")
   );
-  return resp.data.data.days.map((day) => day.b_price);
+
+  for (const room in highlights) {
+    const key = parseInt(room);
+    if (roomsMap.has(key)) {
+      const roomObj = roomsMap.get(key);
+      highlights[room]?.forEach((highlight) => {
+        if (highlight.type === "room_size") {
+          roomObj.room_size = parseInt(highlight.name);
+        } else {
+          roomObj.highlights.push(highlight.name);
+        }
+      });
+    }
+  }
+
+  return rooms;
 }
 
-const hotels = await scrapeSearch(
-  "Cagayan Valley, Philippines",
-  "2023-04-24",
-  "2023-04-25"
-);
+async function main() {
+  const hotels = await scrapeSearch(
+    "Cagayan Valley, Philippines",
+    "2023-07-04",
+    "2023-07-05"
+  );
 
-const output = [];
-for (const hotel of hotels) {
-  console.log(hotel.name);
-  const scrapedData = await scrapeHotel(hotel.url);
-  const hotelData = {
-    name: hotel.name,
-    ...scrapedData,
-  };
-  output.push(hotelData);
+  const output = [];
+  for (const hotel of hotels) {
+    try {
+      console.log(hotel.name);
+      const scrapedData = await scrapeHotel(hotel.url);
+      const hotelData = {
+        name: hotel.name,
+        ...scrapedData,
+      };
+      output.push(hotelData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  fs.writeFileSync("output.json", JSON.stringify(output));
 }
 
-fs.writeFileSync("output.json", JSON.stringify(output));
+await main();
