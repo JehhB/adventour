@@ -3,9 +3,10 @@ import GalleryContainer from "./components/GalleryContainer.vue";
 import GalleryItem from "./components/GalleryItem.vue";
 import HotelMap from "./components/HotelMap.vue";
 import ModalContainer from "./components/ModalContainer.vue";
+import ShareButton from "./components/ShareButton.vue";
 import StaySetting from "./components/StaySetting.vue";
 import Summary from "./components/Summary.vue";
-import { BIconHeartFill, BIconShareFill } from "bootstrap-icons-vue";
+import { BIconHeartFill } from "bootstrap-icons-vue";
 import { createApp } from "vue";
 import common from "./common";
 
@@ -17,9 +18,9 @@ app.component("GalleryItem", GalleryItem);
 app.component("HotelMap", HotelMap);
 app.component("HotelSummary", Summary);
 app.component("ModalContainer", ModalContainer);
+app.component("ShareButton", ShareButton);
 app.component("StaySetting", StaySetting);
 
 app.component("BIconHeartFill", BIconHeartFill);
-app.component("BIconShareFill", BIconShareFill);
 
 app.mount("#app");

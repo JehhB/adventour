@@ -18,9 +18,9 @@ $stmt = execute($sql, [$hotel_id]);
     </h1>
     <div class="ml-auto flex gap-2">
       <open-button target="not authenticated toast">
-        <b-icon-heart-fill class="stroke-2 text-zinc-600"></b-icon-heart-fill>
+        <b-icon-heart-fill class="text-zinc-600"></b-icon-heart-fill>
       </open-button>
-      <b-icon-share-fill class="stroke-2 text-zinc-600"></b-icon-share-fill>
+      <share-button class="text-zinc-600"></share-button>
     </div>
   </div>
 
@@ -65,7 +65,7 @@ $stmt = execute($sql, [$hotel_id]);
   </div>
 
   <div class="px-2 md:hidden">
-    <open-button target="hotel description" class="font-bold text-green-900">
+    <open-button target="hotel description" class="font-bold text-green-900 text-sm">
       Learn more
     </open-button>
   </div>
@@ -89,10 +89,10 @@ $stmt = execute($sql, [$hotel_id]);
       <div class="font-heading font-semibold text-neutral-800">
         Authentication Required
       </div>
-      <div>
+      <div class="text-sm">
         <a
           href="/login.php?referer=<?= urlencode($_SERVER['REQUEST_URI']) ?>"
-          class="text-sm text-green-900"
+          class="text-green-900"
           >Login</a
         >
         first to continue

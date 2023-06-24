@@ -5,12 +5,16 @@
 </template>
 <script setup lang="ts">
 import { toggleables } from "../stores";
-import { defineProps, computed } from "vue";
+import { defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps<{ target: string | symbol }>();
 const toggleable = computed(() => toggleables.get(props.target));
+const emit = defineEmits<{
+  (e: "click"): void;
+}>();
 
 function open() {
+  emit("click");
   if (!toggleable.value) return;
   toggleable.value.open();
 }
