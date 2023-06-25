@@ -5,8 +5,7 @@ $sql = <<<SQL
 SELECT
     'hotel' AS type,
     Hotels.hotel_id id,
-    hotel_image_id AS image_id,
-    caption,
+    image,
     name AS title,
     address AS subtitle
 FROM Hotels
@@ -15,7 +14,7 @@ WHERE
   hotel_image_id = (
     SELECT MIN(hotel_image_id)
     FROM HotelImages
-    WHERE caption != '' AND HotelImages.hotel_id = Hotels.hotel_id
+    WHERE HotelImages.hotel_id = Hotels.hotel_id
   ) AND 
   metaphone LIKE :search
 LIMIT 8

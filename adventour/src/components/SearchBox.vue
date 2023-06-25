@@ -104,8 +104,7 @@ type Suggestion = {
   id: number;
   title: string;
   subtitle: string;
-  image_id: number;
-  caption: string;
+  image: string;
 };
 
 const filters = ["all", "hotels", "events", "places"] as const;
@@ -133,8 +132,8 @@ const suggestions = computed(() => {
   return data.value?.map((d) => ({
     title: d.title,
     link: `/hotel.php?hotel_id=${d.id}`,
-    image: `/assets/images/hotelImage.php?hotel_image_id=${d.image_id}`,
-    caption: d.caption,
+    image: `/storage/hotel/${d.image}`,
+    caption: `Thumbnail image for ${d.title}`,
     subtitle: d.subtitle.match(/(?<=\d{4}\s+)[^,]*,[^,]*$/)?.[0] ?? "",
   }));
 });

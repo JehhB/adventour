@@ -27,7 +27,7 @@ safe_start_session();
             <?php for ($i = 1; $i <= 4; $i++) :  ?>
             <carousel-item
               link="#"
-              image="/assets/images/hotelImage.php?hotel_image_id=<?= $i ?>"
+              image="/storage/hotel/002F92F6796D2A036B3AF8CEBBD8E701BF8F4993.jpg"
               title="Test <?= $i ?>"
               subtitle="Address test <?= $i ?>"
             ></carousel-item>
@@ -39,7 +39,7 @@ safe_start_session();
           >
             <a href="#" class="relative h-full w-full">
               <img
-                src="/assets/images/hotelImage.php?hotel_image_id=<?= $i ?>"
+                src="/storage/hotel/002F92F6796D2A036B3AF8CEBBD8E701BF8F4993.jpg"
                 class="absolute inset-0 h-full w-full object-cover"
               />
             </a>

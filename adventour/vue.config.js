@@ -34,6 +34,7 @@ module.exports = defineConfig({
     output: {
       filename: "dist/js/[name].[contenthash:8].js",
       chunkFilename: "dist/js/[name].[contenthash:8].js",
+      clean: process.env.NODE_ENV === "production",
     },
   },
   chainWebpack: (config) => {

@@ -41,7 +41,7 @@
             </LMarker>
           </LLayerGroup>
 
-          <LTileLayer url="/assets/images/tile.php?x={x}&y={y}&z={z}" />
+          <LTileLayer url="/storage/tiles/{z}/{x}/{y}.webp" />
           <LControlZoom position="bottomright"></LControlZoom>
         </LMap>
       </div>

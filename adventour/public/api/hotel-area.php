@@ -18,9 +18,9 @@ $sql = <<<SQL
 SELECT
     Hotels.hotel_id hotel_id,
     hotel_image_id AS image_id,
-    caption,
     name,
     address,
+    image,
     ST_X(coordinate) AS lat,
     ST_Y(coordinate) AS lng
 FROM
@@ -31,7 +31,7 @@ WHERE
   hotel_image_id = (
     SELECT MIN(hotel_image_id)
     FROM HotelImages
-    WHERE caption != '' AND HotelImages.hotel_id = Hotels.hotel_id
+    WHERE HotelImages.hotel_id = Hotels.hotel_id
   ) AND
   Hotels.hotel_id != :exclude
 LIMIT 8
@@ -49,8 +49,8 @@ while ($result = $stmt->fetch()) {
     'lat' => $result['lat'],
     'lng' => $result['lng'],
     'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
-    'image' => "/assets/images/hotelImage.php?hotel_image_id={$result['image_id']}",
-    'alt' => $result['caption'],
+    'image' => "/storage/hotel/{$result['image']}",
+    'alt' => "Thumbnail image for {$result['name']}",
     'name' => $result['name'],
     'address' => $result['address'],
   ]);

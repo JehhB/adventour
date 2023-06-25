@@ -25,18 +25,15 @@ $stmt = execute($sql, [
 $result = fetchOrFail($stmt, "Hotel corresponding id is not found");
 
 $sql = <<<SQL
-SELECT hotel_image_id, caption
+SELECT image
 FROM HotelImages
 WHERE hotel_id = ?
-ORDER BY caption = '', hotel_image_id
+ORDER BY hotel_image_id
 SQL;
 $stmt = execute($sql, [$result['hotel_id']]);
 
 $result['images'] = array_map(
-  fn ($e) =>
-  ["src" =>
-  "/assets/images/hotelImage.php?hotel_image_id={$e['hotel_image_id']}", "alt" =>
-  $e['caption'] === '' ? 'Gallery image for hotel' : e($e['caption']),],
+  fn ($e) => ["src" => "/storage/hotel/{$e['image']}", "alt" => "Gallery image for {$result['name']}"],
   $stmt->fetchAll()
 );
 extract($result);
@@ -67,7 +64,7 @@ $stmt = execute($sql, [$result['hotel_id']]);
         <h2 class="font-medium">Rooms</h2>
         <stay-setting></stay-setting>
         <?php
-        while($room = $stmt->fetch()) {
+        while ($room = $stmt->fetch()) {
           insert('room-card', $room);
         }
         ?>
@@ -75,13 +72,7 @@ $stmt = execute($sql, [$result['hotel_id']]);
 
       <section>
         <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
-          <hotel-summary
-            link="#"
-            image="<?= $images[0]['src'] ?>"
-            caption="<?= $images[0]['alt'] ?>"
-            title="<?= e($name) ?>"
-            subtitle="<?= e($address) ?>"
-          ></hotel-summary>
+          <hotel-summary link="#" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
         </hotel-map>
       </section>
     </main>
