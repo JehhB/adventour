@@ -1,4 +1,5 @@
-import { ref, watchEffect, MaybeRefOrGetter, toRef } from "vue";
+import { ref, watchEffect, MaybeRefOrGetter, toRef, computed } from "vue";
+import { urlSearchParams } from "./stores";
 import { ToggleableProps } from "./types";
 
 export function useInert(active: MaybeRefOrGetter<boolean>) {
@@ -34,4 +35,29 @@ export function useToggleable(init = false): ToggleableProps {
   }
 
   return { active, toggle, close, open };
+}
+
+export function useUrl(
+  base: string,
+  data: { [key: string]: string } = {},
+  carryovers: string[] = []
+) {
+  return computed(() => {
+    const searchParam = new URLSearchParams();
+    for (const key of Object.keys(data)) {
+      searchParam.set(key, data[key]);
+    }
+    for (const key of carryovers) {
+      if (urlSearchParams[key]) {
+        searchParam.set(key, urlSearchParams[key] as string);
+      }
+    }
+
+    const encodedParam = searchParam.toString();
+    if (encodedParam !== "") {
+      return `${base}?${encodedParam}`;
+    } else {
+      return base;
+    }
+  });
 }

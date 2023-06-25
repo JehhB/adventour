@@ -9,6 +9,7 @@ $stmt = execute($sql, [$hotel_id]);
 ?>
 <section
   class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
+  id="overview"
 >
   <div class="flex h-6 items-center gap-2 px-2 sm:px-0 md:col-start-2">
     <h1

@@ -48,7 +48,11 @@ while ($result = $stmt->fetch()) {
     'hotel_id' => $result['hotel_id'],
     'lat' => $result['lat'],
     'lng' => $result['lng'],
-    'link' => "/hotel.php?hotel_id={$result['hotel_id']}",
+    'link' => url(
+      '/hotel.php',
+      ['hotel_id' => $result['hotel_id']],
+      ['checkin', 'checkout', 'n_adult', 'n_child', 'n_room']
+    ),
     'image' => "/storage/hotel/{$result['image']}",
     'alt' => "Thumbnail image for {$result['name']}",
     'name' => $result['name'],

@@ -99,8 +99,9 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 import * as L from "leaflet/dist/leaflet-src.esm";
 import Summary from "./Summary.vue";
-import { defineProps, ref } from "vue";
+import { defineProps, reactive, ref } from "vue";
 import { useFetch } from "@vueuse/core";
+import { useUrl } from "../util";
 
 const props = defineProps<{
   lat: number;
@@ -127,7 +128,20 @@ const hotelMarker = L.icon({
   popupAnchor: [0, -28],
 });
 
-const url = ref("");
+const params = reactive({
+  lng0: "",
+  lng1: "",
+  lat0: "",
+  lat1: "",
+  exclude: props.hotelId.toString(),
+});
+const url = useUrl("/api/hotel-area.php", params, [
+  "checkin",
+  "checkout",
+  "n_adult",
+  "n_child",
+  "n_room",
+]);
 const { data, statusCode } = useFetch(url, {
   refetch: true,
   immediate: false,
@@ -150,31 +164,29 @@ function onMove() {
   if (map.value === undefined) return;
   const bounds = map.value.leafletObject?.getBounds();
   if (bounds === undefined) return;
-  const lat0 = bounds.getNorth();
-  const lat1 = bounds.getSouth();
-  const lng0 = bounds.getEast();
-  const lng1 = bounds.getWest();
-
-  url.value = `/api/hotel-area.php?lat0=${lat0}&lng0=${lng0}&lat1=${lat1}&lng1=${lng1}&exclude=${props.hotelId}`;
+  params.lat0 = bounds.getNorth().toString();
+  params.lat1 = bounds.getSouth().toString();
+  params.lng0 = bounds.getEast().toString();
+  params.lng1 = bounds.getWest().toString();
 }
 </script>
 <style scoped>
->>> .leaflet-control-zoom {
+:deep(.leaflet-control-zoom) {
   border: 1px solid var(--gray-400) !important;
   margin: 0 1rem 1rem 0 !important;
   border-radius: 8px;
 }
 
->>> .leaflet-control-zoom a:first-child {
+:deep(.leaflet-control-zoom a:first-child) {
   border-radius: 8px 8px 0 0 !important;
 }
 
->>> .leaflet-control-zoom a:last-child {
+:deep(.leaflet-control-zoom a:last-child) {
   border-radius: 0 0 8px 8px !important;
   border-bottom: none;
 }
 
->>> .leaflet-control-zoom a {
+:deep(.leaflet-control-zoom a) {
   color: var(--accent-color);
   border-bottom: 1px solid var(--gray-400);
   font-weight: 400;

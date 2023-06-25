@@ -130,32 +130,111 @@
 </template>
 <script setup lang="ts">
 import { BIconCalendar2Week, BIconPeopleFill } from "bootstrap-icons-vue";
+import { urlSearchParams } from "../stores";
 import ArrangementInput from "./ArrangementInput.vue";
 import DateRangePicker from "./DateRangePicker.vue";
 import ModalContainer from "./ModalContainer.vue";
 import OpenButton from "./OpenButton.vue";
-import { ref } from "vue";
+import { computed } from "vue";
+
+const today = new Date();
+today.setHours(0);
+today.setMinutes(0);
+today.setSeconds(0);
+today.setMilliseconds(0);
 
 const arrangementId = Symbol();
 const dateRangePickerId = Symbol();
 
-const currentSearchParam = new URLSearchParams(document.location.search);
-const hotelParam = currentSearchParam.get("hotel_id");
+const hotelParam = urlSearchParams.hotel_id;
 
-const initNAdult = currentSearchParam.get("n_adult");
-const nAdult = ref(initNAdult ? parseInt(initNAdult) : 1);
+const nAdult = computed({
+  get() {
+    const init = parseInt((urlSearchParams.n_adult as string) ?? "1");
+    if (init < 1) {
+      urlSearchParams.n_adult = "1";
+      return 1;
+    }
+    return init;
+  },
+  set(val) {
+    urlSearchParams.n_adult = val.toString();
+  },
+});
 
-const initNChild = currentSearchParam.get("n_child");
-const nChild = ref(initNChild ? parseInt(initNChild) : 0);
+const nChild = computed({
+  get() {
+    const init = parseInt((urlSearchParams.n_child as string) ?? "0");
+    if (init < 0) {
+      urlSearchParams.n_child = "0";
+      return 0;
+    }
+    return init;
+  },
+  set(val) {
+    urlSearchParams.n_child = val.toString();
+  },
+});
 
-const initNRoom = currentSearchParam.get("n_room");
-const nRoom = ref(initNRoom ? parseInt(initNRoom) : 1);
+const nRoom = computed({
+  get() {
+    const init = parseInt((urlSearchParams.n_room as string) ?? "1");
+    if (init < 1) {
+      urlSearchParams.n_room = "1";
+      return 1;
+    }
+    return init;
+  },
+  set(val) {
+    urlSearchParams.n_room = val.toString();
+  },
+});
 
-const initCheckin = currentSearchParam.get("checkin");
-const checkin = ref(initCheckin ? new Date(parseInt(initCheckin)) : null);
+const checkin = computed({
+  get() {
+    if (urlSearchParams.checkin) {
+      const date = new Date(parseInt(urlSearchParams.checkin as string));
+      if (date < today) {
+        delete urlSearchParams.checkin;
+        return null;
+      }
+      return date;
+    } else {
+      return null;
+    }
+  },
+  set(val) {
+    if (val === null || val < today) {
+      delete urlSearchParams.checkin;
+    } else {
+      urlSearchParams.checkin = val.getTime().toString();
+    }
+  },
+});
 
-const initCheckout = currentSearchParam.get("checkout");
-const checkout = ref(initCheckout ? new Date(parseInt(initCheckout)) : null);
+const checkout = computed({
+  get() {
+    const prev = checkin.value;
+    if (urlSearchParams.checkout) {
+      const date = new Date(parseInt(urlSearchParams.checkout as string));
+      if (prev === null || date < prev) {
+        delete urlSearchParams.checkout;
+        return null;
+      }
+      return date;
+    } else {
+      return null;
+    }
+  },
+  set(val) {
+    const prev = checkin.value;
+    if (val === null || prev === null || val < prev) {
+      delete urlSearchParams.checkout;
+    } else {
+      urlSearchParams.checkout = val.getTime().toString();
+    }
+  },
+});
 
 function formatDate(date: Date | null) {
   if (date === null) return "--/--/--";

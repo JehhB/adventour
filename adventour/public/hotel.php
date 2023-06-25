@@ -59,8 +59,9 @@ $stmt = execute($sql, [$result['hotel_id']]);
     <?php insert('header'); ?>
     <main class="container mx-auto space-y-4">
       <?php insert('hotel-overview', $result) ?>
+      <scroll-spy></scroll-spy>
 
-      <section class="px-2 sm:px-0 space-y-2" id="#rooms">
+      <section class="px-2 sm:px-0 space-y-2" id="rooms">
         <h2 class="font-medium">Rooms</h2>
         <stay-setting></stay-setting>
         <?php
@@ -70,7 +71,7 @@ $stmt = execute($sql, [$result['hotel_id']]);
         ?>
       </section>
 
-      <section>
+      <section id="location">
         <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
           <hotel-summary link="#" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
         </hotel-map>
