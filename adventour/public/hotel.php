@@ -39,7 +39,7 @@ $result['images'] = array_map(
 extract($result);
 
 $sql = <<<SQL
-SELECT room_id, room_type 
+SELECT room_id, room_type, room_size
 FROM Rooms
 WHERE hotel_id = ?
 SQL;
@@ -60,7 +60,7 @@ $stmt = execute($sql, [$result['hotel_id']]);
     <main class="container mx-auto space-y-4">
       <?php insert('hotel-overview', $result) ?>
 
-      <section class="px-2 sm:px-0 space-y-1" id="#rooms">
+      <section class="px-2 sm:px-0 space-y-2" id="#rooms">
         <h2 class="font-medium">Rooms</h2>
         <stay-setting></stay-setting>
         <?php
