@@ -82,15 +82,9 @@
           </strong>
           <?php endif; ?>
 
-          <?php if(isset($_GET['referer'])) : ?>
-          <a href="/login.php?referer=<?= urlencode($_GET['referer']) ?>" class="mt-2 text-sm text-green-900 underline">
+          <a href="<?= url("/login.php", carryovers:["referer"] )?>" class="mt-2 text-sm text-green-900 underline">
             Already have an account?
           </a>
-          <?php else : ?>
-          <a href="/login.php" class="mt-2 text-sm text-green-900 underline">
-            Already have an account?
-          </a>
-          <?php endif; ?>
 
           <?php clearError(); ?>
           <input

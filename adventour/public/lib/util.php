@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * A utilitiy function to create link
+ *
+ * @param string $base        the base url for the likn
+ * @param array  $parameter   additional url parameters
+ * @param string[]  $carryovers  additional parameter keys, taken from current request
+ *
+ * @return string
+ */
+function url($base, $parameters = [], $carryovers = [])
+{
+  foreach ($carryovers as $key) {
+    if (isset($_GET[$key])) {
+      $parameters[$key] = $_GET[$key];
+    }
+  }
+
+  $encoded_parameters = http_build_query($parameters);
+  return count($parameters) === 0 ? $base : "$base?$encoded_parameters";
+}

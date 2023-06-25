@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   if (isset($_POST['referer'])) {
-  header("Location: {$_POST['referer']}");
+    header("Location: {$_POST['referer']}");
   } else {
     header('Location: /');
   }

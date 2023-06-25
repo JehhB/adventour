@@ -55,15 +55,9 @@
           </strong>
           <?php endif; ?>
 
-          <?php if(isset($_GET['referer'])) : ?>
-          <a href="/signin.php?referer=<?= urlencode($_GET['referer']) ?>" class="mt-2 text-sm text-green-900 underline">
+          <a href="<?= url('/signin.php', carryovers:['referer']) ?>" class="mt-2 text-sm text-green-900 underline">
             Create new account
           </a>
-          <?php else : ?>
-          <a href="/signin.php" class="mt-2 text-sm text-green-900 underline">
-            Create new account
-          </a>
-          <?php endif; ?>
 
           <?php clearError(); ?>
           <input
