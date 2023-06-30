@@ -27,7 +27,7 @@ safe_start_session();
             <?php for ($i = 1; $i <= 4; $i++) :  ?>
             <carousel-item
               link="#"
-              image="/storage/hotel/002F92F6796D2A036B3AF8CEBBD8E701BF8F4993.jpg"
+              image="/storage/hotel/0B50043728E8425C148C6645B9D6334508C9D28D.jpg"
               title="Test <?= $i ?>"
               subtitle="Address test <?= $i ?>"
             ></carousel-item>

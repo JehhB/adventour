@@ -20,11 +20,11 @@
 </template>
 <style scoped>
 .overlay {
-  background: radial-gradient(
-    114.3% 170.53% at 11.89% 114.3%,
-    #1d2417 0%,
-    #1b3308 4.69%,
-    rgba(27, 51, 8, 0) 100%
+  background: linear-gradient(
+    360deg,
+    rgba(1, 1, 1, 0.65) 0%,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0) 100%
   );
 }
 </style>
