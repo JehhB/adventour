@@ -8,6 +8,11 @@ module.exports = defineConfig({
       template: "public/index.php",
       filename: "index.php",
     },
+    search: {
+      entry: "src/search.ts",
+      template: "public/search.php",
+      filename: "search.php",
+    },
     hotel: {
       entry: "src/hotel.ts",
       template: "public/hotel.php",

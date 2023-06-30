@@ -6,6 +6,7 @@ import ModalContainer from "./components/ModalContainer.vue";
 import ShareButton from "./components/ShareButton.vue";
 import StaySetting from "./components/StaySetting.vue";
 import Summary from "./components/Summary.vue";
+import ToastContainer from "./components/ToastContainer.vue";
 import { BIconHeartFill } from "bootstrap-icons-vue";
 import { createApp } from "vue";
 import common from "./common";
@@ -20,6 +21,7 @@ app.component("HotelSummary", Summary);
 app.component("ModalContainer", ModalContainer);
 app.component("ShareButton", ShareButton);
 app.component("StaySetting", StaySetting);
+app.component("ToastContainer", ToastContainer);
 
 app.component("BIconHeartFill", BIconHeartFill);
 

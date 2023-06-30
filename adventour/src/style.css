@@ -110,4 +110,8 @@
   .grid-cols-stay {
     grid-template-columns: 1fr 1fr 7rem;
   }
+
+  .grid-cols-search {
+    grid-template-columns: 1fr 1fr 1fr 7rem;
+  }
 }

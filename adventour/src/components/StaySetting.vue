@@ -2,6 +2,7 @@
   <form
     method="get"
     class="sm:grid-cols-stay grid grid-cols-1 gap-1 rounded-lg bg-gray-300 p-1"
+    :class="search && 'lg:grid-cols-search'"
   >
     <input
       v-if="hotelParam"
@@ -25,22 +26,36 @@
       :value="checkout.getTime()"
     />
 
+    <div
+      v-if="search"
+      class="flex h-10 w-full items-center gap-2 rounded-lg bg-white px-2 sm:h-12 sm:max-lg:col-span-full"
+    >
+      <BIconSearch class="h-6 w-6 text-gray-800" />
+      <input
+        type="text"
+        v-model="searchInput"
+        placeholder="Find destination"
+        class="w-0 flex-1 self-center text-sm font-medium text-gray-950 placeholder:font-normal placeholder:text-gray-800 sm:text-base"
+      />
+      <BIconXLg v-show="searchInput" @click="searchInput = ''" />
+    </div>
+
     <div class="relative">
       <OpenButton
         :target="dateRangePickerId"
         type="button"
-        class="flex h-10 w-full items-center rounded-lg bg-white px-2 lg:h-12"
+        class="flex h-10 w-full items-center rounded-lg bg-white px-2 sm:h-12"
       >
         <div class="flex flex-1 items-center gap-2">
-          <BIconCalendar2Week class="h-6 w-6 text-gray-800 lg:h-8 lg:w-8" />
+          <BIconCalendar2Week class="h-6 w-6 text-gray-800 sm:h-8 sm:w-8" />
           <div class="space-y-1">
             <div
-              class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
+              class="text-left text-xs font-medium leading-none text-gray-950 sm:text-sm sm:leading-none"
             >
               Check in
             </div>
             <div
-              class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+              class="text-left text-xs leading-none text-gray-800 sm:text-sm sm:leading-none"
             >
               {{ formatDate(checkin) }}
             </div>
@@ -49,12 +64,12 @@
 
         <div class="flex-1 space-y-1 border-l border-gray-600 pl-2">
           <div
-            class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
+            class="text-left text-xs font-medium leading-none text-gray-950 sm:text-sm sm:leading-none"
           >
             Check out
           </div>
           <div
-            class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+            class="text-left text-xs leading-none text-gray-800 sm:text-sm sm:leading-none"
           >
             {{ formatDate(checkout) }}
           </div>
@@ -75,29 +90,29 @@
       <OpenButton
         :target="arrangementId"
         type="button"
-        class="flex h-10 w-full items-center rounded-lg bg-white px-2 lg:h-12"
+        class="flex h-10 w-full items-center rounded-lg bg-white px-2 sm:h-12"
       >
         <div class="flex flex-1 items-center gap-2">
-          <BIconPeopleFill class="h-6 w-6 text-gray-800 lg:h-8 lg:w-8" />
+          <BIconPeopleFill class="h-6 w-6 text-gray-800 sm:h-8 sm:w-8" />
           <div class="space-y-1">
             <div
-              class="text-left text-xs font-medium leading-none text-gray-950 lg:text-sm lg:leading-none"
+              class="text-left text-xs font-medium leading-none text-gray-950 sm:text-sm sm:leading-none"
             >
               Arrangement
             </div>
             <div class="flex gap-6">
               <div
-                class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                class="text-left text-xs leading-none text-gray-800 sm:text-sm sm:leading-none"
               >
                 {{ nAdult }} Adult
               </div>
               <div
-                class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                class="text-left text-xs leading-none text-gray-800 sm:text-sm sm:leading-none"
               >
                 {{ nChild }} Child
               </div>
               <div
-                class="text-left text-xs leading-none text-gray-800 lg:text-sm lg:leading-none"
+                class="text-left text-xs leading-none text-gray-800 sm:text-sm sm:leading-none"
               >
                 {{ nRoom }} Room
               </div>
@@ -122,20 +137,32 @@
 
     <button
       type="submit"
-      class="h-10 rounded-lg bg-green-900 text-sm font-bold leading-none text-white lg:h-12 lg:text-base lg:leading-none"
+      class="h-10 rounded-lg bg-green-900 text-sm font-bold leading-none text-white sm:h-12 sm:text-base sm:leading-none"
     >
-      Update
+      {{ search ? "Search" : "Update" }}
     </button>
   </form>
 </template>
 <script setup lang="ts">
-import { BIconCalendar2Week, BIconPeopleFill } from "bootstrap-icons-vue";
+import {
+  BIconCalendar2Week,
+  BIconPeopleFill,
+  BIconSearch,
+  BIconXLg,
+} from "bootstrap-icons-vue";
 import { urlSearchParams } from "../stores";
 import ArrangementInput from "./ArrangementInput.vue";
 import DateRangePicker from "./DateRangePicker.vue";
 import ModalContainer from "./ModalContainer.vue";
 import OpenButton from "./OpenButton.vue";
-import { computed } from "vue";
+import { withDefaults, defineProps, computed } from "vue";
+
+withDefaults(
+  defineProps<{
+    search: boolean;
+  }>(),
+  { search: false }
+);
 
 const today = new Date();
 today.setHours(0);
@@ -147,6 +174,15 @@ const arrangementId = Symbol();
 const dateRangePickerId = Symbol();
 
 const hotelParam = urlSearchParams.hotel_id;
+
+const searchInput = computed({
+  get() {
+    return urlSearchParams.q as string;
+  },
+  set(val) {
+    urlSearchParams.q = val;
+  },
+});
 
 const nAdult = computed({
   get() {
