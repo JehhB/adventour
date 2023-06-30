@@ -4,7 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 $sql = <<<SQL
 SELECT
     'hotel' AS type,
-    Hotels.hotel_id id,
+    CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link,
     image,
     name AS title,
     address AS subtitle

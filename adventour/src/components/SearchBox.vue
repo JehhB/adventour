@@ -93,7 +93,13 @@
   </OnClickOutside>
 </template>
 <script setup lang="ts">
-import { BIconSearch, BIconXLg } from "bootstrap-icons-vue";
+import {
+  BIconSearch,
+  BIconXLg,
+  BIconBuildingFill,
+  BIconCalendarEventFill,
+  BIconPinMapFill,
+} from "bootstrap-icons-vue";
 import { computed, reactive, ref, watchEffect } from "vue";
 import { OnClickOutside } from "@vueuse/components";
 import { useFetch, watchDebounced } from "@vueuse/core";
@@ -101,7 +107,7 @@ import Summary from "./Summary.vue";
 
 type Suggestion = {
   type: "hotel" | "event" | "place";
-  id: number;
+  link: string;
   title: string;
   subtitle: string;
   image: string;
@@ -131,10 +137,15 @@ const suggestions = computed(() => {
     return [];
   return data.value?.map((d) => ({
     title: d.title,
-    link: `/hotel.php?hotel_id=${d.id}`,
+    link: d.link,
     image: `/storage/hotel/${d.image}`,
     caption: `Thumbnail image for ${d.title}`,
     subtitle: d.subtitle.match(/(?<=\d{4}\s+)[^,]*,[^,]*$/)?.[0] ?? "",
+    icon: {
+      event: BIconCalendarEventFill,
+      hotel: BIconBuildingFill,
+      place: BIconPinMapFill,
+    }[d.type],
   }));
 });
 
