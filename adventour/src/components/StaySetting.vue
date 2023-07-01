@@ -33,6 +33,12 @@
         name="rating"
         :value="urlSearchParams.rating"
       />
+      <input
+        v-if="urlSearchParams.sort_by"
+        type="hidden"
+        name="rating"
+        :value="urlSearchParams.sort_by"
+      />
     </template>
 
     <input
@@ -57,6 +63,7 @@
         type="text"
         v-model="searchInput"
         placeholder="Find destination"
+        name="q"
         class="w-0 flex-1 self-center text-sm font-medium text-gray-950 placeholder:font-normal placeholder:text-gray-800 sm:text-base"
       />
       <BIconXLg v-show="searchInput" @click="searchInput = ''" />

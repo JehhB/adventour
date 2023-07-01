@@ -2,9 +2,21 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 safe_start_session();
 
+$sort_categories = [
+  'recommendation',
+  'popularity',
+  'price',
+  'rating',
+];
+$sort_by = $sort_categories[0];
+if (isset($_GET['sort_by']) and array_search($_GET['sort_by'], $sort_categories)) {
+  $sort_by = $_GET['sort_by'];
+}
+
+
 $filters = ['hotels', 'events', 'places'];
 
-$carryovers = ['filter', 'q', 'checkin', 'checkout', 'n_adult', 'n_child', 'n_room', 'price', 'rating'];
+$carryovers = ['filter', 'q', 'checkin', 'checkout', 'n_adult', 'n_child', 'n_room', 'price', 'rating', 'sort_by'];
 $active_filter = '';
 
 if (!isset($_GET['filter']) or array_search($_GET['filter'], $filters) === false) {
@@ -17,14 +29,9 @@ if (!isset($_GET['filter']) or array_search($_GET['filter'], $filters) === false
 
 $rating = null;
 if (isset($_GET['rating']) && $_GET['rating'] >= 0 && $_GET['rating'] <= 5) {
-  $rating = intval($_GET['rating']);
-}
-
-$price_range = null;
-if (isset($_GET['price']) && $_GET['price'] >= 0 && $_GET['price'] < 4) {
-  $price_range = intval($_GET['price']);
-}
-?>
+$rating = intval($_GET['rating']); } $price_range = null; if
+(isset($_GET['price']) && $_GET['price'] >= 0 && $_GET['price'] < 4) {
+$price_range = intval($_GET['price']); } ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -83,9 +90,48 @@ if (isset($_GET['price']) && $_GET['price'] >= 0 && $_GET['price'] < 4) {
         </div>
         <?php insert('search-chips'); ?>
 
-        <aside class="hidden w-1/4 lg:block">
-          <?php insert('search-filter'); ?>
-        </aside>
+        <div class="mt-6 flex gap-6">
+          <aside class="hidden w-1/4 shrink-0 lg:block">
+            <open-button
+              target="map"
+              class="aspect-h-1 aspect-w-2 mb-4 block w-full"
+            >
+              <div
+                class="grid place-items-center overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat"
+                style="background: url('/assets/images/map.jpg')"
+              >
+                <div class="rounded-lg bg-green-900 p-3 font-medium text-white">
+                  View in map
+                </div>
+              </div>
+            </open-button>
+            <?php insert('search-filter'); ?>
+          </aside>
+
+          <main class="w-0 flex-1">
+            <div class="space-y-1">
+              <?php if (!isset($_GET['q']) or $_GET['q'] === ''): ?>
+              <h1 class="text-xl font-medium leading-none text-gray-900">
+                Find your next destination
+              </h1>
+              <?php else : ?>
+              <h1 class="text-xl font-medium leading-none text-gray-900">
+                Results for "<?= $_GET['q'] ?>"
+              </h1>
+              <?php endif; ?>
+              <open-button
+                target="sort"
+                class="flex items-center text-xs text-gray-600"
+              >
+                <b-icon-sort-down class="h-3 w-3"></b-icon-sort-down>
+                <span class="ml-1 leading-none">
+                  Sort by:
+                  <?= $sort_by ?>
+                </span>
+              </open-button>
+            </div>
+          </main>
+        </div>
       </div>
       <modal-container name="filter" class="!max-w-xs">
         <?php insert('search-filter'); ?>
