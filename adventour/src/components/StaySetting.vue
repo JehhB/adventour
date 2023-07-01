@@ -13,6 +13,28 @@
     <input type="hidden" name="n_adult" :value="nAdult" />
     <input type="hidden" name="n_child" :value="nChild" />
     <input type="hidden" name="n_room" :value="nRoom" />
+
+    <template v-if="search">
+      <input
+        v-if="urlSearchParams.filter"
+        type="hidden"
+        name="filter"
+        :value="urlSearchParams.filter"
+      />
+      <input
+        v-if="urlSearchParams.price"
+        type="hidden"
+        name="price"
+        :value="urlSearchParams.price"
+      />
+      <input
+        v-if="urlSearchParams.rating"
+        type="hidden"
+        name="rating"
+        :value="urlSearchParams.rating"
+      />
+    </template>
+
     <input
       v-if="checkin !== null"
       type="hidden"

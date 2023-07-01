@@ -17,7 +17,10 @@ function url($base, $data = [], $carryovers = [])
       $parameters[$key] = $_GET[$key];
     }
   }
+  foreach ($data as $key => $values) {
+    $parameters[$key] = $values;
+  }
 
-  $encoded_parameters = http_build_query(array_merge($parameters, $data));
+  $encoded_parameters = http_build_query($parameters);
   return count($parameters) === 0 ? $base : "$base?$encoded_parameters";
 }

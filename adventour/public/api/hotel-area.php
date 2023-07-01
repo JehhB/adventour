@@ -16,7 +16,7 @@ $bbox = "Polygon(($lat0 $lng0,$lat0 $lng1,$lat1 $lng1,$lat1 $lng0,$lat0 $lng0))"
 
 $sql = <<<SQL
 SELECT
-    Hotels.hotel_id hotel_id,
+    Hotels.hotel_id AS hotel_id,
     hotel_image_id AS image_id,
     name,
     address,
