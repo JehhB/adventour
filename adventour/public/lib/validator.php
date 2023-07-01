@@ -112,7 +112,7 @@ namespace {
     foreach ($validator as $key => $values) {
       $predicates = is_array($values) ? $values : array($values);
       foreach ($predicates as $predicate) {
-        $pass = $predicate($data[$key]);
+        $pass = $predicate($data[$key] ?? null);
         if ($pass !== true) {
           $errors[$key] = $pass;
           break;
