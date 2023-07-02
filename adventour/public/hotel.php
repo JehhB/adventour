@@ -11,7 +11,7 @@ $hotel = DB::table('Hotels')
     'address',
     'description',
     DB::raw('ST_X(coordinate) AS lat'),
-    DB::raw('ST_X(coordinate) AS lng')
+    DB::raw('ST_Y(coordinate) AS lng')
   ])->where('hotel_id', $_GET['hotel_id'] ?? 0)
   ->first();
 if (!isset($hotel)) {
