@@ -1,49 +1,41 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
+use Illuminate\Database\Capsule\Manager as DB;
 safe_start_session();
 
-if (!isset($_GET['hotel_id'])) {
-  header('Location: /');
-  http_response_code(303);
+
+$hotel = DB::table('Hotels')
+  ->select([
+    'hotel_id',
+    'name',
+    'address',
+    'description',
+    DB::raw('ST_X(coordinate) AS lat'),
+    DB::raw('ST_X(coordinate) AS lng')
+  ])->where('hotel_id', $_GET['hotel_id'] ?? 0)
+  ->first();
+if (!isset($hotel)) {
+  echo "<strong>Hotel corresponding id is not found</strong>";
+  http_response_code(404);
   exit();
 }
+extract((array) $hotel);
 
-$sql = <<<SQL
-SELECT 
-  hotel_id, 
-  name, 
-  address, 
-  description, 
-  ST_X(coordinate) AS lat, 
-  ST_Y(coordinate) AS lng
-FROM Hotels 
-WHERE hotel_id = ?
-SQL;
-$stmt = execute($sql, [
-  [$_GET['hotel_id'], PDO::PARAM_INT],
-]);
-$result = fetchOrFail($stmt, "Hotel corresponding id is not found");
+$images = DB::table('HotelImages')
+  ->select('image')
+  ->where('hotel_id', $_GET['hotel_id'])
+  ->get()
+  ->all();
 
-$sql = <<<SQL
-SELECT image
-FROM HotelImages
-WHERE hotel_id = ?
-ORDER BY hotel_image_id
-SQL;
-$stmt = execute($sql, [$result['hotel_id']]);
-
-$result['images'] = array_map(
-  fn ($e) => ["src" => "/storage/hotel/{$e['image']}", "alt" => "Gallery image for {$result['name']}"],
-  $stmt->fetchAll()
+$hotel->images = array_map(
+  fn ($e) => ["src" => "/storage/hotel/{$e->image}", "alt" => "Gallery image for {$hotel->name}"],
+  $images
 );
-extract($result);
 
-$sql = <<<SQL
-SELECT room_id, room_type, room_size
-FROM Rooms
-WHERE hotel_id = ?
-SQL;
-$stmt = execute($sql, [$result['hotel_id']]);
+$rooms = DB::table('Rooms')
+  ->select(['room_id', 'room_type', 'room_size'])
+  ->where('hotel_id', $hotel_id)
+  ->get();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,21 +43,21 @@ $stmt = execute($sql, [$result['hotel_id']]);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel | <?= $result['name'] ?></title>
+  <title>Hotel | <?= $hotel->name ?></title>
 </head>
 
 <body>
   <div id="app" v-cloak>
     <?php insert('header'); ?>
     <main class="container mx-auto space-y-4">
-      <?php insert('hotel-overview', $result) ?>
+      <?php insert('hotel-overview', $hotel) ?>
       <scroll-spy></scroll-spy>
 
       <section class="px-2 sm:px-0 space-y-2" id="rooms">
         <h2 class="font-medium">Rooms</h2>
         <stay-setting></stay-setting>
         <?php
-        while ($room = $stmt->fetch()) {
+        foreach ($rooms as $room) {
           insert('room-card', $room);
         }
         ?>

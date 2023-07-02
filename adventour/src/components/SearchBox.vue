@@ -138,7 +138,7 @@ const suggestions = computed(() => {
   return data.value?.map((d) => ({
     title: d.title,
     link: d.link,
-    image: `/storage/hotel/${d.image}`,
+    image: d.image,
     caption: `Thumbnail image for ${d.title}`,
     subtitle: d.subtitle.match(/(?<=\d{4}\s+)[^,]*,[^,]*$/)?.[0] ?? "",
     icon: {

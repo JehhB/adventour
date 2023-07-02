@@ -1,3 +1,6 @@
+<?php
+use Illuminate\Database\Capsule\Manager as DB;
+?>
 <header>
   <nav class="container relative mx-auto flex items-center p-2 sm:px-0">
     <a href="/" class="flex w-10 items-center justify-center gap-4 sm:w-auto">
@@ -67,11 +70,11 @@
       </div>
     </off-page>
     <?php else :
-      $sql = <<<SQL
-      SELECT email FROM Users WHERE user_id = :user_id
-      SQL;
-      $stmt = execute($sql, [':user_id' =>
-    is_auth()]); $user = $stmt->fetch(); ?>
+      $user = DB::table('Users')
+        ->select(['email'])
+        ->where('user_id', is_auth())
+        ->first();
+    ?>
     <div class="relative ml-auto sm:ml-3">
       <open-button
         class="h-10 w-10 overflow-hidden rounded-full border-2 border-gray-300 sm:h-12 sm:w-12"
@@ -103,7 +106,7 @@
               <div
                 class="mt-[2px] text-xs font-medium leading-none text-gray-700 sm:text-sm sm:leading-none"
               >
-                <?= $user['email'] ?>
+                <?= $user->email ?>
               </div>
             </div>
           </a>

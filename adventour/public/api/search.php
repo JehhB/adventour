@@ -1,26 +1,26 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
+use Illuminate\Database\Capsule\Manager as DB;
 
-$sql = <<<SQL
-SELECT
-    'hotel' AS type,
-    CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link,
-    image,
-    name AS title,
-    address AS subtitle
-FROM Hotels
-LEFT JOIN HotelImages ON HotelImages.hotel_id = Hotels.hotel_id
-WHERE 
-  hotel_image_id = (
-    SELECT MIN(hotel_image_id)
-    FROM HotelImages
-    WHERE HotelImages.hotel_id = Hotels.hotel_id
-  ) AND 
-  metaphone LIKE :search
-LIMIT 8
-SQL;
 $metaphone = metaphone($_GET['search'] ?? '');
-$stmt = execute($sql, [':search' => "%$metaphone%"]);
+
+$results = DB::table('Hotels')
+  ->select(
+    DB::raw('"hotel" as type'),
+    DB::raw("CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link"),
+    DB::raw("CONCAT('/storage/hotel/', image) AS image"),
+    'name AS title',
+    'address AS subtitle'
+  )->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+  ->where('hotel_image_id', '=', function ($query) {
+    $query->select('hotel_image_id')
+      ->from('HotelImages')
+      ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+      ->limit(1);
+  })
+  ->where('metaphone', 'LIKE', '%' . $metaphone . '%')
+  ->limit(8)
+  ->get();
 
 header('Content-Type: application/json');
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+echo json_encode($results);

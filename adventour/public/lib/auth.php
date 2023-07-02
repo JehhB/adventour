@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/lib/index.php";
+use Illuminate\Database\Capsule\Manager as DB;
 
 /**
  * Register a new user
@@ -9,17 +10,14 @@ include $_SERVER['DOCUMENT_ROOT'] . "/lib/index.php";
  */
 function register($email, $password)
 {
-  $sql = <<<SQL
-INSERT INTO Users (email, password_hash)
-VALUES (:email, :password_hash)
-SQL;
-  execute($sql, [
-    ':email' => $email,
-    ':password_hash' => password_hash($password, PASSWORD_DEFAULT)
+  $user_id = DB::table('Users')
+    ->insertGetId([
+    'email' => $email,
+    'password_hash' => password_hash($password, PASSWORD_DEFAULT)
   ]);
 
   safe_start_session();
-  $_SESSION['user'] = intval(getDB()->lastInsertId());
+  $_SESSION['user'] = $user_id;
 }
 
 /**
@@ -32,20 +30,21 @@ SQL;
  */
 function auth($email, $password)
 {
-  $sql = "SELECT user_id, password_hash FROM Users WHERE email = :email";
-  $stmt = execute($sql, [':email' => $email]);
+  $user = DB::table('Users')
+      ->select(['user_id', 'password_hash'])
+      ->where('email', $email)
+      ->first();
 
-  $user = $stmt->fetch();
-  if (!$user) {
+  if (!isset($user)) {
     return ['email' => "Email is not linked to an account"];
   }
 
-  if (!password_verify($password, $user['password_hash'])) {
+  if (!password_verify($password, $user->password_hash)) {
     return ['password' => "Incorrect password"];
   }
 
   safe_start_session();
-  $_SESSION['user'] = $user['user_id'];
+  $_SESSION['user'] = $user->user_id;
 
   return false;
 }

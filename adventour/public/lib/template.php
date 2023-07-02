@@ -11,12 +11,12 @@ define('COMPONENTS_EXT', 'php');
  * @param string|array $input Input to sanitize
  * @return string|array Returns sanitize string
  */
-function e($input)
+function sanitize($input)
 {
   if (is_string($input)) {
     return htmlspecialchars($input);
   } else if (is_array($input)) {
-    return array_map(fn ($e) => e($e), $input);
+    return array_map(fn ($e) => sanitize($e), $input);
   }
   return $input;
 }
@@ -36,8 +36,8 @@ function resolve_path($name)
 /**
  * Insert template section of component
  * 
- * @param string  $name Name of component to be insert
- * @param mixed[] $data Data to be passed into component
+ * @param string          $name Name of component to be insert
+ * @param array|stdClass  $data Data to be passed into component
  */
 function insert($name, $data = array())
 {
@@ -47,17 +47,21 @@ function insert($name, $data = array())
 /**
  * Render a component with the given data
  * 
- * @param string  $name     Name of component to be rendered
- * @param mixed[] $data     Data to be passed into component
- * @param bool    $sanitize Wheter to sanitize data before inserting
+ * @param string          $name     Name of component to be rendered
+ * @param array|stdClass  $data     Data to be passed into component
+ * @param bool            $sanitize Whether to sanitize data before inserting
  * 
  * @return string Return rendered component
  */
 
 function render($name, $data = array(), $sanitize = false)
 {
+  if ($data instanceof stdClass) {
+    $data = (array) $data;
+  }
+
   if ($sanitize) {
-    $data = e($data);
+    $data = sanitize($data);
   }
 
   $path = resolve_path($name);

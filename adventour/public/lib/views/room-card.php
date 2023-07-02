@@ -1,30 +1,26 @@
 <?php
-$sql = <<<SQL
-SELECT image
-FROM RoomImages
-WHERE room_id = ?
-SQL;
-$images = execute($sql, [$room_id])->fetchAll();
+use Illuminate\Database\Capsule\Manager as DB;
 
-$sql = <<<SQL
-SELECT highlight 
-FROM Highlights
-JOIN RoomHighlights ON RoomHighlights.highlight_id = Highlights.highlight_id
-WHERE room_id = ?
-SQL;
+$image = DB::table('RoomImages')
+  ->where('room_id', $room_id)
+  ->value('image');
 
-$highlights = execute($sql, [$room_id]);
+$highlights = DB::table('Highlights')
+  ->select('highlight')
+  ->join('RoomHighlights', 'RoomHighlights.highlight_id', 'Highlights.highlight_id')
+  ->where('room_id', $room_id)
+  ->get();
 ?>
 <div class="overflow-hidden rounded-lg border border-gray-400">
   <div class="aspect-h-12 aspect-w-16">
-    <?php if (count($images) === 0) : ?>
+    <?php if (!isset($image)) : ?>
     <img
       src="/assets/images/no_image.svg"
       alt="No images for <?= $room_type ?>"
     />
     <?php else : ?>
     <img
-      src="/storage/room/<?= $images[0]['image'] ?>"
+      src="/storage/room/<?= $image ?>"
       alt="Image for <?= $room_type ?>"
     />
     <?php endif; ?>
@@ -40,11 +36,11 @@ $highlights = execute($sql, [$room_id]);
         m<sup>2</sup>
       </li>
       <?php endif; ?>
-      <?php while ($row = $highlights->fetch()) : ?>
+      <?php foreach ($highlights as $highlight) :  ?>
       <li class="list-check">
-        <?= $row['highlight'] ?>
+        <?= $highlight->highlight ?>
       </li>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </ul>
   </div>
 </div>

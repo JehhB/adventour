@@ -1,11 +1,12 @@
 <?php
-$sql = <<<SQL
-SELECT feature
-FROM Features
-JOIN HotelFeatures ON HotelFeatures.feature_id = Features.feature_id
-WHERE hotel_id = ?
-SQL;
-$stmt = execute($sql, [$hotel_id]);
+
+use Illuminate\Database\Capsule\Manager as DB;
+
+$features = DB::table('Features')
+  ->select(['feature'])
+  ->join('HotelFeatures', 'HotelFeatures.feature_id', 'Features.feature_id')
+  ->where('hotel_id', $hotel_id)
+  ->get();
 ?>
 <section
   class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
@@ -57,11 +58,11 @@ $stmt = execute($sql, [$hotel_id]);
     <ul
       class="mt-4 flex list-none flex-wrap gap-x-8 gap-y-3 text-gray-700 md:mt-0"
     >
-      <?php while ($facility = $stmt->fetch()) : ?>
+      <?php foreach($features as $feature) : ?>
       <li class="list-check text-sm leading-none">
-        <?= e($facility['feature']) ?>
+        <?= sanitize($feature->feature) ?>
       </li>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </ul>
   </div>
 

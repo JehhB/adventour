@@ -1,6 +1,9 @@
 <?php
 
 namespace vld {
+
+  use Illuminate\Database\Capsule\Manager as DB;
+
   /** 
    * Validate if data pass predicate
    *
@@ -87,9 +90,11 @@ namespace vld {
   function is_unique($table, $field, $msg = "Value is not unique in database")
   {
     return ensure(function ($x) use ($table, $field) {
-      $sql = "SELECT 1 FROM $table WHERE $field = :data";
-      $stmt = execute($sql, array(':data' => $x));
-      return $stmt->rowCount() === 0;
+      $value = DB::table($table)
+        ->selectRaw('1 AS data')
+        ->where($field, $x)
+        ->value('data');
+      return !isset($value);
     }, $msg);
   }
 }
