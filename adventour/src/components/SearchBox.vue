@@ -20,7 +20,7 @@
           name="q"
           placeholder="Find destination"
           @focus="onFocus"
-          v-model="query.search"
+          v-model="query.q"
           class="w-0 flex-1 placeholder:text-gray-500"
         />
         <BIconSearch v-if="!isActive" class="text-gray-500" />
@@ -84,7 +84,7 @@
               </div>
             </template>
             <template v-else>
-              <em>No result found for "{{ query.search }}"</em>
+              <em>No result found for "{{ query.q }}"</em>
             </template>
           </div>
         </div>
@@ -117,8 +117,8 @@ const filters = ["all", "hotels", "events", "places"] as const;
 type Filter = (typeof filters)[number];
 
 const isActive = ref(false);
-const query = reactive<{ search: string; filter: Filter }>({
-  search: "",
+const query = reactive<{ q: string; filter: Filter }>({
+  q: "",
   filter: filters[0],
 });
 const searchParam = computed(() => new URLSearchParams(query).toString());
@@ -155,7 +155,7 @@ function onFocus(event: FocusEvent) {
 }
 
 function clear() {
-  query.search = "";
+  query.q = "";
   isActive.value = false;
 }
 

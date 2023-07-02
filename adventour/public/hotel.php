@@ -19,7 +19,7 @@ if (!isset($hotel)) {
   http_response_code(404);
   exit();
 }
-extract((array) $hotel);
+extract(sanitize((array) $hotel));
 
 $images = DB::table('HotelImages')
   ->select('image')
@@ -28,7 +28,7 @@ $images = DB::table('HotelImages')
   ->all();
 
 $hotel->images = array_map(
-  fn ($e) => ["src" => "/storage/hotel/{$e->image}", "alt" => "Gallery image for {$hotel->name}"],
+  fn ($e) => ["src" => "/storage/hotel/{$e->image}", "alt" => "Gallery image for {$name}"],
   $images
 );
 
@@ -43,7 +43,7 @@ $rooms = DB::table('Rooms')
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel | <?= $hotel->name ?></title>
+  <title>Hotel | <?= $name ?></title>
 </head>
 
 <body>

@@ -24,3 +24,7 @@ function url($base, $data = [], $carryovers = [])
   $encoded_parameters = http_build_query($parameters);
   return count($parameters) === 0 ? $base : "$base?$encoded_parameters";
 }
+
+function gt($a, $b) {
+  return $a > $b;
+}

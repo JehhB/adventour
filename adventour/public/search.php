@@ -1,37 +1,8 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
-safe_start_session();
-
-$sort_categories = [
-  'recommendation',
-  'popularity',
-  'price',
-  'rating',
-];
-$sort_by = $sort_categories[0];
-if (isset($_GET['sort_by']) and array_search($_GET['sort_by'], $sort_categories)) {
-  $sort_by = $_GET['sort_by'];
-}
-
-
-$filters = ['hotels', 'events', 'places'];
-
-$carryovers = ['filter', 'q', 'checkin', 'checkout', 'n_adult', 'n_child', 'n_room', 'price', 'rating', 'sort_by'];
-$active_filter = '';
-
-if (!isset($_GET['filter']) or array_search($_GET['filter'], $filters) === false) {
-  $active_filter = 'all';
-} else {
-  $active_filter = $_GET['filter'];
-  $index = array_search($_GET['filter'], $filters);
-  unset($filters[$index]);
-}
-
-$rating = null;
-if (isset($_GET['rating']) && $_GET['rating'] >= 0 && $_GET['rating'] <= 5) {
-$rating = intval($_GET['rating']); } $price_range = null; if
-(isset($_GET['price']) && $_GET['price'] >= 0 && $_GET['price'] < 4) {
-$price_range = intval($_GET['price']); } ?>
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/search.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -90,7 +61,7 @@ $price_range = intval($_GET['price']); } ?>
         </div>
         <?php insert('search-chips'); ?>
 
-        <div class="mt-6 flex gap-6">
+        <div class="mt-6 flex items-start gap-6">
           <aside class="hidden w-1/4 shrink-0 lg:block">
             <open-button
               target="map"
@@ -109,7 +80,7 @@ $price_range = intval($_GET['price']); } ?>
           </aside>
 
           <main class="w-0 flex-1">
-            <div class="space-y-1">
+            <div class="mb-4 hidden space-y-1 lg:block">
               <?php if (!isset($_GET['q']) or $_GET['q'] === ''): ?>
               <h1 class="text-xl font-medium leading-none text-gray-900">
                 Find your next destination
@@ -130,9 +101,96 @@ $price_range = intval($_GET['price']); } ?>
                 </span>
               </open-button>
             </div>
+            <div class="mb-2 inline-block w-full px-2 sm:mb-4 sm:px-0">
+              <?php 
+              foreach($results as $result) { 
+                insert(match($result->type) {
+                  'hotel' => 'search-hotel',
+                  'event' => 'search-event',
+                  'place' => 'search-place',
+                }, $result, true);
+              }
+              ?>
+            </div>
+
+            <?php if (gt($pages, 1)) : ?>
+            <div class="flex w-full items-center justify-center gap-1">
+              <?php if ($page === 1) : ?>
+              <div
+                class="grid h-6 w-6 place-items-center text-center font-medium leading-6 text-gray-400"
+              >
+                <b-icon-chevron-left></b-icon-chevron-left>
+              </div>
+              <?php else : ?>
+              <a
+                href="<?= url('/search.php', ['page' => $page - 1], $carryovers) ?>"
+                class="grid h-6 w-6 place-items-center text-center font-medium leading-6 text-green-900"
+              >
+                <span class="sr-only">Previous result page</span>
+                <b-icon-chevron-left></b-icon-chevron-left>
+              </a>
+              <?php endif; ?>
+
+              <?php if ($min_page !== 1) :  ?>
+              <a
+                href="<?= url('/search.php', ['page' => 1], $carryovers) ?>"
+                class="mr-3 w-6 rounded border border-gray-300 bg-gray-100 text-center font-medium leading-6 text-gray-400"
+              >
+                <span class="sr-only">Goto result page</span> 1
+              </a>
+              <?php endif; ?>
+
+              <?php for ($i = $min_page; $i <= $max_page; ++$i) : ?>
+              <?php if ($i === $page) : ?>
+              <div
+                class="w-6 rounded border border-green-900 bg-[#C0D1A9] text-center font-medium leading-6 text-green-900"
+              >
+                <?= $i ?>
+              </div>
+              <?php else : ?>
+              <a
+                href="<?= url('/search.php', ['page' => $i], $carryovers) ?>"
+                class="w-6 rounded border border-gray-300 bg-gray-100 text-center font-medium leading-6 text-gray-400"
+              >
+                <span class="sr-only">Goto result page</span>
+                <?= $i ?>
+              </a>
+              <?php endif; ?>
+              <?php endfor; ?>
+
+              <?php if ($max_page !== $pages) :  ?>
+              <a
+                href="<?= url('/search.php', ['page' => $pages], $carryovers) ?>"
+                class="ml-3 w-6 rounded border border-gray-300 bg-gray-100 text-center font-medium leading-6 text-gray-400"
+              >
+                <span class="sr-only">Goto result page</span>
+                <?= $pages ?>
+              </a>
+              <?php endif; ?>
+
+              <?php if ($page === $pages) : ?>
+              <div
+                class="grid h-6 w-6 place-items-center text-center font-medium leading-6 text-gray-400"
+              >
+                <b-icon-chevron-right></b-icon-chevron-right>
+              </div>
+              <?php else : ?>
+              <a
+                href="<?= url('/search.php', ['page' => $page + 1], $carryovers) ?>"
+                class="grid h-6 w-6 place-items-center text-center font-medium leading-6 text-green-900"
+              >
+                <span class="sr-only">Next result page</span>
+                <b-icon-chevron-right></b-icon-chevron-right>
+              </a>
+              <?php endif; ?>
+            </div>
+            <?php endif; ?>
           </main>
         </div>
       </div>
+      <modal-container name="sort" class="!max-w-xs">
+        <?php insert('search-sort'); ?>
+      </modal-container>
       <modal-container name="filter" class="!max-w-xs">
         <?php insert('search-filter'); ?>
       </modal-container>

@@ -38,10 +38,11 @@ function resolve_path($name)
  * 
  * @param string          $name Name of component to be insert
  * @param array|stdClass  $data Data to be passed into component
+ * @param bool            $sanitize Whether to sanitize data before inserting
  */
-function insert($name, $data = array())
+function insert($name, $data = array(), $sanitize = false)
 {
-  echo render($name, $data);
+  echo render($name, $data, $sanitize);
 }
 
 /**
