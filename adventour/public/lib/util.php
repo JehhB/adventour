@@ -25,6 +25,15 @@ function url($base, $data = [], $carryovers = [])
   return count($parameters) === 0 ? $base : "$base?$encoded_parameters";
 }
 
-function gt($a, $b) {
+function gt($a, $b)
+{
   return $a > $b;
+}
+
+function params()
+{
+  $url = $_SERVER['REQUEST_URI'];
+  $queryString = parse_url($url, PHP_URL_QUERY);
+  parse_str($queryString, $params);
+  return $params;
 }

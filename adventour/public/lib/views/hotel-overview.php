@@ -18,9 +18,7 @@ $features = DB::table('Features')
       <?= $name ?>
     </h1>
     <div class="ml-auto flex gap-2">
-      <open-button target="not authenticated toast">
-        <b-icon-heart-fill class="text-zinc-600"></b-icon-heart-fill>
-      </open-button>
+      <like-button id="<?= $hotel_id ?>" type="hotel"></like-button>
       <share-button class="text-zinc-600"></share-button>
     </div>
   </div>

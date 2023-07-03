@@ -3,7 +3,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 use Illuminate\Database\Capsule\Manager as DB;
 safe_start_session();
 
-
 $hotel = DB::table('Hotels')
   ->select([
     'hotel_id',
@@ -20,6 +19,20 @@ if (!isset($hotel)) {
   exit();
 }
 extract(sanitize((array) $hotel));
+
+$view_query = DB::table('HotelViews')
+  ->where('session_id', $_SESSION['session_id'])
+  ->where('hotel_id', $hotel_id);
+$view = $view_query->value('hotel_view_id');
+if (isset($view)) {
+  $view_query->update(['viewed_at' => DB::raw('CURRENT_TIMESTAMP')]);
+} else {
+  $view = DB::table('HotelViews')
+    ->insertGetId([
+      'session_id' => $_SESSION['session_id'],
+      'hotel_id' => $hotel_id,
+    ]);
+}
 
 $images = DB::table('HotelImages')
   ->select('image')

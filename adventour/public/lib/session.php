@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as DB;
+
 /**
  * A function to safely start session
  *
- * @return bool returns true if session is started
+ * @return int returns sessions id
  */
 function safe_start_session()
 {
@@ -12,10 +14,13 @@ function safe_start_session()
   if (!$started) {
     $started = true;
     session_start();
-    return true;
   }
 
-  return false;
+  if (!isset($_SESSION['session_id'])) {
+    $_SESSION['session_id'] = DB::table('Sessions')->insertGetId([]);
+  }
+
+  return $_SESSION['session_id'];
 }
 
 
