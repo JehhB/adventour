@@ -140,7 +140,10 @@ const suggestions = computed(() => {
     link: d.link,
     image: d.image,
     caption: `Thumbnail image for ${d.title}`,
-    subtitle: d.subtitle.match(/(?<=\d{4}\s+)[^,]*,[^,]*$/)?.[0] ?? "",
+    subtitle:
+      d.type === "hotel"
+        ? d.subtitle.match(/(?<=\d{4}\s+)[^,]*,[^,]*$/)?.[0] ?? ""
+        : d.subtitle,
     icon: {
       event: BIconCalendarEventFill,
       hotel: BIconBuildingFill,

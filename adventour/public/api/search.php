@@ -2,7 +2,16 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/search.php';
 
-$results = getHotels($_GET['q'] ?? '')
+$search = $_GET['q'] ?? '';
+$query = match ($_GET['filter'] ?? 'all') {
+  'hotels' => getHotels($search),
+  'events' => getEvents($search),
+  'places' => getPlaces($search),
+  default => getAll($search),
+};
+
+$results = $query
+  ->orderBy('key')
   ->limit(8)
   ->get();
 
