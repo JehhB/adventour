@@ -72,3 +72,73 @@ LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
 (@offering_id, room_id, max_person, stays, price, discounted_price, meal_plan);
 
+LOAD DATA INFILE '/var/lib/mysql-files/events.csv'
+INTO TABLE Events
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@event_id, name, address, @lat, @lng, start_date, end_date, description, metaphone)
+SET coordinate=ST_GeomFromText(
+      CONCAT(
+        'POINT(',
+        FORMAT(@lat, 6),
+        ' ',
+        FORMAT(@lng, 6),
+        ')'
+      )
+    );
+
+LOAD DATA INFILE '/var/lib/mysql-files/eventsFeature.csv'
+INTO TABLE EventsFeatures
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@events_feature_id, events_feature);
+
+LOAD DATA INFILE '/var/lib/mysql-files/eventsFeatureIM.csv'
+INTO TABLE EventsFeaturesIM
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(event_id, events_feature_id);
+
+LOAD DATA INFILE '/var/lib/mysql-files/places.csv'
+INTO TABLE Places
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@place_id, name, address, @lat, @lng, open_time, close_time, description, metaphone)
+SET coordinate=ST_GeomFromText(
+      CONCAT(
+        'POINT(',
+        FORMAT(@lat, 6),
+        ' ',
+        FORMAT(@lng, 6),
+        ')'
+      )
+    );
+
+UPDATE Places
+SET open_time = NULL, close_time = NULL
+WHERE open_time = TIME '00:00';
+
+LOAD DATA INFILE '/var/lib/mysql-files/placesFeature.csv'
+INTO TABLE PlacesFeatures
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@places_feature_id, places_feature);
+
+LOAD DATA INFILE '/var/lib/mysql-files/placesFeatureIM.csv'
+INTO TABLE PlacesFeaturesIM
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(place_id, places_feature_id);
+
+-- password is 'password'
+INSERT INTO Users (user_id, email, password_hash, account_type)
+VALUES (1, 'admin@adventour.local', '$2y$10$J7.N6jHMZo0aQbDYaGIOpudxk1ys.7MBjKxfajGcux3CjUnLI/2qC', 'admin');
+
+INSERT INTO Profiles (user_id, username)
+VALUES (1, 'Adventour Ltd. Inc.');

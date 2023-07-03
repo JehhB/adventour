@@ -97,6 +97,67 @@ CREATE TABLE
     CONSTRAINT FOREIGN KEY (user_id) REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
   );
 
+CREATE TABLE
+  Places (
+    place_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    metaphone VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    open_time TIME NULL DEFAULT NULL,
+    close_time TIME NULL DEFAULT NULL,
+    coordinate POINT NOT NULL,
+    INDEX (metaphone),
+    SPATIAL INDEX (coordinate)
+  );
+
+CREATE TABLE
+  PlacesFeatures (
+    places_feature_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    places_feature VARCHAR(127) UNIQUE
+  );
+
+CREATE TABLE
+  PlacesFeaturesIM (
+    places_features_im_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    place_id INTEGER UNSIGNED NOT NULL,
+    places_feature_id INTEGER UNSIGNED NOT NULL,
+
+    CONSTRAINT FOREIGN KEY (place_id) REFERENCES Places (place_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (places_feature_id) REFERENCES PlacesFeatures (places_feature_id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
+CREATE TABLE
+  Events (
+    event_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    metaphone VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    coordinate POINT NOT NULL,
+    INDEX (metaphone),
+
+    SPATIAL INDEX (coordinate)
+  );
+
+CREATE TABLE
+  EventsFeatures (
+    events_feature_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    events_feature VARCHAR(127) UNIQUE
+  );
+
+CREATE TABLE
+  EventsFeaturesIM (
+    events_features_im_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    event_id INTEGER UNSIGNED NOT NULL,
+    events_feature_id INTEGER UNSIGNED NOT NULL,
+
+    CONSTRAINT FOREIGN KEY (event_id) REFERENCES Events (event_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FOREIGN KEY (events_feature_id) REFERENCES EventsFeatures (events_feature_id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
 CREATE TABLE 
   Sessions (
     session_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
