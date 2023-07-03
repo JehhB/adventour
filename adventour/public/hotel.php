@@ -78,7 +78,7 @@ $rooms = DB::table('Rooms')
 
       <section id="location">
         <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
-          <hotel-summary link="#" image="<?= $images[0]['src'] ?>" caption="<?= $images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
+          <hotel-summary link="#" image="<?= $hotel->images[0]['src'] ?>" caption="<?= $hotel->images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
         </hotel-map>
       </section>
     </main>
