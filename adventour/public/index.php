@@ -1,6 +1,6 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
-safe_start_session();
+include $_SERVER['DOCUMENT_ROOT'] . '/lib/home-page.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,20 +24,23 @@ safe_start_session();
           <carousel-container
             class="col-span-full lg:col-span-8 lg:row-span-2 xl:col-span-7"
           >
-            <?php for ($i = 1; $i <= 4; $i++) :  ?>
+            <?php foreach ($upcoming_events as $event) :  ?>
             <carousel-item
-              link="#"
+              link="/event.php?event_id=<?= $event->event_id ?>"
               image="/storage/hotel/0B50043728E8425C148C6645B9D6334508C9D28D.jpg"
-              title="Test <?= $i ?>"
-              subtitle="Address test <?= $i ?>"
+              title="<?= sanitize($event->name) ?>"
+              subtitle="<?= sanitize($event->address) ?>"
             ></carousel-item>
-            <?php endfor; ?>
+            <?php endforeach; ?>
           </carousel-container>
-          <?php for ($i = 1; $i <= 2; $i++) :  ?>
+          <?php for ($i = 0; $i < 2; $i++) :  ?>
           <div
             class="hidden flex-col overflow-hidden rounded-lg lg:col-span-4 lg:flex xl:col-span-5"
           >
-            <a href="#" class="relative h-full w-full">
+            <a
+              href="/event.php?event_id=<?= $upcoming_events[$i]->event_id ?>"
+              class="relative h-full w-full"
+            >
               <img
                 src="/storage/hotel/002F92F6796D2A036B3AF8CEBBD8E701BF8F4993.jpg"
                 class="absolute inset-0 h-full w-full object-cover"

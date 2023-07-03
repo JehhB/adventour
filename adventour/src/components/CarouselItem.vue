@@ -10,10 +10,12 @@
       class="absolute inset-0 -z-20 h-full w-full object-cover"
     />
     <div class="overlay absolute inset-0 -z-10 font-light"></div>
-    <span class="text-5xl leading-none">
+    <span
+      class="text-3xl font-medium leading-none sm:text-5xl sm:font-normal sm:leading-none"
+    >
       {{ title }}
     </span>
-    <span v-if="subtitle" class="carousel-item__address">
+    <span v-if="subtitle" class="carousel-item__address text-xs sm:text-base">
       {{ subtitle }}
     </span>
   </a>
