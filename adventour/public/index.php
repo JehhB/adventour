@@ -27,27 +27,28 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/home-page.php';
             <?php foreach ($upcoming_events as $event) :  ?>
             <carousel-item
               link="/event.php?event_id=<?= $event->event_id ?>"
-              image="/storage/hotel/0B50043728E8425C148C6645B9D6334508C9D28D.jpg"
+              image="<?= $event->image ?>"
               title="<?= sanitize($event->name) ?>"
-              subtitle="<?= sanitize($event->address) ?>"
+              subtitle="<?= sanitize($event->address) ?> (<?= $event->start_date ?>)"
             ></carousel-item>
             <?php endforeach; ?>
           </carousel-container>
-          <?php for ($i = 0; $i < 2; $i++) :  ?>
+          <?php foreach ($next_event_images as $image) :  ?>
           <div
             class="hidden flex-col overflow-hidden rounded-lg lg:col-span-4 lg:flex xl:col-span-5"
           >
             <a
-              href="/event.php?event_id=<?= $upcoming_events[$i]->event_id ?>"
+              href="/event.php?event_id=<?= $upcoming_events[0]->event_id ?>"
               class="relative h-full w-full"
             >
               <img
-                src="/storage/hotel/002F92F6796D2A036B3AF8CEBBD8E701BF8F4993.jpg"
+                src="<?= $image->image ?>"
+                alt="Image of <?= $upcoming_events[0]->name ?>"
                 class="absolute inset-0 h-full w-full object-cover"
               />
             </a>
           </div>
-          <?php endfor; ?>
+          <?php endforeach; ?>
         </section>
       </main>
     </div>

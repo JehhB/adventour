@@ -7,6 +7,7 @@
   >
     <img
       :src="image"
+      :alt="'Image of ' + title"
       class="absolute inset-0 -z-20 h-full w-full object-cover"
     />
     <div class="overlay absolute inset-0 -z-10 font-light"></div>

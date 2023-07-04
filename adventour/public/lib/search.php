@@ -105,18 +105,24 @@ function getEvents($q = '', $sort_by = 'recommendation')
   $query = DB::table('Events')->select([
     DB::raw('"event" as type'),
     DB::raw("CONCAT('/event.php?event_id=', Events.event_id) AS link"),
-    DB::raw("'/assets/images/no_image.svg' AS image"),
+    DB::raw("CONCAT('/storage/event/', image) AS image"),
     'name AS title',
     'address AS subtitle',
     'Events.event_id AS id',
     'description',
     DB::raw('ST_X(coordinate) AS lat'),
     DB::raw('ST_Y(coordinate) AS lng'),
-  ])->where(function (Builder $query) use ($q) {
-    $metaphone = metaphone($q);
-    $query->where('metaphone', 'LIKE', "%$metaphone%")
-      ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
-  });
+  ])->leftJoin('EventImages', 'EventImages.event_id', '=', 'Events.event_id')
+    ->where('event_image_id', '=', function (Builder $query) {
+      $query->select('event_image_id')
+        ->from('EventImages')
+        ->whereColumn('EventImages.event_id', '=', 'Events.event_id')
+        ->limit(1);
+    })->where(function (Builder $query) use ($q) {
+      $metaphone = metaphone($q);
+      $query->where('metaphone', 'LIKE', "%$metaphone%")
+        ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
+    });
 
   if ($sort_by === 'trending') {
     $query->addSelect('views AS key')
@@ -146,14 +152,20 @@ function getPlaces($q = '', $sort_by = 'recommendation')
   $query = DB::table('Places')->select([
     DB::raw('"place" as type'),
     DB::raw("CONCAT('/place.php?place_id=', Places.place_id) AS link"),
-    DB::raw("'/assets/images/no_image.svg' AS image"),
+    DB::raw("CONCAT('/storage/place/', image) AS image"),
     'name AS title',
     'address AS subtitle',
     'Places.place_id AS id',
     'description',
     DB::raw('ST_X(coordinate) AS lat'),
     DB::raw('ST_Y(coordinate) AS lng'),
-  ])->where(function (Builder $query) use ($q) {
+  ])->leftJoin('PlaceImages', 'PlaceImages.place_id', '=', 'Places.place_id')
+    ->where('place_image_id', '=', function (Builder $query) {
+      $query->select('place_image_id')
+        ->from('PlaceImages')
+        ->whereColumn('PlaceImages.place_id', '=', 'Places.place_id')
+        ->limit(1);
+    })->where(function (Builder $query) use ($q) {
     $metaphone = metaphone($q);
     $query->where('metaphone', 'LIKE', "%$metaphone%")
       ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
