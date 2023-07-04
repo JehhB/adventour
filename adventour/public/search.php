@@ -101,7 +101,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
                 </span>
               </open-button>
             </div>
-            <div class="mb-2 inline-block w-full px-2 sm:mb-4 sm:px-0">
+            <div class="mb-2 inline-block w-full px-2 sm:mb-4 sm:px-0 space-y-2">
               <?php 
               foreach($results as $result) { 
                 insert(match($result->type) {
@@ -194,6 +194,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
       <modal-container name="filter" class="!max-w-xs">
         <?php insert('search-filter'); ?>
       </modal-container>
+      <?php insert('auth-toast') ?>
     </div>
   </body>
 </html>

@@ -82,6 +82,7 @@ $rooms = DB::table('Rooms')
         </hotel-map>
       </section>
     </main>
+    <?php insert('auth-toast') ?>
   </div>
 </body>
 

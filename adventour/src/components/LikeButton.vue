@@ -58,8 +58,10 @@ const notAuthenticatedToast = computed(() =>
 );
 
 function onClick() {
-  if (!isAuthenticated.value && notAuthenticatedToast.value !== undefined) {
-    notAuthenticatedToast.value.open();
+  if (!isAuthenticated.value) {
+    if (notAuthenticatedToast.value) {
+      notAuthenticatedToast.value.open();
+    }
     return;
   }
 

@@ -15,9 +15,11 @@ if (!isset($_GET['filter']) or array_search($_GET['filter'], $filters) === false
 $sort_categories = [
   'recommendation',
   'popularity',
+  'trending',
   'hotels by rating',
   'hotels by price',
 ];
+
 $sort_by = $sort_categories[0];
 if (isset($_GET['sort_by']) and array_search($_GET['sort_by'], $sort_categories)) {
   $sort_by = $_GET['sort_by'];
@@ -71,6 +73,15 @@ if ($active_filter === 'events') {
   );
 }
 
+if (
+  $sort_by === 'popularity'
+  or $sort_by === 'trending'
+) {
+  $query->orderBy('key', 'desc');
+} else {
+  $query->orderBy('key', 'asc');
+}
+
 $count = $query->count();
 $pages = intval(ceil($count  / ITEMS_PER_PAGE));
 $page = 1;
@@ -81,9 +92,7 @@ $min_page = max(min($page - 2, $pages - 3), 1);
 $max_page = min(max($page + 2, $min_page + 3), $pages);
 
 $results = $query
-  ->orderBy('key')
   ->orderBy('id')
   ->limit(ITEMS_PER_PAGE)
   ->offset(($page - 1) * ITEMS_PER_PAGE)
   ->get();
-
