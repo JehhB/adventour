@@ -88,7 +88,6 @@ function getHotels($q = '', $sort_by = 'recommendation', $checkin = null, $check
       ->leftJoinSub(function (Builder $query) {
         $query->selectRaw('hotel_id, COUNT(*) as likes')
           ->from('HotelLikes')
-          ->whereRaw('liked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)')
           ->groupBy('hotel_id');
       }, 'V', 'V.hotel_id', '=', 'Hotels.hotel_id');
   } else if ($sort_by === 'hotels by price') {
@@ -100,7 +99,7 @@ function getHotels($q = '', $sort_by = 'recommendation', $checkin = null, $check
   return $query;
 }
 
-function getEvents($q = '', $sort_by = 'recommendation')
+function getEvents($q = '', $sort_by = 'recommendation', $event_start = null)
 {
   $query = DB::table('Events')->select([
     DB::raw('"event" as type'),
@@ -124,6 +123,12 @@ function getEvents($q = '', $sort_by = 'recommendation')
         ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
     });
 
+  if ($event_start === 'upcoming events') {
+    $query->whereRaw('end_date >= CURRENT_DATE()');
+  } else if ($event_start === 'concluded events') {
+    $query->whereRaw('end_date < CURRENT_DATE()');
+  }
+
   if ($sort_by === 'trending') {
     $query->addSelect('views AS key')
       ->leftJoinSub(function (Builder $query) {
@@ -137,9 +142,13 @@ function getEvents($q = '', $sort_by = 'recommendation')
       ->leftJoinSub(function (Builder $query) {
         $query->selectRaw('event_id, COUNT(*) as likes')
           ->from('EventLikes')
-          ->whereRaw('liked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)')
           ->groupBy('event_id');
       }, 'V', 'V.event_id', '=', 'Events.event_id');
+  } else if ($sort_by === 'events by date') {
+    $query->selectRaw("
+        CASE WHEN end_date > CURRENT_DATE() THEN
+        end_date ELSE DATE_ADD(start_date, INTERVAL 10 YEAR) END AS `key`
+      ");
   } else {
     $query->addSelect('Events.event_id AS key');
   }
@@ -166,10 +175,10 @@ function getPlaces($q = '', $sort_by = 'recommendation')
         ->whereColumn('PlaceImages.place_id', '=', 'Places.place_id')
         ->limit(1);
     })->where(function (Builder $query) use ($q) {
-    $metaphone = metaphone($q);
-    $query->where('metaphone', 'LIKE', "%$metaphone%")
-      ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
-  });
+      $metaphone = metaphone($q);
+      $query->where('metaphone', 'LIKE', "%$metaphone%")
+        ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
+    });
 
   if ($sort_by === 'trending') {
     $query->addSelect('views AS key')
@@ -184,7 +193,6 @@ function getPlaces($q = '', $sort_by = 'recommendation')
       ->leftJoinSub(function (Builder $query) {
         $query->selectRaw('place_id, COUNT(*) as likes')
           ->from('PlaceLikes')
-          ->whereRaw('liked_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)')
           ->groupBy('place_id');
       }, 'V', 'V.place_id', '=', 'Places.place_id');
   } else {
@@ -194,10 +202,17 @@ function getPlaces($q = '', $sort_by = 'recommendation')
   return $query;
 }
 
-function getAll($q = '', $sort_by = 'recommendation', $checkin = null, $checkout = null, $price_range = null, $n_persons = null)
-{
+function getAll(
+  $q = '',
+  $sort_by = 'recommendation',
+  $checkin = null,
+  $checkout = null,
+  $price_range = null,
+  $n_persons = null,
+  $event_start = null,
+) {
   $hotel = getHotels($q, $sort_by, $checkin, $checkout, $price_range, $n_persons);
-  $events = getEvents($q, $sort_by);
+  $events = getEvents($q, $sort_by, $event_start);
   $places = getPlaces($q, $sort_by);
 
   return $hotel->union($events)->union($places);

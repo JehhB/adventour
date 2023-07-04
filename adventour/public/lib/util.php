@@ -30,6 +30,11 @@ function gt($a, $b)
   return $a > $b;
 }
 
+function gte($a, $b)
+{
+  return $a >= $b;
+}
+
 function params()
 {
   $url = $_SERVER['REQUEST_URI'];
