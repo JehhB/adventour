@@ -4,21 +4,21 @@ global $price_range, $n_persons, $checkin, $checkout;
 use Illuminate\Database\Capsule\Manager as DB;
 
 $offering_query = DB::table('Offerings')
-  ->select(['room_type', 'price', 'discounted_price'])
+  ->select(['room_type', 'price', 'original_price'])
   ->join('Rooms', 'Rooms.room_id', '=', 'Offerings.room_id')
   ->where('Rooms.hotel_id', $id)
-  ->orderByRaw("CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END");
+  ->orderBy('price');
 
 if ($price_range === 0) {
-  $offering_query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [2000]);
+  $offering_query->where('price', '<', 2000);
 } else if ($price_range === 1) {
-  $offering_query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [2000])
-    ->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [3000]);
+  $offering_query->where('price', '>=', 2000)
+    ->where('price', '<', 3000);
 } else if ($price_range === 2) {
-  $offering_query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [3000])
-    ->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [4000]);
+  $offering_query->where('price', '>=', 3000)
+    ->where('price', '<', 4000);
 } else if ($price_range === 3) {
-  $offering_query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [4000]);
+  $offering_query->where('price', '>=', 4000);
 }
 
 if ($n_persons !== null) {
@@ -86,12 +86,10 @@ $offering = $offering_query->first();
       <h3 class="text-base leading-none"><?= $offering->room_type ?></h3>
       <div class="mt-3 text-xs font-bold leading-none">Price per night</div>
       <div class="ml-8 mt-1 flex items-start gap-2">
-        <?php if ($offering->discounted_price == 0) : ?>
-          <span class="text-2xl leading-none text-green-900">&#8369; <?= intval($offering->price) ?></span>
-        <?php else : ?>
-          <del class="text-base leading-none text-gray-500"> &#8369; <?= intval($offering->price) ?></del>
-          <span class="text-2xl leading-none text-green-900">&#8369; <?= intval($offering->discounted_price) ?></span>
+        <?php if ($offering->original_price != 0.0) : ?>
+          <del class="text-base leading-none text-gray-500"> &#8369; <?= intval($offering->original_price) ?></del>
         <?php endif; ?>
+          <span class="text-2xl leading-none text-green-900">&#8369; <?= intval($offering->price) ?></span>
       </div>
       <a href="<?= $link ?>" class="mt-2 grid h-9 place-items-center rounded-lg bg-green-900">
         <span class="text-xs font-semibold leading-none text-white">

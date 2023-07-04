@@ -49,19 +49,19 @@ function getHotels($q = '', $sort_by = 'recommendation', $checkin = null, $check
           ->from('Offerings')
           ->join('Rooms', 'Rooms.room_id', '=', 'Offerings.room_id')
           ->whereColumn('Rooms.hotel_id', '=', 'Hotels.hotel_id')
-          ->orderByRaw("CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END")
+          ->orderBy('price')
           ->limit('1');
 
         if ($price_range === 0) {
-          $query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [2000]);
+          $query->where('price', '<', 2000);
         } else if ($price_range === 1) {
-          $query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [2000])
-            ->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [3000]);
+          $query->where('price', '>=', 2000)
+            ->where('price', '<', 3000);
         } else if ($price_range === 2) {
-          $query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [3000])
-            ->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END < ?', [4000]);
+          $query->where('price', '>=', 3000)
+            ->where('price', '<', 4000);
         } else if ($price_range === 3) {
-          $query->whereRaw('CASE WHEN ABS(discounted_price - 0) < 0.0001 THEN price ELSE discounted_price END >= ?', [4000]);
+          $query->where('price', '>=', 4000);
         }
 
         if ($n_persons !== null) {

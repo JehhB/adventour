@@ -77,7 +77,7 @@ INTO TABLE Offerings
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(@offering_id, room_id, max_person, stays, price, discounted_price, meal_plan);
+(@offering_id, room_id, max_person, stays, price, original_price, meal_plan);
 
 LOAD DATA INFILE '/var/lib/mysql-files/events.csv'
 INTO TABLE Events
@@ -94,6 +94,13 @@ SET coordinate=ST_GeomFromText(
         ')'
       )
     ), admin_id=1;
+
+LOAD DATA INFILE '/var/lib/mysql-files/eventImages.csv'
+INTO TABLE EventImages
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(event_id, image);
 
 LOAD DATA INFILE '/var/lib/mysql-files/eventsFeature.csv'
 INTO TABLE EventsFeatures
@@ -124,6 +131,13 @@ SET coordinate=ST_GeomFromText(
         ')'
       )
     ), admin_id=1;
+
+LOAD DATA INFILE '/var/lib/mysql-files/placeImages.csv'
+INTO TABLE PlaceImages
+FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(place_id, image);
 
 UPDATE Places
 SET open_time = NULL, close_time = NULL

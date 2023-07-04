@@ -80,7 +80,7 @@ CREATE TABLE
     max_person INT UNSIGNED NOT NULL,
     stays INT UNSIGNED NOT NULL,
     price FLOAT NOT NULL,
-    discounted_price FLOAT NOT NULL,
+    original_price FLOAT NOT NULL,
     meal_plan ENUM ('none', 'breakfast', 'all_inclusive') NOT NULL,
     CONSTRAINT FOREIGN KEY (room_id) REFERENCES Rooms (room_id) ON DELETE CASCADE ON UPDATE CASCADE
   );
@@ -118,6 +118,14 @@ CREATE TABLE
   );
 
 CREATE TABLE
+  PlaceImages (
+    place_image_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    place_id INTEGER UNSIGNED NOT NULL,
+    image VARCHAR(63) NOT NULL,
+    CONSTRAINT FOREIGN KEY (place_id) REFERENCES Places (place_id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
+CREATE TABLE
   PlacesFeatures (
     places_feature_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     places_feature VARCHAR(127) UNIQUE
@@ -148,6 +156,14 @@ CREATE TABLE
     INDEX (metaphone),
     SPATIAL INDEX (coordinate),
     CONSTRAINT FOREIGN KEY (admin_id) REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+
+CREATE TABLE
+  EventImages (
+    event_image_id INTEGER UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    event_id INTEGER UNSIGNED NOT NULL,
+    image VARCHAR(63) NOT NULL,
+    CONSTRAINT FOREIGN KEY (event_id) REFERENCES Events (event_id) ON DELETE CASCADE ON UPDATE CASCADE
   );
 
 CREATE TABLE
