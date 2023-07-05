@@ -42,6 +42,9 @@ $room_id) ->get(); ?>
       <?php endforeach; ?>
     </ul>
     <div class="h-0 flex-1"></div>
-    <offering-select class="mt-2"></offering-select>
+    <offering-select class="mt-2">
+      <offering-option :offering-id="1" :max-person="1" :stays="1" meal-plan="none" :price="5000" :original-price="5000"></offering-option>
+      <offering-option :offering-id="3" :max-person="2" :stays="1" meal-plan="breakfast" :price="5000" :original-price="5000"></offering-option>
+    </offering-select>
   </div>
 </div>

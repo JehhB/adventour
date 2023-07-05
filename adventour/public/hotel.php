@@ -84,7 +84,7 @@ $rooms = DB::table('Rooms')
 
       <section id="location">
         <h2
-          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl"
+          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl px-2 sm:px-0"
         >
           Location
         </h2>
