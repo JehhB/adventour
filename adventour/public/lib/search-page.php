@@ -1,7 +1,20 @@
 <?php
 define('ITEMS_PER_PAGE', 4);
 $filters = ['hotels', 'events', 'places'];
-$carryovers = ['filter', 'q', 'checkin', 'checkout', 'n_adult', 'n_child', 'n_room', 'price', 'rating', 'sort_by', 'event_start'];
+$carryovers = [
+  'filter',
+  'q',
+  'checkin',
+  'checkout',
+  'n_adult',
+  'n_child',
+  'n_room',
+  'price',
+  'rating',
+  'sort_by',
+  'event_start',
+  'place_open'
+];
 $active_filter = '';
 
 if (!isset($_GET['filter']) or array_search($_GET['filter'], $filters) === false) {
@@ -43,6 +56,12 @@ if (isset($_GET['event_start']) and array_search($_GET['event_start'], $event_fi
   $event_start = $_GET['event_start'];
 }
 
+$place_filter = ['always open'];
+$place_open = null;
+if (isset($_GET['place_open']) and array_search($_GET['place_open'], $place_filter) !== false) {
+  $place_open = $_GET['place_open'];
+}
+
 if ($sort_by === 'hotels by rating' or $sort_by === 'hotels by price') {
   $active_filter = 'hotels';
   $filters = ['events', 'places'];
@@ -62,7 +81,8 @@ if ($active_filter === 'events') {
 } else if ($active_filter === 'places') {
   $query = getPlaces(
     $_GET['q'] ?? '',
-    $sort_by
+    $sort_by,
+    $place_open
   );
 } else if ($active_filter === 'hotels') {
   $query = getHotels(
@@ -81,7 +101,8 @@ if ($active_filter === 'events') {
     $_GET['checkout'] ?? null,
     $price_range,
     $n_persons,
-    $event_start
+    $event_start,
+    $place_open
   );
 }
 

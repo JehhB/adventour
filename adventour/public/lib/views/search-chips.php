@@ -1,5 +1,5 @@
 <?php
-global $active_filter, $filters, $carryovers, $price_range, $rating;
+global $active_filter, $filters, $carryovers, $price_range, $rating, $event_start, $place_open;
 $prices_short = [
   '&lt;&#8369;2K',
   '&#8369;2K-3K',
@@ -46,7 +46,27 @@ $prices_short = [
   </a>
   <?php endif; ?>
 
-  <?php if ($active_filter !== 'all' || $price_range !== null || $rating !== null): ?>
+  <?php if ($event_start !== null) : ?>
+  <a
+    href="<?= url('/search.php', ['event_start' => null] , $carryovers) ?>"
+    class="ml-2 flex shrink-0 gap-1 rounded-full border border-green-900 bg-[#C0D1A9] px-3 py-1 text-sm font-medium capitalize leading-none text-green-900"
+  >
+    <span><?= $event_start ?></span>
+    <b-icon-x-lg></b-icon-x-lg>
+  </a>
+  <?php endif ?>
+
+  <?php if ($place_open !== null) : ?>
+  <a
+    href="<?= url('/search.php', ['place_open' => null] , $carryovers) ?>"
+    class="ml-2 flex shrink-0 gap-1 rounded-full border border-green-900 bg-[#C0D1A9] px-3 py-1 text-sm font-medium capitalize leading-none text-green-900"
+  >
+    <span><?= $place_open ?></span>
+    <b-icon-x-lg></b-icon-x-lg>
+  </a>
+  <?php endif ?>
+
+  <?php if ($active_filter !== 'all' || $price_range !== null || $rating !== null || $place_open !== null || $event_start !== null): ?>
   <a
     href="<?= url('/search.php', ['filter' => null, 'rating' => null, 'price' => null], $carryovers) ?>"
     class="ml-2 flex shrink-0 gap-1 rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-sm font-medium capitalize leading-none text-gray-400"

@@ -1,5 +1,5 @@
 <?php
-global $event_filter, $active_filter, $price_range, $carryovers, $rating, $event_start;
+global $event_filter, $active_filter, $price_range, $carryovers, $rating, $event_start, $place_filter, $place_open;
 $prices = [
   '&lt; &#8369;2000',
   '&#8369;2000 - &#8369;2999',
@@ -16,7 +16,7 @@ $ratings = [
   '5 Stars',
 ];
 ?>
-<nav class="rounded-lg border-gray-400 bg-white p-2 pt-4 lg:border lg:pt-2">
+<nav class="rounded-lg border-gray-400 bg-white p-2 pt-4 lg:border lg:pt-2 overflow-y-scroll">
   <div class="mb-2 font-medium leading-none text-gray-400">Filter by:</div>
 
   <div class="mb-4 border-t border-gray-400">
@@ -162,6 +162,41 @@ $ratings = [
     <?php else : ?>
     <a
       href="<?= url('/search.php', ['event_start' => $type], $carryovers) ?>"
+      class="mt-2 flex items-center gap-2"
+    >
+      <div class="h-4 w-4 rounded border border-gray-300 bg-gray-100"></div>
+      <span class="capitalize leading-none">
+        <?= $type ?>
+      </span>
+    </a>
+    <?php 
+      endif;
+    endforeach; 
+    ?>
+  </div>
+
+  <div class="mb-4 border-t border-gray-400">
+    <span class="font-medium leading-none text-gray-800">Places</span>
+    <?php 
+    foreach ($place_filter as $type) : 
+      if ($type === $place_open) :
+    ?>
+    <a
+      href="<?= url('/search.php', ['place_open' => null], $carryovers) ?>"
+      class="mt-2 flex items-center gap-2"
+    >
+      <div class="flex rounded border border-green-900 bg-[#C0D1A9]">
+        <b-icon-check
+          class="inline h-4 w-4 text-center text-green-900"
+        ></b-icon-check>
+      </div>
+      <span class="capitalize leading-none">
+        <?= $type ?>
+      </span>
+    </a>
+    <?php else : ?>
+    <a
+      href="<?= url('/search.php', ['place_open' => $type], $carryovers) ?>"
       class="mt-2 flex items-center gap-2"
     >
       <div class="h-4 w-4 rounded border border-gray-300 bg-gray-100"></div>

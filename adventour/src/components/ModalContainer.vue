@@ -8,7 +8,7 @@
     >
       <div
         v-bind="$attrs"
-        class="fixed left-1/2 z-50 max-h-[calc(100%_-_1rem)] min-h-[3rem] w-[calc(100%_-_1rem)] max-w-[50ch] -translate-x-1/2 rounded-xl bg-white"
+        class="fixed left-1/2 z-50 max-h-[calc(100%_-_1rem)] min-h-[3rem] w-[calc(100%_-_1rem)] max-w-[50ch] -translate-x-1/2 overflow-y-scroll rounded-xl bg-white"
         :class="[
           props.position === 'center' && 'top-1/2 -translate-y-1/2',
           props.position === 'top' && 'top-2',

@@ -156,7 +156,7 @@ function getEvents($q = '', $sort_by = 'recommendation', $event_start = null)
   return $query;
 }
 
-function getPlaces($q = '', $sort_by = 'recommendation')
+function getPlaces($q = '', $sort_by = 'recommendation', $place_open = null)
 {
   $query = DB::table('Places')->select([
     DB::raw('"place" as type'),
@@ -179,6 +179,11 @@ function getPlaces($q = '', $sort_by = 'recommendation')
       $query->where('metaphone', 'LIKE', "%$metaphone%")
         ->orWhereRaw('LOWER(address) LIKE LOWER(?)', ["%$q%"]);
     });
+
+  if ($place_open === 'always open') {
+    $query->whereNull('open_time')
+      ->whereNull('close_time');
+  }
 
   if ($sort_by === 'trending') {
     $query->addSelect('views AS key')
@@ -210,10 +215,11 @@ function getAll(
   $price_range = null,
   $n_persons = null,
   $event_start = null,
+  $open_time = null,
 ) {
   $hotel = getHotels($q, $sort_by, $checkin, $checkout, $price_range, $n_persons);
   $events = getEvents($q, $sort_by, $event_start);
-  $places = getPlaces($q, $sort_by);
+  $places = getPlaces($q, $sort_by, $open_time);
 
   return $hotel->union($events)->union($places);
 }
