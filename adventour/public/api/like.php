@@ -17,7 +17,7 @@ $id = match ($params['type']) {
   'place' => 'place_id',
 };
 
-$likes = !$auth ? 0 : DB::table($table)
+$likes = DB::table($table)
   ->where($id, $params['id'])
   ->count();
 $liked = !$auth ? false : DB::table($table)
