@@ -1,5 +1,5 @@
 <?php
-define('ITEMS_PER_PAGE', 4);
+define('ITEMS_PER_PAGE', 5);
 $filters = ['hotels', 'events', 'places'];
 $carryovers = [
   'filter',
