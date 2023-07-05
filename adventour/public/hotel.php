@@ -66,18 +66,29 @@ $rooms = DB::table('Rooms')
       <?php insert('hotel-overview', $hotel) ?>
       <scroll-spy></scroll-spy>
 
-      <section class="px-2 sm:px-0 space-y-2" id="rooms">
-        <h2 class="font-medium">Rooms</h2>
-        <stay-setting></stay-setting>
-        <?php
-        foreach ($rooms as $room) {
-          insert('room-card', $room);
-        }
-        ?>
+      <section class="px-2 sm:px-0" id="rooms">
+        <h2
+          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl"
+        >
+          Rooms
+        </h2>
+        <stay-setting class="mt-2"></stay-setting>
+        <div class="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3 mt-4">
+          <?php
+          foreach ($rooms as $room) {
+            insert('room-card', $room);
+          }
+          ?>
+        </div>
       </section>
 
       <section id="location">
-        <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>">
+        <h2
+          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl"
+        >
+          Location
+        </h2>
+        <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>" class="mt-2">
           <hotel-summary link="#" image="<?= $hotel->images[0]['src'] ?>" caption="<?= $hotel->images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
         </hotel-map>
       </section>
