@@ -47,3 +47,17 @@ $popular_places = DB::table('Places')
   ->orderBy('likes', 'desc')
   ->limit('8')
   ->get();
+
+$recommended_hotels = DB::table('Hotels')
+  ->select(['Hotels.hotel_id', 'name AS title', 'address AS subtitle'])
+  ->selectRaw("CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link")
+  ->selectRaw("CONCAT('/storage/hotel/', image) AS image")
+  ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+  ->where('hotel_image_id', '=', function(Builder $query) {
+    $query->select('hotel_image_id')
+      ->from('HotelImages')
+      ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+      ->limit(1);
+  })->limit('12')
+  ->get();
+

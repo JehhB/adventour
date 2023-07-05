@@ -61,20 +61,18 @@ function grid_class($i) {
         <?php endforeach; ?>
       </section>
 
-      <section class="grid mt-4 gap-2 sm:gap-4 px-2 sm:px-0 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <section class="grid mt-4 gap-4 px-2 sm:px-0 min-[500px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
         <a href="<?= url('/search.php', ['filter' => 'hotels']) ?>" class="justify-self-start col-span-full font-heading text-lg font-semibold leading-none text-green-900 hover:underline sm:text-2xl">
           Recommended hotels
         </a>
-        <?php foreach ($popular_places as $i => $place) : ?>
-          <a href="<?= url('/place.php', ['place_id' => $place->place_id]) ?>" class="relative h-32 rounded-lg overflow-hidden <?= grid_class($i) ?>">
-            <div class="w-full h-full absolute bg-mask p-2 text-white">
-              <?= $place->name ?>
-            </div>
-            <img src="<?= $place->image ?>" alt="Image for <?= $place->name ?>" class="w-full h-full object-cover ">
-          </a>
-        <?php endforeach; ?>
+        <?php
+        foreach ($recommended_hotels as $i => $hotel) {
+          insert('hotel-card', $hotel);
+        }
+        ?>
       </section>
     </main>
+    <?php insert('auth-toast'); ?>
   </div>
 </body>
 
