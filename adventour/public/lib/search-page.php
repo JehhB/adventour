@@ -32,6 +32,7 @@ $sort_categories = [
   'hotels by rating',
   'hotels by price',
   'events by date',
+  'events by attendees',
 ];
 
 $sort_by = $sort_categories[0];
@@ -65,7 +66,7 @@ if (isset($_GET['place_open']) and array_search($_GET['place_open'], $place_filt
 if ($sort_by === 'hotels by rating' or $sort_by === 'hotels by price') {
   $active_filter = 'hotels';
   $filters = ['events', 'places'];
-} else if ($sort_by === 'events by date') {
+} else if ($sort_by === 'events by date' or $sort_by === 'events by attendees') {
   $active_filter = 'events';
   $filters = ['hotels', 'places'];
 }
@@ -110,6 +111,7 @@ if ($active_filter === 'events') {
 if (
   $sort_by === 'popularity'
   or $sort_by === 'trending'
+  or $sort_by === 'events by attendees'
 ) {
   $query->orderBy('key', 'desc');
 } else {

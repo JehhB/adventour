@@ -147,6 +147,13 @@ function getEvents($q = '', $sort_by = 'recommendation', $event_start = null)
         CASE WHEN end_date > CURRENT_DATE() THEN
         end_date ELSE DATE_ADD(start_date, INTERVAL 10 YEAR) END AS `key`
       ");
+  } else if ($sort_by === 'events by attendees') {
+    $query->addSelect('attendees AS key')
+      ->leftJoinSub(function (Builder $query) {
+        $query->selectRaw('event_id, COUNT(*) as attendees')
+          ->from('EventAttend')
+          ->groupBy('event_id');
+      }, 'V', 'V.event_id', '=', 'Events.event_id');
   } else {
     $query->addSelect('Events.event_id AS key');
   }

@@ -1,4 +1,3 @@
-import "./style.css";
 import GalleryContainer from "./components/GalleryContainer.vue";
 import GalleryItem from "./components/GalleryItem.vue";
 import HotelMap from "./components/HotelMap.vue";
