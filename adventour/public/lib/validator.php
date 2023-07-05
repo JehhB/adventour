@@ -70,6 +70,17 @@ namespace vld {
   }
 
   /**
+   * Validate if data is long enough
+   *
+   * @param int    $len minimum length
+   * @param string $msg error message
+   */
+  function max_length($len = 127, $msg = "Must be be atmost 127 characters")
+  {
+    return ensure(fn ($x) => strlen($x) <= $len, $msg);
+  }
+
+  /**
    * Validate if string match a value
    *
    * @param string  $val value to compare with

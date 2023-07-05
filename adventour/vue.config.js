@@ -38,6 +38,11 @@ module.exports = defineConfig({
       template: "public/signin.php",
       filename: "signin.php",
     },
+    changePassword: {
+      entry: "src/changePassword.ts",
+      template: "public/change-password.php",
+      filename: "change-password.php",
+    },
   },
   publicPath: "./",
   outputDir: "html",

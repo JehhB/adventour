@@ -6,15 +6,19 @@ use Illuminate\Database\Capsule\Manager as DB;
  * Register a new user
  *
  * @param string $email     New unique email to register
+ * @param string $username  Username of the new user
  * @param string $password  Password for the new user
  */
-function register($email, $password)
+function register($email, $password, $username)
 {
   $user_id = DB::table('Users')
     ->insertGetId([
     'email' => $email,
     'password_hash' => password_hash($password, PASSWORD_DEFAULT)
   ]);
+
+  DB::table('Profiles')
+    ->insert(['user_id' => $user_id, 'username' => $username]);
 
   safe_start_session();
   $_SESSION['user'] = $user_id;
@@ -45,6 +49,26 @@ function auth($email, $password)
 
   safe_start_session();
   $_SESSION['user'] = $user->user_id;
+
+  return false;
+}
+
+function change_password($old, $password)  {
+  $user_id = is_auth();
+  if (!$user_id) return ['user' => 'Not logged in'];
+
+  $user = DB::table('Users')
+    ->select(['user_id', 'password_hash'])
+    ->where('user_id', $user_id)
+    ->first();
+
+  if (!password_verify($old, $user->password_hash)) {
+    return ['old' => "Incorrect password"];
+  }
+
+  DB::table('Users')
+    ->where('user_id', $user_id)
+    ->update(['password_hash' => password_hash($password, PASSWORD_DEFAULT)]);
 
   return false;
 }

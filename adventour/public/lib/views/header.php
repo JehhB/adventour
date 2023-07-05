@@ -71,8 +71,9 @@ use Illuminate\Database\Capsule\Manager as DB;
     </off-page>
     <?php else :
       $user = DB::table('Users')
-        ->select(['email'])
-        ->where('user_id', is_auth())
+        ->select(['email', 'username', 'profile_pic'])
+        ->join('Profiles', 'Profiles.user_id', '=', 'Users.user_id')
+        ->where('Users.user_id', is_auth())
         ->first();
     ?>
     <div class="relative ml-auto sm:ml-3">
@@ -101,7 +102,7 @@ use Illuminate\Database\Capsule\Manager as DB;
               <div
                 class="text-sm font-medium leading-none text-gray-800 sm:text-base sm:leading-none"
               >
-                John Doe
+                <?= $user->username ?>
               </div>
               <div
                 class="mt-[2px] text-xs font-medium leading-none text-gray-700 sm:text-sm sm:leading-none"
@@ -111,7 +112,7 @@ use Illuminate\Database\Capsule\Manager as DB;
             </div>
           </a>
           <a
-            href="/profile/change-password.php"
+            href="/change-password.php"
             class="flex items-center gap-2"
           >
             <b-icon-gear
