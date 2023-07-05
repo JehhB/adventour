@@ -24,18 +24,19 @@
 
           <LLayerGroup>
             <LMarker
-              v-for="hotel in data"
-              :lat-lng="[hotel.lat, hotel.lng]"
-              :icon="hotelMarker"
-              :key="hotel.hotel_id"
+              v-for="location in data"
+              :lat-lng="[location.lat, location.lng]"
+              :icon="location.type === 'hotel' ? hotelMarker : pinMarker"
+              :key="location.id"
             >
               <LPopup>
                 <Summary
-                  :link="hotel.link"
-                  :image="hotel.image"
-                  :caption="hotel.alt"
-                  :title="hotel.name"
-                  :subtitle="hotel.address"
+                  :icon="icons[location.type]"
+                  :link="location.link"
+                  :image="location.image"
+                  :caption="location.alt"
+                  :title="location.name"
+                  :subtitle="location.address"
                 />
               </LPopup>
             </LMarker>
@@ -69,13 +70,14 @@
           </template>
 
           <template v-else>
-            <li v-for="hotel in data" :key="hotel.hotel_id">
+            <li v-for="location in data" :key="location.id">
               <Summary
-                :link="hotel.link"
-                :image="hotel.image"
-                :caption="hotel.alt"
-                :title="hotel.name"
-                :subtitle="hotel.address.replace(/,\s*\d{4}.*?$/, '')"
+                :icon="icons[location.type]"
+                :link="location.link"
+                :image="location.image"
+                :caption="location.alt"
+                :title="location.name"
+                :subtitle="location.address"
               />
             </li>
           </template>
@@ -98,6 +100,11 @@ import {
   LTileLayer,
 } from "@vue-leaflet/vue-leaflet";
 import * as L from "leaflet/dist/leaflet-src.esm";
+import {
+  BIconBuildingFill,
+  BIconCalendarEventFill,
+  BIconPinMapFill,
+} from "bootstrap-icons-vue";
 import Summary from "./Summary.vue";
 import { defineProps, reactive, ref } from "vue";
 import { useFetch } from "@vueuse/core";
@@ -108,6 +115,12 @@ const props = defineProps<{
   lng: number;
   hotelId: number;
 }>();
+
+const icons = {
+  hotel: BIconBuildingFill,
+  event: BIconCalendarEventFill,
+  place: BIconPinMapFill,
+};
 
 const map = ref<InstanceType<typeof LMap>>();
 window.L = L;
@@ -128,12 +141,20 @@ const hotelMarker = L.icon({
   popupAnchor: [0, -28],
 });
 
+const pinMarker = L.icon({
+  iconUrl: require("../assets/images/pin-icon.png"),
+  iconRetinaUrl: require("../assets/images/pin-icon-2x.png"),
+  iconSize: [25, 32],
+  iconAnchor: [12, 32],
+  popupAnchor: [0, -28],
+});
+
 const params = reactive({
   lng0: "",
   lng1: "",
   lat0: "",
   lat1: "",
-  exclude: props.hotelId.toString(),
+  hotel_id: props.hotelId.toString(),
 });
 const url = useUrl("/api/hotel-area.php", params, [
   "checkin",
@@ -149,7 +170,8 @@ const { data, statusCode } = useFetch(url, {
   .get()
   .json<
     {
-      hotel_id: number;
+      id: number;
+      type: "event" | "place" | "hotel";
       lat: number;
       lng: number;
       link: string;

@@ -16,39 +16,106 @@ $lng0 = floatval($_GET['lng0']);
 $lng1 = floatval($_GET['lng1']);
 $bbox = "Polygon(($lat0 $lng0,$lat0 $lng1,$lat1 $lng1,$lat1 $lng0,$lat0 $lng0))";
 
-$result = $query = DB::table('Hotels')
-  ->select([
-    'Hotels.hotel_id AS hotel_id',
-    'hotel_image_id AS image_id',
-    'name', 'address', 'image',
-    DB::raw('ST_X(coordinate) AS lat'),
-    DB::raw('ST_Y(coordinate) AS lng'),
-  ])
-  ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
-  ->whereRaw('MBRWithin(coordinate, ST_GeomFromText(?))', [$bbox])
-  ->where('hotel_image_id', function ($query) {
-    $query->select('hotel_image_id')
-      ->from('HotelImages')
-      ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
-      ->limit(1);
-  })
-  ->where('Hotels.hotel_id', '!=', $_GET['exclude'] ?? 0)
-  ->limit(8)
+function getHotels()
+{
+  global $bbox;
+
+  return DB::table('Hotels')
+    ->select([
+      'Hotels.hotel_id AS id',
+      'name', 'address', 
+      DB::raw('"hotel" AS type'),
+      DB::raw("CONCAT('/storage/hotel/', image) AS image"),
+      DB::raw('ST_X(coordinate) AS lat'),
+      DB::raw('ST_Y(coordinate) AS lng'),
+    ])->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+    ->whereRaw('MBRWithin(coordinate, ST_GeomFromText(?))', [$bbox])
+    ->where('hotel_image_id', function ($query) {
+      $query->select('hotel_image_id')
+        ->from('HotelImages')
+        ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+        ->limit(1);
+    })->where('Hotels.hotel_id', '!=', $_GET['hotel_id'] ?? 0)
+    ->limit(8);
+}
+
+function getEvents()
+{
+  global $bbox;
+
+  return DB::table('Events')
+    ->select([
+      'Events.event_id AS id',
+      'name', 'address', 
+      DB::raw('"event" AS type'),
+      DB::raw("CONCAT('/storage/event/', image) AS image"),
+      DB::raw('ST_X(coordinate) AS lat'),
+      DB::raw('ST_Y(coordinate) AS lng'),
+    ])->leftJoin('EventImages', 'EventImages.event_id', '=', 'Events.event_id')
+    ->whereRaw('MBRWithin(coordinate, ST_GeomFromText(?))', [$bbox])
+    ->where('event_image_id', function ($query) {
+      $query->select('event_image_id')
+        ->from('EventImages')
+        ->whereColumn('EventImages.event_id', '=', 'Events.event_id')
+        ->limit(1);
+    })->where('Events.event_id', '!=', $_GET['event_id'] ?? 0);
+}
+
+function getPlaces()
+{
+  global $bbox;
+
+  return DB::table('Places')
+    ->select([
+      'Places.place_id AS id',
+      'name', 'address', 
+      DB::raw('"place" AS type'),
+      DB::raw("CONCAT('/storage/place/', image) AS image"),
+      DB::raw('ST_X(coordinate) AS lat'),
+      DB::raw('ST_Y(coordinate) AS lng'),
+    ])->leftJoin('PlaceImages', 'PlaceImages.place_id', '=', 'Places.place_id')
+    ->whereRaw('MBRWithin(coordinate, ST_GeomFromText(?))', [$bbox])
+    ->where('place_image_id', function ($query) {
+      $query->select('place_image_id')
+        ->from('PlaceImages')
+        ->whereColumn('PlaceImages.place_id', '=', 'Places.place_id')
+        ->limit(1);
+    })->where('Places.place_id', '!=', $_GET['place_id'] ?? 0);
+}
+
+$hotels = getHotels();
+$events = getEvents();
+$places = getPlaces();
+
+$result = $hotels
+  ->union($events)
+  ->union($places)
   ->get();
 
 header("Content-Type: application/json");
 $output = [];
-foreach($result as $data) {
+foreach ($result as $data) {
   array_push($output, [
-    'hotel_id' => $data->hotel_id,
+    'type' => $data->type,
+    'id' => $data->id,
     'lat' => $data->lat,
     'lng' => $data->lng,
-    'link' => url(
-      '/hotel.php',
-      ['hotel_id' => $data->hotel_id],
-      ['checkin', 'checkout', 'n_adult', 'n_child', 'n_room']
-    ),
-    'image' => "/storage/hotel/{$data->image}",
+    'link' => match ($data->type) {
+      'hotel' => url(
+        '/hotel.php',
+        ['hotel_id' => $data->id],
+        ['checkin', 'checkout', 'n_adult', 'n_child', 'n_room']
+      ),
+      'event' => url(
+        'event.php',
+        ['event_id' => $data->id],
+      ),
+      'place' => url(
+        'place.php',
+        ['place_id' => $data->id],
+      )
+    },
+    'image' => $data->image,
     'alt' => "Thumbnail image for {$data->name}",
     'name' => $data->name,
     'address' => $data->address,
