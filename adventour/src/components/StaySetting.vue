@@ -14,32 +14,36 @@
     <input type="hidden" name="n_child" :value="nChild" />
     <input type="hidden" name="n_room" :value="nRoom" />
 
-    <template v-if="search">
-      <input
-        v-if="urlSearchParams.filter"
-        type="hidden"
-        name="filter"
-        :value="urlSearchParams.filter"
-      />
-      <input
-        v-if="urlSearchParams.price"
-        type="hidden"
-        name="price"
-        :value="urlSearchParams.price"
-      />
-      <input
-        v-if="urlSearchParams.rating"
-        type="hidden"
-        name="rating"
-        :value="urlSearchParams.rating"
-      />
-      <input
-        v-if="urlSearchParams.sort_by"
-        type="hidden"
-        name="rating"
-        :value="urlSearchParams.sort_by"
-      />
-    </template>
+    <input
+      v-if="urlSearchParams.q"
+      type="hidden"
+      name="q"
+      :value="urlSearchParams.q"
+    />
+    <input
+      v-if="urlSearchParams.filter"
+      type="hidden"
+      name="filter"
+      :value="urlSearchParams.filter"
+    />
+    <input
+      v-if="urlSearchParams.price"
+      type="hidden"
+      name="price"
+      :value="urlSearchParams.price"
+    />
+    <input
+      v-if="urlSearchParams.rating"
+      type="hidden"
+      name="rating"
+      :value="urlSearchParams.rating"
+    />
+    <input
+      v-if="urlSearchParams.sort_by"
+      type="hidden"
+      name="rating"
+      :value="urlSearchParams.sort_by"
+    />
 
     <input
       v-if="checkin !== null"

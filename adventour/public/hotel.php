@@ -3,6 +3,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 
 use Illuminate\Database\Capsule\Manager as DB;
 
+$carryovers = [
+  'q',
+  'checkin',
+  'checkout',
+  'n_adult',
+  'n_child',
+  'n_room',
+];
+
 safe_start_session();
 
 $hotel = DB::table('Hotels')
@@ -71,9 +80,7 @@ $has_offers = false;
       <?php insert('overview', $hotel) ?>
 
       <section class="px-2 sm:px-0" id="rooms">
-        <h2
-          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl"
-        >
+        <h2 class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl">
           Rooms
         </h2>
         <stay-setting class="mt-2"></stay-setting>
@@ -84,12 +91,15 @@ $has_offers = false;
           }
           ?>
         </div>
+        <?php if (!$has_offers) : ?>
+          <em>
+            No offering matching requirements. Try <a href="<?= url('search.php', ['filter' => 'hotels'], $carryovers) ?>" class="text-green-900 underline">searching other hotels</a>
+          </em>
+        <?php endif; ?>
       </section>
 
       <section id="location">
-        <h2
-          class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl px-2 sm:px-0"
-        >
+        <h2 class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl px-2 sm:px-0">
           Location
         </h2>
         <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>" class="mt-2">
