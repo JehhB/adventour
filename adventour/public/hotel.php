@@ -1,6 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
+
 use Illuminate\Database\Capsule\Manager as DB;
+
 safe_start_session();
 
 $hotel = DB::table('Hotels')
@@ -37,7 +39,7 @@ if (isset($view)) {
 
 $images = DB::table('HotelImages')
   ->select('image')
-  ->where('hotel_id', $_GET['hotel_id'])
+  ->where('hotel_id', $hotel_id)
   ->get()
   ->all();
 
@@ -67,7 +69,6 @@ $has_offers = false;
     <?php insert('header'); ?>
     <main class="container mx-auto space-y-4">
       <?php insert('overview', $hotel) ?>
-      <scroll-spy></scroll-spy>
 
       <section class="px-2 sm:px-0" id="rooms">
         <h2

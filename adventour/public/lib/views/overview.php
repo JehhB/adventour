@@ -8,7 +8,14 @@ if ($type === 'hotel') {
     ->join('HotelFeatures', 'HotelFeatures.feature_id', 'Features.feature_id')
     ->where('hotel_id', $id)
     ->get();
+} else if ($type === 'event') {
+  $features = DB::table('EventsFeaturesIM')
+    ->select(['events_feature as feature'])
+    ->join('EventsFeatures', 'EventsFeatures.events_feature_id', 'EventsFeaturesIM.events_feature_id')
+    ->where('event_id', $id)
+    ->get();
 }
+if (!isset($features)) return;
 ?>
 <section
   class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
