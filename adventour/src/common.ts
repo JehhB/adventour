@@ -7,7 +7,14 @@ import PopoverContainer from "./components/PopoverContainer.vue";
 import SearchBox from "./components/SearchBox.vue";
 import ToastContainer from "./components/ToastContainer.vue";
 
-import { BIconList, BIconGear, BIconBoxArrowRight } from "bootstrap-icons-vue";
+import {
+  BIconFacebook,
+  BIconTwitter,
+  BIconInstagram,
+  BIconList,
+  BIconGear,
+  BIconBoxArrowRight,
+} from "bootstrap-icons-vue";
 import type { App } from "vue";
 
 export default {
@@ -16,6 +23,9 @@ export default {
     app.component("BIconBoxArrowRight", BIconBoxArrowRight);
     app.component("BIconGear", BIconGear);
     app.component("BIconList", BIconList);
+    app.component("BIconFacebook", BIconFacebook);
+    app.component("BIconInstagram", BIconInstagram);
+    app.component("BIconTwitter", BIconTwitter);
     app.component("OffPage", OffPage);
     app.component("OpenButton", OpenButton);
     app.component("PopoverContainer", PopoverContainer);

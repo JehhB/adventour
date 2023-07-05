@@ -7,7 +7,7 @@ $offering_query = DB::table('Offerings')
   ->where('room_id', $room_id)
   ->select(['offering_id', 'room_id', 'max_person', 'stays', 'price', 'original_price', 'meal_plan']);
 
-if ($_GET['checkin'] !== null and $_GET['checkout'] !== null) {
+if (isset($_GET['checkin']) and isset($_GET['checkout'])) {
   $days = ($_GET['checkout'] - $_GET['checkin']) / MS_IN_DAY;
   $offering_query->where('stays', '>=', $days);
 }

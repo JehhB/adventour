@@ -95,6 +95,7 @@ $has_offers = false;
         </hotel-map>
       </section>
     </main>
+    <?php insert('footer'); ?>
     <?php insert('auth-toast') ?>
   </div>
 </body>

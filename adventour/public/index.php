@@ -27,7 +27,7 @@ function grid_class($i) {
   <div id="app" v-cloak>
     <?php insert('header'); ?>
 
-    <main class="container mx-auto">
+    <main class="container mx-auto mb-8">
       <section class="grid grid-cols-12 gap-4 gap-y-2 sm:gap-y-4">
         <a href="<?= url('/search.php', ['sort_by' => 'events by date']) ?>" class="justify-self-start col-span-full hidden font-heading text-2xl font-semibold leading-none text-green-900 hover:underline sm:block">
           Upcoming Events
@@ -72,6 +72,7 @@ function grid_class($i) {
         ?>
       </section>
     </main>
+    <?php insert('footer'); ?>
     <?php insert('auth-toast'); ?>
   </div>
 </body>
