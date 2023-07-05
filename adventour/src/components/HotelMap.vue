@@ -106,15 +106,24 @@ import {
   BIconPinMapFill,
 } from "bootstrap-icons-vue";
 import Summary from "./Summary.vue";
-import { defineProps, reactive, ref } from "vue";
+import { withDefaults, defineProps, reactive, ref } from "vue";
 import { useFetch } from "@vueuse/core";
 import { useUrl } from "../util";
 
-const props = defineProps<{
-  lat: number;
-  lng: number;
-  hotelId: number;
-}>();
+const props = withDefaults(
+  defineProps<{
+    lat: number;
+    lng: number;
+    hotelId?: number;
+    eventId?: number;
+    placeId?: number;
+  }>(),
+  {
+    hotelId: 0,
+    eventId: 0,
+    placeId: 0,
+  }
+);
 
 const icons = {
   hotel: BIconBuildingFill,

@@ -10,17 +10,19 @@ import ShareButton from "./components/ShareButton.vue";
 import StaySetting from "./components/StaySetting.vue";
 import Summary from "./components/Summary.vue";
 import ToastContainer from "./components/ToastContainer.vue";
+import { BIconBuildingFill } from "bootstrap-icons-vue";
 import { createApp } from "vue";
 import common from "./common";
 
 const app = createApp({});
 app.use(common);
 
+app.component("BIconBuildingFill", BIconBuildingFill);
 app.component("GalleryContainer", GalleryContainer);
 app.component("GalleryItem", GalleryItem);
 app.component("HotelMap", HotelMap);
-app.component("LikeButton", LikeButton);
 app.component("HotelSummary", Summary);
+app.component("LikeButton", LikeButton);
 app.component("ModalContainer", ModalContainer);
 app.component("OfferingOption", OfferingOption);
 app.component("OfferingSelect", OfferingSelect);

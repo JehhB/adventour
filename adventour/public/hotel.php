@@ -93,7 +93,7 @@ $has_offers = false;
           Location
         </h2>
         <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" hotel-id="<?= $hotel_id ?>" class="mt-2">
-          <hotel-summary link="#" image="<?= $hotel->images[0]['src'] ?>" caption="<?= $hotel->images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
+          <hotel-summary icon="b-icon-building-fill" link="#" image="<?= $hotel->images[0]['src'] ?>" caption="<?= $hotel->images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></hotel-summary>
         </hotel-map>
       </section>
     </main>
