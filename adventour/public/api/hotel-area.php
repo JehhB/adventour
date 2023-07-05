@@ -90,6 +90,8 @@ $places = getPlaces();
 $result = $hotels
   ->union($events)
   ->union($places)
+  ->orderBy('id')
+  ->limit(12)
   ->get();
 
 header("Content-Type: application/json");

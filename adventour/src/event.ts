@@ -1,4 +1,4 @@
-import "./style.css";
+import AttendButton from "./components/AttendButton.vue";
 import GalleryContainer from "./components/GalleryContainer.vue";
 import GalleryItem from "./components/GalleryItem.vue";
 import LikeButton from "./components/LikeButton.vue";
@@ -11,6 +11,7 @@ import common from "./common";
 const app = createApp({});
 app.use(common);
 
+app.component("AttendButton", AttendButton);
 app.component("GalleryContainer", GalleryContainer);
 app.component("GalleryItem", GalleryItem);
 app.component("LikeButton", LikeButton);
