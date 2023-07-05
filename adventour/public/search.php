@@ -110,7 +110,10 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
                   'place' => 'search-place',
                 }, $result, true);
               }
+              if ($count === 0) :
               ?>
+                <h2>No results found. Try changing search term or removing filters.</h2>
+              <?php endif; ?>
             </div>
 
             <?php if (gt($pages, 1)) : ?>
