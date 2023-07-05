@@ -1,5 +1,7 @@
 <?php
 
+define('MS_IN_DAY', 1000 * 60 * 60 * 24);
+
 /**
  * A utilitiy function to create link
  *

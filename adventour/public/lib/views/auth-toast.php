@@ -21,4 +21,5 @@
     </div>
   </div>
 </toast-container>
+<not-auth></not-auth>
 <?php endif; ?>

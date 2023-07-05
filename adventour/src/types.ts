@@ -16,4 +16,5 @@ export type Offering = {
   mealPlan: "none" | "breakfast" | "all_inclusive";
   price: number;
   originalPrice: number;
+  link: string;
 };

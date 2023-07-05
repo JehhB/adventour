@@ -48,7 +48,7 @@ if (isset($_GET['price']) and $_GET['price'] >= 0 and $_GET['price'] < 4) {
   $price_range = intval($_GET['price']);
 }
 
-$n_persons = ($_GET['n_adult'] ?? 0) + ($_GET['n_child'] ?? 0);
+$n_persons = ($_GET['n_adult'] ?? 1) + ($_GET['n_child'] ?? 0);
 
 $event_filter = ['upcoming events', 'concluded events'];
 $event_start = null;

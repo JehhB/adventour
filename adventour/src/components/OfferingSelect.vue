@@ -41,11 +41,16 @@
           Other options
         </span>
       </OpenButton>
-      <a href="#" class="grid h-9 place-items-center rounded-lg bg-green-900">
+      <component
+        :is="auth ? 'a' : OpenButton"
+        :href="auth ? link : undefined"
+        :target="auth ? undefined : 'not authenticated toast'"
+        class="grid h-9 place-items-center rounded-lg bg-green-900"
+      >
         <span class="text-xs font-semibold leading-none text-white">
           Reserve
         </span>
-      </a>
+      </component>
     </div>
     <ModalContainer :name="selectorModal" class="!max-w-xs p-3 pt-4">
       <slot />
@@ -94,6 +99,7 @@ import {
 } from "bootstrap-icons-vue";
 import ModalContainer from "./ModalContainer.vue";
 import OpenButton from "./OpenButton.vue";
+import { auth } from "../stores";
 import { offeringSelectProvider } from "../keys";
 import { computed, provide, reactive, ref } from "vue";
 import type { Offering } from "../types";
@@ -118,6 +124,10 @@ const stays = computed(() =>
 
 const maxPerson = computed(() =>
   items.length > activeIndex.value ? items[activeIndex.value].maxPerson : 0
+);
+
+const link = computed(() =>
+  items.length > activeIndex.value ? items[activeIndex.value].link : "#"
 );
 
 function longMealPlan(plan: "breakfast" | "all_inclusive" | "none") {

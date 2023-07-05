@@ -1,5 +1,5 @@
 <?php
-global $price_range, $n_persons, $checkin, $checkout;
+global $price_range, $n_persons, $checkin, $checkout, $carryovers;
 
 use Illuminate\Database\Capsule\Manager as DB;
 
@@ -32,6 +32,7 @@ if ($checkin !== null and $checkout !== null) {
 
 $offering = $offering_query->first();
 
+$link = url('/hotel.php', ['hotel_id' => $id], $carryovers);
 ?>
 <div class="grid grid-cols-1 overflow-hidden rounded-lg border border-gray-400 bg-white sm:grid-cols-[300px_1fr] xl:grid-cols-[300px_1fr_240px]">
   <div class="aspect-h-2 aspect-w-4 w-full sm:aspect-h-3 sm:row-span-2 xl:row-span-1">

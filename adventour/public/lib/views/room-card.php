@@ -1,6 +1,24 @@
 <?php
+global $has_offers;
 
 use Illuminate\Database\Capsule\Manager as DB;
+
+$offering_query = DB::table('Offerings')
+  ->where('room_id', $room_id)
+  ->select(['offering_id', 'room_id', 'max_person', 'stays', 'price', 'original_price', 'meal_plan']);
+
+if ($_GET['checkin'] !== null and $_GET['checkout'] !== null) {
+  $days = ($_GET['checkout'] - $_GET['checkin']) / MS_IN_DAY;
+  $offering_query->where('stays', '>=', $days);
+}
+
+$persons = ($_GET['n_adult'] ?? 1) + ($_GET['n_child'] ?? 0);
+$offering_query->where('max_person', '>=', $persons);
+
+if ($offering_query->count() < 1) return;
+
+$has_offers = true;
+$offerings = $offering_query->get();
 
 $image = DB::table('RoomImages')
   ->where('room_id', $room_id)
@@ -15,10 +33,7 @@ $highlights = DB::table('Highlights')->select('highlight')->join(
   )
   ->get();
 
-$offerings = DB::table('Offerings')
-  ->where('room_id', $room_id)
-  ->select(['offering_id', 'room_id', 'max_person', 'stays', 'price', 'original_price', 'meal_plan'])
-  ->get();
+$carryovers = ['checkin', 'checkout', 'n_adult', 'n_room', 'n_child'];
 ?>
 <div class="grid gap-2 overflow-hidden rounded-lg border border-gray-400 sm:grid-cols-2">
   <div class="aspect-h-12 aspect-w-16">
@@ -53,6 +68,7 @@ $offerings = DB::table('Offerings')
         meal-plan="<?= $offering->meal_plan ?>"
         :price="<?= $offering->price ?>"
         :original-price="<?= $offering->original_price ?>"
+        link="<?= url('/checkout.php', ['offering_id' => $offering->offering_id], $carryovers) ?>"
       ></offering-option>
       <?php endforeach; ?>
     </offering-select>

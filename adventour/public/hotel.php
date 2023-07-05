@@ -49,6 +49,8 @@ $rooms = DB::table('Rooms')
   ->select(['room_id', 'room_type', 'room_size'])
   ->where('hotel_id', $hotel_id)
   ->get();
+
+$has_offers = false;
 ?>
 <!DOCTYPE html>
 <html lang="en">

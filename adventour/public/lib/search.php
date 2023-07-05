@@ -4,8 +4,6 @@ safe_start_session();
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Query\Builder;
 
-define('MS_IN_DAY', 1000 * 60 * 60 * 24);
-
 function getHotels($q = '', $sort_by = 'recommendation', $checkin = null, $checkout = null, $price_range = null, $n_persons = null)
 {
   $query = DB::table('Hotels')->select([
