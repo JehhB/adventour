@@ -1,5 +1,4 @@
 <template>
-  <slot></slot>
   <div>
     <div>
       <div class="flex items-center gap-2">
@@ -49,13 +48,14 @@
       </a>
     </div>
     <ModalContainer :name="selectorModal" class="!max-w-xs p-3 pt-4">
+      <slot />
       <div class="mb-3 font-medium leading-none text-gray-400">
         Other options
       </div>
 
-      <div>
+      <div class="mt-2 space-y-2">
         <template v-for="(item, i) in items" :key="item.offeringId">
-          <button @click="activeIndex = i" class="mt-2 flex gap-2">
+          <button @click="activeIndex = i" class="flex items-center gap-2">
             <div
               v-if="activeIndex === i"
               class="flex items-center rounded-full border border-green-900 bg-[#C0D1A9]"
@@ -67,7 +67,7 @@
               class="h-4 w-4 rounded-full border border-gray-300 bg-gray-100"
             ></div>
 
-            <span class="flex gap-1 leading-none text-gray-800">
+            <span class="flex flex-wrap gap-1 leading-none text-gray-800">
               <span class="shrink-0">{{ item.stays }}</span>
               <BIconMoonStars class="shrink-0" />
               <span class="shrink-0">&centerdot;</span>
@@ -77,7 +77,7 @@
               <span class="shrink-0">{{ shortMealPlan(item.mealPlan) }}</span>
               <BIconCupHot class="shrink-0" />
               <span class="shrink-0">&centerdot;</span>
-              <span class="shrink-0">&#8369; {{ item.price }}</span>
+              <span class="shrink-0">&#8369; {{ Math.floor(item.price) }}</span>
             </span>
           </button>
         </template>
