@@ -11,7 +11,8 @@ $hotel = DB::table('Hotels')
     'description',
     DB::raw('ST_X(coordinate) AS lat'),
     DB::raw('ST_Y(coordinate) AS lng')
-  ])->where('hotel_id', $_GET['hotel_id'] ?? 0)
+  ])->selectRaw('"hotel" as type, hotel_id as id')
+  ->where('hotel_id', $_GET['hotel_id'] ?? 0)
   ->first();
 if (!isset($hotel)) {
   echo "<strong>Hotel corresponding id is not found</strong>";
@@ -65,7 +66,7 @@ $has_offers = false;
   <div id="app" v-cloak>
     <?php insert('header'); ?>
     <main class="container mx-auto space-y-4">
-      <?php insert('hotel-overview', $hotel) ?>
+      <?php insert('overview', $hotel) ?>
       <scroll-spy></scroll-spy>
 
       <section class="px-2 sm:px-0" id="rooms">

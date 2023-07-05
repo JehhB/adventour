@@ -1,11 +1,14 @@
 <?php
 use Illuminate\Database\Capsule\Manager as DB;
 
-$features = DB::table('Features')
-  ->select(['feature'])
-  ->join('HotelFeatures', 'HotelFeatures.feature_id', 'Features.feature_id')
-  ->where('hotel_id', $hotel_id)
-  ->get();
+$features = null;
+if ($type === 'hotel') {
+  $features = DB::table('Features')
+    ->select(['feature'])
+    ->join('HotelFeatures', 'HotelFeatures.feature_id', 'Features.feature_id')
+    ->where('hotel_id', $id)
+    ->get();
+}
 ?>
 <section
   class="md:grid-rows-overview mt-3 space-y-2 md:grid md:grid-cols-2 md:gap-x-4 md:space-y-0 xl:gap-x-16 2xl:gap-x-20"
@@ -18,7 +21,7 @@ $features = DB::table('Features')
       <?= $name ?>
     </h1>
     <div class="ml-auto flex gap-2">
-      <like-button id="<?= $hotel_id ?>" type="hotel"></like-button>
+      <like-button id="<?= $id ?>" type="<?= $type ?>"></like-button>
       <share-button class="text-zinc-600"></share-button>
     </div>
   </div>
@@ -64,12 +67,12 @@ $features = DB::table('Features')
   </div>
 
   <div class="px-2 md:hidden">
-    <open-button target="hotel description" class="font-bold text-green-900 text-sm">
+    <open-button target="description" class="font-bold text-green-900 text-sm">
       Learn more
     </open-button>
   </div>
 </section>
-<modal-container name="hotel description" class="overflow-y-auto p-4">
+<modal-container name="description" class="overflow-y-auto p-4">
   <h1 class="mr-8 font-semibold text-neutral-800">
     <?= $name ?>
   </h1>
