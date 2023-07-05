@@ -91,6 +91,21 @@ namespace vld {
     return ensure(fn ($x) => strcmp($x, $val) === 0, $msg);
   }
 
+  function between($low, $high, $inclusive, $msg = null)
+  {
+    return ensure(fn ($x) => $x > $low and $x < $high or ($inclusive and ($x == $low or $x == $high)), $msg);
+  }
+
+  function greater_than($val, $inclusive, $msg = "Value is too small")
+  {
+    return ensure(fn ($x) => $x > $val or ($inclusive and $x == $val), $msg);
+  }
+
+  function less_than($val, $inclusive, $msg = "Value is too big")
+  {
+    return ensure(fn ($x) => $x < $val or ($inclusive and $x == $val), $msg);
+  }
+
   /**
    * Validate if data is unique in the database
    *

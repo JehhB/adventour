@@ -43,6 +43,11 @@ module.exports = defineConfig({
       template: "public/change-password.php",
       filename: "change-password.php",
     },
+    checkout: {
+      entry: "src/checkout.ts",
+      template: "public/checkout.php",
+      filename: "checkout.php",
+    },
   },
   publicPath: "./",
   outputDir: "html",

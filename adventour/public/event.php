@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/index.php';
 
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Query\Builder;
 
 safe_start_session();
 
@@ -12,6 +13,7 @@ $event = DB::table('Events')
     'name',
     'address',
     'description',
+    'coordinate',
     DB::raw('ST_X(coordinate) AS lat'),
     DB::raw('ST_Y(coordinate) AS lng')
   ])->selectRaw('"event" as type')
@@ -49,6 +51,20 @@ $event->images = array_map(
   $images
 );
 
+$hotels = DB::table('Hotels')
+  ->select(['Hotels.hotel_id as id', 'name AS title', 'address AS subtitle'])
+  ->selectRaw("CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link")
+  ->selectRaw("CONCAT('/storage/hotel/', image) AS image")
+  ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+  ->where('hotel_image_id', '=', function(Builder $query) {
+    $query->select('hotel_image_id')
+      ->from('HotelImages')
+      ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
+      ->limit(1);
+  })->orderByRaw("ST_Distance(coordinate, ?)", [$event->coordinate])
+  ->limit('12')
+  ->get();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +80,24 @@ $event->images = array_map(
     <?php insert("header"); ?>
     <main class="container mx-auto">
       <?php insert('overview', $event); ?>
+      <section id="hotels" class="grid mt-4 gap-4 px-2 sm:px-0 min-[500px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6">
+        <h2 class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl px-2 sm:px-0">
+          Nearby hotels
+        </h2>
+        <?php
+        foreach ($hotels as $hotel) {
+          insert('hotel-card', $hotel);
+        }
+        ?>
+      </section>
+      <section id="location" class="mt-4">
+        <h2 class="col-span-full font-heading text-lg font-semibold leading-none text-green-900 sm:text-2xl px-2 sm:px-0">
+          Location
+        </h2>
+        <hotel-map lat="<?= $lat ?>" lng="<?= $lng ?>" event-id="<?= $event_id ?>" class="mt-2">
+          <search-summary icon="b-icon-calendar-event-fill" link="#" image="<?= $event->images[0]['src'] ?>" caption="<?= $event->images[0]['alt'] ?>" title="<?= e($name) ?>" subtitle="<?= e($address) ?>"></search-summary>
+        </hotel-map>
+      </section>
     </main>
     <?php insert("footer"); ?>
     <?php insert("auth-toast"); ?>

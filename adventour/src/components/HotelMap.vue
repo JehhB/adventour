@@ -2,11 +2,11 @@
   <div
     class="flex w-full flex-col overflow-hidden rounded-3xl px-2 sm:px-0 md:h-[400px] md:flex-row-reverse"
   >
-    <div class="aspect-h-12 aspect-w-16 z-0 md:aspect-none md:flex-1">
+    <div class="aspect-h-12 aspect-w-16 relative z-0 md:aspect-none md:flex-1">
       <div class="md:h-full">
         <LMap
           ref="map"
-          :zoom="15"
+          :zoom="zoom"
           :max-zoom="15"
           :center="[lat, lng]"
           :options="{
@@ -16,7 +16,11 @@
           @update:bounds="onMove"
           @ready="onMove"
         >
-          <LMarker :lat-lng="[lat, lng]" :icon="currentMarker">
+          <LMarker
+            v-if="!noCurrent"
+            :lat-lng="[lat, lng]"
+            :icon="currentMarker"
+          >
             <LPopup>
               <slot></slot>
             </LPopup>
@@ -112,13 +116,19 @@ import { useUrl } from "../util";
 
 const props = withDefaults(
   defineProps<{
-    lat: number;
-    lng: number;
+    lat?: number;
+    lng?: number;
+    zoom?: number;
+    noCurrent?: boolean;
     hotelId?: number;
     eventId?: number;
     placeId?: number;
   }>(),
   {
+    lat: 17.0911074,
+    lng: 121.7632927,
+    zoom: 15,
+    noCurrent: false,
     hotelId: 0,
     eventId: 0,
     placeId: 0,
@@ -164,6 +174,8 @@ const params = reactive({
   lat0: "",
   lat1: "",
   hotel_id: props.hotelId.toString(),
+  place_id: props.placeId.toString(),
+  event_id: props.eventId.toString(),
 });
 const url = useUrl("/api/hotel-area.php", params, [
   "checkin",

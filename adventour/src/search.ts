@@ -1,4 +1,5 @@
 import ModalContainer from "./components/ModalContainer.vue";
+import HotelMap from "./components/HotelMap.vue";
 import StaySetting from "./components/StaySetting.vue";
 import LikeButton from "./components/LikeButton.vue";
 
@@ -25,6 +26,7 @@ app.use(common);
 app.component("LikeButton", LikeButton);
 app.component("ModalContainer", ModalContainer);
 app.component("StaySetting", StaySetting);
+app.component("HotelMap", HotelMap);
 
 app.component("BIconBuildingFill", BIconBuildingFill);
 app.component("BIconCalendarEventFill", BIconCalendarEventFill);

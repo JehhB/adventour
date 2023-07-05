@@ -197,6 +197,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
       <modal-container name="filter" class="!max-w-xs">
         <?php insert('search-filter'); ?>
       </modal-container>
+      <modal-container name="map" class="!max-w-4xl">
+        <hotel-map :zoom='8' no-current></hotel-map>
+      </modal-container>
       <?php insert('auth-toast') ?>
     </div>
   </body>
