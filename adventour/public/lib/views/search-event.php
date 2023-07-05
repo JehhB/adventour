@@ -20,7 +20,7 @@ $event = DB::table('Events')
     <div class="flex items-center gap-2">
       <div>
         <h2 class="flex items-center gap-2">
-          <b-icon-building-fill class="h-[14px] w-[14px] shrink-0 text-green-900 md:h-[18px] md:w-[18px]"></b-icon-building-fill>
+          <b-icon-calendar-event-fill class="h-[14px] w-[14px] shrink-0 text-green-900 md:h-[18px] md:w-[18px]"></b-icon-calendar-event-fill>
           <span class="text-sm font-semibold leading-none md:text-lg md:leading-none">
             <?= $title ?>
           </span>
