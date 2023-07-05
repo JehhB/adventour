@@ -23,6 +23,11 @@ module.exports = defineConfig({
       template: "public/event.php",
       filename: "event.php",
     },
+    place: {
+      entry: "src/place.ts",
+      template: "public/place.php",
+      filename: "place.php",
+    },
     login: {
       entry: "src/login.ts",
       template: "public/login.php",

@@ -14,6 +14,12 @@ if ($type === 'hotel') {
     ->join('EventsFeatures', 'EventsFeatures.events_feature_id', 'EventsFeaturesIM.events_feature_id')
     ->where('event_id', $id)
     ->get();
+} else if ($type === 'place') {
+  $features = DB::table('PlacesFeaturesIM')
+    ->select(['places_feature as feature'])
+    ->join('PlacesFeatures', 'PlacesFeatures.places_feature_id', 'PlacesFeaturesIM.places_feature_id')
+    ->where('place_id', $id)
+    ->get();
 }
 if (!isset($features)) return;
 ?>
