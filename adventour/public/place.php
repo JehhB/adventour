@@ -12,6 +12,7 @@ $place = DB::table('Places')
     'place_id AS id',
     'name',
     'address',
+    'coordinate',
     'description',
     DB::raw('ST_X(coordinate) AS lat'),
     DB::raw('ST_Y(coordinate) AS lng')
@@ -51,11 +52,16 @@ $place->images = array_map(
 );
 
 $hotels = DB::table('Hotels')
-  ->select(['Hotels.hotel_id as id', 'name AS title', 'address AS subtitle'])
+  ->select([
+    'Hotels.hotel_id as id',
+    'name AS title',
+    'address AS subtitle',
+    DB::raw('"hotel" AS type'),
+  ])
   ->selectRaw("CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link")
   ->selectRaw("CONCAT('/storage/hotel/', image) AS image")
   ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
-  ->where('hotel_image_id', '=', function(Builder $query) {
+  ->where('hotel_image_id', '=', function (Builder $query) {
     $query->select('hotel_image_id')
       ->from('HotelImages')
       ->whereColumn('HotelImages.hotel_id', '=', 'Hotels.hotel_id')
@@ -74,7 +80,7 @@ $hotels = DB::table('Hotels')
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <?php insert("header"); ?>
     <main class="container mx-auto">
       <?php insert('overview', $place); ?>

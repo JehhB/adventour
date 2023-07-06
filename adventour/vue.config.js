@@ -48,6 +48,11 @@ module.exports = defineConfig({
       template: "public/checkout.php",
       filename: "checkout.php",
     },
+    profile: {
+      entry: "src/profile.ts",
+      template: "public/profile.php",
+      filename: "profile.php",
+    },
   },
   publicPath: "./",
   outputDir: "html",

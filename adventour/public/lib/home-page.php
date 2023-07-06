@@ -49,7 +49,7 @@ $popular_places = DB::table('Places')
   ->get();
 
 $recommended_hotels = DB::table('Hotels')
-  ->select(['Hotels.hotel_id as id', 'name AS title', 'address AS subtitle'])
+  ->select(['Hotels.hotel_id as id', 'name AS title', 'address AS subtitle', DB::raw('"hotel" AS type')])
   ->selectRaw("CONCAT('/hotel.php?hotel_id=', Hotels.hotel_id) AS link")
   ->selectRaw("CONCAT('/storage/hotel/', image) AS image")
   ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')

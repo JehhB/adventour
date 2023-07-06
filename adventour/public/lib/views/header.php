@@ -82,7 +82,7 @@ use Illuminate\Database\Capsule\Manager as DB;
         target="user"
       >
         <img
-          src="/assets/images/placeholder.png"
+          src="<?= $user->profile_pic === null ? '/assets/images/placeholder.png' : '/storage/user/' . $user->profile_pic ?>"
           alt="profile picture"
           class="h-full w-full object-cover"
         />
@@ -90,11 +90,11 @@ use Illuminate\Database\Capsule\Manager as DB;
       <popover-container name="user">
         <div class="w-52 space-y-2 p-2 sm:w-60 sm:space-y-3 sm:py-3">
           <a
-            href="/profile"
+            href="/profile.php"
             class="flex items-center gap-2 border-b border-gray-300 pb-1 sm:pb-2"
           >
             <img
-              src="/assets/images/placeholder.png"
+              src="<?= $user->profile_pic === null ? '/assets/images/placeholder.png' : '/storage/user/' . $user->profile_pic ?>"
               alt="profile picture"
               class="h-8 w-8 rounded-full border-2 border-gray-300 object-cover sm:h-10 sm:w-10"
             />

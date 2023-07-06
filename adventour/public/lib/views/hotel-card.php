@@ -8,7 +8,7 @@
       />
       <like-button
         id="<?= $id ?>"
-        type="hotel"
+        type="<?= $type ?>"
         class="absolute right-2 top-2"
       ></like-button>
     </div>
