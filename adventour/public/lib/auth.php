@@ -22,6 +22,7 @@ function register($email, $password, $username)
 
   safe_start_session();
   $_SESSION['user'] = $user_id;
+  $_SESSION['account_type'] = 'user';
 }
 
 /**
@@ -35,7 +36,7 @@ function register($email, $password, $username)
 function auth($email, $password)
 {
   $user = DB::table('Users')
-      ->select(['user_id', 'password_hash'])
+      ->select(['user_id', 'password_hash', 'account_type'])
       ->where('email', $email)
       ->first();
 
@@ -49,6 +50,7 @@ function auth($email, $password)
 
   safe_start_session();
   $_SESSION['user'] = $user->user_id;
+  $_SESSION['account_type'] = $user->account_type;
 
   return false;
 }

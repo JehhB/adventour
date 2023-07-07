@@ -1,5 +1,29 @@
 <?php
-global $profile, $bookings, $events, $likes;
+global $n_bookings, $events, $likes;
+
+use Illuminate\Database\Capsule\Manager as DB;
+
+$profile = DB::table('Profiles')
+  ->select('username', 'profile_pic',)
+  ->where('user_id', $_SESSION['user'] ?? 0)
+  ->first();
+
+$hotels = null;
+$places = null;
+if ($_SESSION['account_type'] === 'admin') {
+  $hotels = DB::table('Hotels')
+    ->where('admin_id', $_SESSION['user'])
+    ->count();
+
+  $places = DB::table('Places')
+    ->where('admin_id', $_SESSION['user'])
+    ->count();
+
+  $events = DB::table('Events')
+    ->where('admin_id', $_SESSION['user'])
+    ->count();
+}
+
 ?>
 <section
   id="profile"
@@ -22,10 +46,21 @@ global $profile, $bookings, $events, $likes;
     </div>
   </div>
   <div class="shrink lg:mr-64 xl:mr-80 2xl:mr-96">
-    <change-name init-name="<?= $profile->username ?>">
+    <change-name init-name="<?= sanitize($profile->username) ?>">
       <div class="mb-3 flex items-center gap-6 text-sm text-gray-700">
+      <?php if ($_SESSION['account_type'] === 'admin') : ?>
         <div class="shrink-0">
-          <strong><?= $bookings ?></strong> bookings
+          <strong><?= $hotels ?></strong> hotels
+        </div>
+        <div class="shrink-0">
+          <strong><?= $events ?></strong> events
+        </div>
+        <div class="shrink-0">
+          <strong><?= $places ?></strong> places
+        </div>
+      <?php else : ?>
+        <div class="shrink-0">
+          <strong><?= $n_bookings ?></strong> bookings
         </div>
         <div class="shrink-0">
           <strong><?= $events ?></strong> events
@@ -33,6 +68,7 @@ global $profile, $bookings, $events, $likes;
         <div class="shrink-0">
           <strong><?= $likes ?></strong> likes
         </div>
+      <?php endif; ?>
       </div>
     </change-name>
   </div>

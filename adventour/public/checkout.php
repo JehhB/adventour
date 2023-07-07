@@ -104,7 +104,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/checkout.php';
               id="stay"
               min="1"
               max="<?= $offering->stays ?>"
-              value="<?= $stay ?>"
+              value="<?= $stay ?? 1 ?>"
               required
               class="<?= isInvalid('stay', ['peer/stay','outline-1','outline-red-700','invalid:outline', 'animate-shake']) ?> mt-1 rounded bg-lime-800 bg-opacity-50 px-2 py-1 text-white"
             />
@@ -122,7 +122,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/checkout.php';
               name="n_adult"
               id="n_adult"
               min="1"
-              value="<?= $_GET['n_adult'] ?? 0 ?>"
+              value="<?= $_GET['n_adult'] ?? 1 ?>"
               required
               class="<?= isInvalid('n_adult', ['peer/n_adult','outline-1','outline-red-700','invalid:outline', 'animate-shake']) ?> mt-1 rounded bg-lime-800 bg-opacity-50 px-2 py-1 text-white"
             />

@@ -23,7 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
   }
 
-  if (isset($_POST['referer'])) {
+  if ($_SESSION['account_type'] === 'admin') {
+    header('Location: /admin.php');
+  } elseif (isset($_POST['referer'])) {
     header("Location: {$_POST['referer']}");
   } else {
     header('Location: /');

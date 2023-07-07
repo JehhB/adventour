@@ -87,7 +87,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/lib/search-page.php';
               </h1>
               <?php else : ?>
               <h1 class="text-xl font-medium leading-none text-gray-900">
-                Results for "<?= $_GET['q'] ?>"
+                Results for "<?= sanitize($_GET['q']) ?>"
               </h1>
               <?php endif; ?>
               <open-button

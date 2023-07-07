@@ -1,19 +1,28 @@
 <template>
-  <button @click="open()" :class="{ 'is-active': toggleable?.active.value }">
+  <component
+    :is="is"
+    @click="open()"
+    class="cursor-pointer"
+    :class="{ 'is-active': toggleable?.active.value }"
+  >
     <slot></slot>
-  </button>
+  </component>
 </template>
 <script setup lang="ts">
 import { toggleables } from "../stores";
-import { defineProps, defineEmits, computed } from "vue";
+import { withDefaults, defineProps, defineEmits, computed } from "vue";
 
-const props = defineProps<{ target: string | symbol }>();
+const props = withDefaults(
+  defineProps<{ target: string | symbol; is?: string }>(),
+  { is: "button" }
+);
 const toggleable = computed(() => toggleables.get(props.target));
 const emit = defineEmits<{
   (e: "click"): void;
 }>();
 
 function open() {
+  console.log("test");
   emit("click");
   if (!toggleable.value) return;
   toggleable.value.open();

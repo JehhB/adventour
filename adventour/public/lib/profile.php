@@ -28,12 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   exit();
 }
 
-$profile = DB::table('Profiles')
-  ->select('username', 'profile_pic')
-  ->where('user_id', $user)
-  ->first();
-
-$bookings = DB::table('Bookings')
+$n_bookings = DB::table('Bookings')
   ->where('user_id', $user)
   ->count();
 
@@ -49,6 +44,7 @@ $likedHotels = DB::table('HotelLikes')->select([
     'name AS title',
     'address AS subtitle',
     'Hotels.hotel_id AS id',
+    'liked_at',
   ])->join('Hotels', 'Hotels.hotel_id', '=', 'HotelLikes.hotel_id')
     ->leftJoin('HotelImages', 'HotelImages.hotel_id', '=', 'Hotels.hotel_id')
     ->where('user_id', $user)
@@ -66,6 +62,7 @@ $likedEvents = DB::table('EventLikes')->select([
     'name AS title',
     'address AS subtitle',
     'Events.event_id AS id',
+    'liked_at',
   ])->join('Events', 'Events.event_id', '=', 'EventLikes.event_id')
     ->leftJoin('EventImages', 'EventImages.event_id', '=', 'Events.event_id')
     ->where('user_id', $user)
@@ -83,6 +80,7 @@ $likedPlaces = DB::table('PlaceLikes')->select([
     'name AS title',
     'address AS subtitle',
     'Places.place_id AS id',
+    'liked_at',
   ])->join('Places', 'Places.place_id', '=', 'PlaceLikes.place_id')
     ->leftJoin('PlaceImages', 'PlaceImages.place_id', '=', 'Places.place_id')
     ->where('user_id', $user)
@@ -96,6 +94,31 @@ $likedPlaces = DB::table('PlaceLikes')->select([
 $liked = $likedHotels
   ->union($likedEvents)
   ->union($likedPlaces)
-  ->orderBy('id');
+  ->orderBy('liked_at', 'desc');
 
 $likes = $liked->count();
+
+$query = DB::table('Bookings')
+  ->select([
+  DB::raw('DATE_FORMAT(placed_at, "%Y/%m/%d") as placed_at'),
+  DB::raw('n_room * price * stay AS total_price'),
+  'booking_id',
+  'status',
+  'name as hotel',
+  'room_type',
+  'fullname',
+  'checkin',
+  'stay',
+  'n_persons',
+  'n_room'
+])
+  ->join('Offerings', 'Offerings.offering_id', '=', 'Bookings.offering_id')
+  ->join('Rooms', 'Rooms.room_id', '=', 'Offerings.room_id')
+  ->join('Hotels', 'Hotels.hotel_id', '=', 'Rooms.hotel_id')
+  ->orderBy('status')
+  ->where('user_id', $_SESSION['user'])
+  ->limit(8);
+
+$count = $query->count();
+$bookings = $query->get();
+

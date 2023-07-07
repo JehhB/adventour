@@ -21,13 +21,12 @@ $offering = DB::table('Offerings')
   ])
   ->join('Rooms', 'Rooms.room_id', '=', 'Offerings.room_id')
   ->join('Hotels', 'Hotels.hotel_id', '=', 'Rooms.hotel_id')
-  ->leftJoin('RoomImages', 'RoomImages.room_id', '=', 'Rooms.room_id')
-  ->where('room_image_id', function (Builder $query) {
-    $query->select('room_image_id')
-      ->from('RoomImages')
+  ->leftJoin('RoomImages', function ($join) {
+    $join->on('RoomImages.room_id', '=', 'Rooms.room_id')
       ->whereColumn('RoomImages.room_id', '=', 'Rooms.room_id')
       ->limit(1);
-  })->where('offering_id', $_REQUEST['offering_id'] ?? 0)
+  })
+  ->where('offering_id', $_REQUEST['offering_id'] ?? 0)
   ->first();
 
 if ($offering === null) {
@@ -60,23 +59,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if ($errors) {
     $_SESSION['error'] = $errors;
-    $redirectUrl = $_SERVER['REQUEST_URI'] . '?' . $_SERVER['QUERY_STRING'];
-    header("Location: " . $redirectUrl);
+    header("Location: {$_SERVER['REQUEST_URI']}");
     exit();
   }
 
   DB::table('Bookings')
     ->insert([
-    'offering_id' => $_POST['offering_id'],
-    'user_id' => $user_id,
-    'checkin' => $_POST['checkin'],
-    'stay' => $_POST['stay'],
-    'n_persons' =>  ($_POST['n_adult'] ?? 1) + ($_POST['n_child'] ?? 0),
-    'n_room' => $_POST['n_room'],
-    'fullname' => $_POST['fullname'],
-    'phone' => $_POST['phone'],
-    'notes' => substr($_POST['notes'] ?? '', 0, 255),
-  ]);
+      'offering_id' => $_POST['offering_id'],
+      'user_id' => $user_id,
+      'checkin' => $_POST['checkin'],
+      'stay' => $_POST['stay'],
+      'n_persons' => ($_POST['n_adult'] ?? 1) + ($_POST['n_child'] ?? 0),
+      'n_room' => $_POST['n_room'],
+      'fullname' => $_POST['fullname'],
+      'phone' => $_POST['phone'],
+      'notes' => substr($_POST['notes'] ?? '', 0, 255),
+    ]);
 
   header('Location: /');
   exit();

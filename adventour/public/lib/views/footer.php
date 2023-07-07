@@ -22,21 +22,21 @@
     <div class="ml-auto flex items-center gap-4">
       <a
         href="https://www.facebook.com/iamannearmy"
-        class="text-white sm:text-green-900"
+        class="text-white sm:!text-green-900"
       >
         <span class="sr-only">Go to facebook page</span>
         <b-icon-facebook class="sm:h-8 sm:w-8"></b-icon-facebook>
       </a>
       <a
         href="https://instagram.com/iamannearmy"
-        class="text-white sm:text-green-900"
+        class="text-white sm:!text-green-900"
       >
         <span class="sr-only">Go to instagram page</span>
         <b-icon-instagram class="sm:h-8 sm:w-8"></b-icon-instagram>
       </a>
       <a
         href="https://twitter.com/iamannearmy"
-        class="text-white sm:text-green-900"
+        class="text-white sm:!text-green-900"
       >
         <span class="sr-only">Go to twitter page</span>
         <b-icon-twitter class="sm:h-8 sm:w-8"></b-icon-twitter>

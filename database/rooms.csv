@@ -1,0 +1,218 @@
+room_id,hotel_id,room_type,room_size
+1,1,"Standard Matrimonial Room ",18
+2,1,"Superior Matrimonial Room",18
+3,1,"Superior Twin Room",18
+4,1,"Deluxe Matrimonial Room",24
+5,1,"Deluxe Twin Room",24
+6,1,"Standard Triple Room",33
+7,1,"Standard Family Room",22
+8,1,"Deluxe Family Room",35
+9,2,"Standard Twin Room",18
+10,2,"Superior Double Room",18
+11,2,"Deluxe Double Room",24
+12,2,"Deluxe Twin Room",21
+13,3,"Standard Deluxe Double",23
+14,3,"Executive Room",22
+15,3,"Executive Double Room",24
+16,3,"Suite",26
+17,4,"Family Room with Mountain View",43
+18,4,"Family Room with Garden View",43
+19,5,"Economy Single Room",0
+20,5,"Superior Queen Room",20
+21,5,"Superior Double Room",20
+22,5,"Double or Twin Room with Private Bathroom",24
+23,5,"King Room",24
+24,5,"Executive Suite",36
+25,5,"Presidential Suite",81
+26,6,"Superior Twin Room",17
+27,6,"Superior King Room",18
+28,7,"Deluxe Room",18
+29,7,"Deluxe Twin Room",24
+30,7,"Family Room",20
+31,7,"Deluxe Family Room",36
+32,8,"Deluxe Room",15
+33,9,"Twin Room with Private Bathroom",24
+34,9,"Triple Room with Private Bathroom",32
+35,9,"Triple Room with Private Bathroom",32
+36,9,"Triple Room with Private Bathroom",28
+37,9,"Deluxe Triple Room",48
+38,9,"Deluxe Family Room",52
+39,10,"Standard Double Room",0
+40,10,"Large Double or Twin Room",0
+41,10,"Deluxe Family Room",0
+42,10,"Family Room",0
+43,10,"Family Suite",15
+44,11,"Deluxe Double Room",0
+45,11,"Deluxe Queen Suite",20
+46,11,"Deluxe Triple Room",0
+47,11,"Presidential Suite",20
+48,11,"Deluxe Quadruple Room",15
+49,12,"Deluxe Double Room",0
+50,12,"Deluxe Family Room",0
+51,13,"Deluxe Double Room",16
+52,13,"Deluxe Twin Room",16
+53,13,"Deluxe Triple Room",24
+54,13,"Deluxe Family Suite",38
+55,14,"Standard Queen Room",20
+56,14,"Standard Twin Room",20
+57,14,"Deluxe Suite",20
+58,14,"Family Room",20
+59,15,"Deluxe Room",0
+60,15,"Triple Room with Terrace",17
+61,16,"Family Room",0
+62,17,"Standard Double Room with Fan",15
+63,17,"Standard Double Room with Shared Bathroom",15
+64,17,"Deluxe Room",30
+65,17,"Superior King Room",40
+66,18,"Single Room",0
+67,18,"Deluxe Room",0
+68,19,"Superior Single Room",16
+69,19,"8-Bed Mixed Dormitory Room",20
+70,19,"Mixed Dormitory Room",30
+71,19,"Standard Villa",20
+72,19,"Deluxe Double Room",18
+73,19,"Deluxe Twin Room",20
+74,19,"Executive Suite",30
+75,19,"Deluxe Family Room",23
+76,20,"Deluxe Room",21
+77,20,"Deluxe Twin Room",22
+78,20,"Family Room",31
+79,20,"Family Suite",42
+80,21,"Deluxe Room",25
+81,21,"Executive Room",22
+82,21,"Family Room",25
+83,21,"6-Bed Mixed Dormitory Room",40
+84,22,"Triple Room",18
+85,23,"Deluxe Queen Room",22
+86,24,"Single Room",0
+87,24,"Standard Single Room",17
+88,24,"Deluxe Double Room",19
+89,24,"Twin Room",18
+90,24,"Deluxe Double or Twin Room with City View",17
+91,24,"Double or Twin Room with City View",17
+92,24,"Deluxe Queen Room",22
+93,24,"Suite",32
+94,24,"Executive Suite",38
+95,25,"Deluxe Double Room",25
+96,25,"Deluxe Twin Room",25
+97,25,"Deluxe Double or Twin Room",25
+98,25,"Executive Suite",32
+99,25,"Deluxe Family Room",25
+100,26,"Standard Double Room",18
+101,26,"Double Room",20
+102,26,"Family Room",25
+103,27,"Single Room",0
+104,27,"Deluxe Room",15
+105,27,"Standard Twin Room",18
+106,28,"Deluxe Double Room with Balcony",0
+107,28,"Quadruple Room with Shared Bathroom",0
+108,28,"Family Room with Side Sea View",0
+109,29,"Single Room with Garden View",40
+110,30,"Deluxe Room",25
+111,30,"Twin Room",25
+112,31,"Standard Queen Room",18
+113,31,"Queen Room with Balcony",18
+114,31,"Queen Room",18
+115,31,"Triple Room with Bath",18
+116,31,"Deluxe Family Room",18
+117,32,"Double Room with Mountain View",16
+118,32,"Triple Room with Mountain View",20
+119,32,"Family Room with Mountain View",25
+120,33,"One-Bedroom Apartment",32
+121,34,"Single Room",0
+122,34,"Deluxe Room",20
+123,34,"Triple Room",30
+124,34,"Suite",30
+125,34,"Junior Suite",30
+126,34,"Family Room",30
+127,34,"Deluxe Family Room",30
+128,34,"Queen Suite",40
+129,35,"Single Room",18
+130,35,"Standard Double Room",18
+131,35,"Family Room",25
+132,36,"Double Room",0
+133,36,"Triple Room",0
+134,37,"One-Bedroom Apartment",0
+135,38,"Double or Twin Room with Extra Bed",0
+136,39,"Single Room with Private Bathroom",42
+137,40,"Single Room",18
+138,40,"Standard Double Room",18
+139,40,"Twin Room",18
+140,40,"Deluxe Room",18
+141,40,"Family Room",18
+142,40,"4-Bed Mixed Dormitory Room",18
+143,41,"Economy Quadruple Room",16
+144,41,"Classic Quadruple Room",16
+145,41,"Comfort Quadruple Room",18
+146,41,"One-Bedroom Apartment",70
+147,41,"Two-Bedroom Apartment",64
+148,42,"Double Room with Private Bathroom",0
+149,42,"Double Room",0
+150,43,"Deluxe King Suite",15
+151,43,"Deluxe Room",0
+152,43,"Standard Double Room",0
+153,43,"Deluxe Twin Room",0
+154,43,"Deluxe Double Room with Balcony",15
+155,43,"Executive Suite",20
+156,43,"Triple Room with Balcony",15
+157,43,"Triple Room with Bath",15
+158,43,"Family Suite",0
+159,43,"Family Room",18
+160,44,"Standard Double Room",50
+161,44,"Standard Triple Room",50
+162,44,"Superior Quadruple Room",50
+163,44,"Superior Family Room",50
+164,45,"Standard Twin Room",0
+165,45,"Presidential Suite",100
+166,45,"Standard Triple Room",15
+167,45,"Classic Triple Room",20
+168,45,"Family Room",40
+169,45,"Family Room",50
+170,46,"Single Room",25
+171,46,"Standard Single Room",25
+172,46,"Standard Double Room",25
+173,46,"Twin Room",25
+174,46,"Deluxe Twin Room",25
+175,46,"Triple Room",25
+176,47,"Double Room",0
+177,48,"Holiday Home",276
+178,49,"Double Room with Shared Bathroom",0
+179,50,"Single Room",25
+180,50,"Twin Room",25
+181,50,"Deluxe Room",25
+182,50,"Family Room",30
+183,51,"Single Room with Private Bathroom",0
+184,52,"Standard Double Room",25
+185,52,"Family Room",30
+186,52,"Suite",100
+187,53,"Three-Bedroom Chalet",1000
+188,54,"Double Room with Garden View",0
+189,54,"Triple Room with Terrace",0
+190,54,"Triple Room with View",0
+191,55,"Superior Twin Room",21
+192,55,"Superior Queen Room",21
+193,55,"Deluxe Double or Twin Room",28
+194,55,"Deluxe King Room",0
+195,55,"King Room with Balcony",34
+196,55,"Double or Twin Room with Balcony",0
+197,55,"Family Suite",68
+198,56,"Queen Room with Sea View",36
+199,56,"Deluxe Twin Room with Sea View",36
+200,56,"Deluxe King Room",36
+201,56,"Family Room with Sea View",64
+202,57,"One-Bedroom Villa",300
+203,58,"Deluxe Triple Room",30
+204,58,"Deluxe King Room",30
+205,58,"Deluxe Double Room",28
+206,58,"Deluxe Double or Twin Room",30
+207,58,"Family Suite",30
+208,58,"Deluxe Family Room",30
+209,59,"Budget Double Room",0
+210,59,"Standard Studio",20
+211,59,"Classic Quadruple Room",0
+212,59,"Deluxe Family Room",28
+213,59,"Deluxe Family Suite",20
+214,60,"Standard Double Room with Fan",30
+215,60,"Deluxe Room",40
+216,60,"Family Room",40
+217,60,"Superior Twin Room",40

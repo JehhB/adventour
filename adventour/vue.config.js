@@ -53,6 +53,11 @@ module.exports = defineConfig({
       template: "public/profile.php",
       filename: "profile.php",
     },
+    admin: {
+      entry: "src/admin.ts",
+      template: "public/admin.php",
+      filename: "admin.php",
+    },
   },
   publicPath: "./",
   outputDir: "html",

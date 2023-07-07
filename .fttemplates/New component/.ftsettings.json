@@ -1,6 +1,0 @@
-{
-  "absolutePath": true,
-  "omitParentDirectory": true,
-  "openFilesWhenDone": ["components/[FTName % kebabcase].php"],
-  "overwriteExistingFiles": "never"
-}
